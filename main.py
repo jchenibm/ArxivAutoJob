@@ -63,8 +63,8 @@ async def main():
                 #print(f"{final_status}")
                 #if final_status["status"] == "success":
                 #    print(f"论文下载完成") 
-                for attempt in range(1, 4):
-                    print(f"尝试 {attempt}/4 检查状态...")
+                for attempt in range(1, 10):
+                    print(f"尝试 {attempt}/10 检查状态...")
                     response = await handle_download({
                         "paper_id": paper["id"],
                         "check_status": True
@@ -95,7 +95,7 @@ async def main():
                                 f.write(content)
                         break
 
-                    if attempt < 4:
+                    if attempt < 10:
                         print(f"等待 {10} 秒后重试...")
                         await asyncio.sleep(10)
                 
