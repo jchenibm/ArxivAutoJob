@@ -79,7 +79,7 @@ async def main():
                         with open(paper_markdown_file, 'r', encoding='utf-8') as file:
                             first_line = file.read()
                             task = prompt +"\n"+first_line
-                            print(task)
+                            #print(task)
 
                             response = client.chat.completions.create(
                                 model="deepseek-chat",
