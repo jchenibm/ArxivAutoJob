@@ -91,7 +91,7 @@ async def main():
                             )
                             #print(response.choices[0].message.content)
                             content = response.choices[0].message.content + "\nhttps://arxiv.org/pdf/"+paper["id"]
-                            with open('/Users/yuanyi/OpenSource/arxivAutoJob/'+paper["id"]+'.txt', 'w', encoding='utf-8') as f:
+                            with open('./'+paper["id"]+'.txt', 'w', encoding='utf-8') as f:
                                 f.write(content)
                         break
 
