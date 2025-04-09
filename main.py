@@ -3,7 +3,7 @@ import asyncio
 from arxiv_mcp_server.tools import handle_search
 from datetime import datetime, timedelta
 from openai import OpenAI
-from arxiv_mcp_server.tools.download import handle_download,get_paper_path
+from download import handle_download,get_paper_path
 import os
 
 # 获取环境变量（字符串类型）

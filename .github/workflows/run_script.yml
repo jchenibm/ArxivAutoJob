@@ -38,7 +38,9 @@ jobs:
         # 创建收集目录
         mkdir -p collected_files
         # 复制所有txt文件（包括子目录）
-        find . -name "*.txt" -exec cp {} collected_files/ \;
+        cp *.md collected_files/
+        cp *.pdf collected_files/
+        cp *.txt collected_files/
         # 显示收集结果
         ls -l collected_files/
 
