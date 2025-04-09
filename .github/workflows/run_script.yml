@@ -43,7 +43,7 @@ jobs:
         ls -l collected_files/
 
     - name: Upload artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: text-files
         path: collected_files/
