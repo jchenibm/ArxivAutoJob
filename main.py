@@ -7,12 +7,12 @@ from download import handle_download,get_paper_path
 import os
 
 # 获取环境变量（字符串类型）
-prompt = """* Summarize the paper in 2-3 sentences
-    * What is the main contribution of the paper?
-    * What is the main problem that the paper solves?
-    * What is the main methodology used in the paper?
-    * What are the main results of the paper?
-    * What is the main conclusion of the paper?
+prompt = """*用2-3句话总结论文
+*这篇论文的主要贡献是什么？
+*本文解决的主要问题是什么？
+*本文使用的主要方法是什么？
+*这篇论文的主要结果是什么？
+*本文的主要结论是什么？
 """
 
 
@@ -91,8 +91,8 @@ async def main():
                             )
                             #print(response.choices[0].message.content)
                             content = response.choices[0].message.content + "\nhttps://arxiv.org/pdf/"+paper["id"]
-                            with open('./'+paper["id"]+'.txt', 'w', encoding='utf-8') as f:
-                                f.write(content)
+                            with open('./summary.md', 'a', encoding='utf-8') as f:
+                                f.write(f"{content}\n") 
                         break
 
                     if attempt < 10:
