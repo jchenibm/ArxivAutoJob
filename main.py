@@ -98,8 +98,8 @@ async def main():
                         break
 
                     if attempt < 10:
-                        print(f"等待 {10} 秒后重试...")
-                        await asyncio.sleep(10)
+                        print(f"等待 {30} 秒后重试...")
+                        await asyncio.sleep(30)
                 
         except json.JSONDecodeError:
             print("错误: 无法解析JSON数据")
