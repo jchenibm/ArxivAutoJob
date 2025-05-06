@@ -7,13 +7,15 @@ from download import handle_download,get_paper_path
 import os
 
 # 获取环境变量（字符串类型）
-prompt = """*用2-3句话总结论文
+prompt = """
+*用2-3句话总结论文
 *这篇论文的主要贡献是什么？
 *本文解决的主要问题是什么？
 *本文使用的主要方法是什么？
 *这篇论文的主要结果是什么？
 *本文的主要结论是什么？
-*就文章中的图标，翻译图表的注释。
+*本文的主要结论可能对生产生活产生哪些影响？
+*本文的主要结论如何对生产生活产生影响？
 *如果文中存在github链接，帮忙按顺序整理
 """
 
@@ -92,7 +94,7 @@ async def main():
                                 stream=False
                             )
                             #print(response.choices[0].message.content)
-                            content = response.choices[0].message.content + "\nhttps://arxiv.org/pdf/"+paper["id"]
+                            content = "# "+paper["id"]+"\n"+response.choices[0].message.content + "\nhttps://arxiv.org/pdf/"+paper["id"]
                             with open('./summary.md', 'a', encoding='utf-8') as f:
                                 f.write(f"{content}\n") 
                         break
