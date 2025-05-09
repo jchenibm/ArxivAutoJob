@@ -105,8 +105,10 @@ async def main():
                 
         except json.JSONDecodeError:
             print("错误: 无法解析JSON数据")
+            continue
         except Exception as e:
             print(f"处理数据时发生错误: {str(e)}")
+            continue
 
 
 
