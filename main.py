@@ -84,19 +84,22 @@ async def main():
                             first_line = file.read()
                             task = prompt +"\n"+first_line
                             #print(task)
-
-                            response = client.chat.completions.create(
-                                model="deepseek-chat",
-                                messages=[
-                                    {"role": "system", "content": "You are a helpful assistant"},
-                                    {"role": "user", "content": task},
-                                ],
-                                stream=False
-                            )
-                            #print(response.choices[0].message.content)
-                            content = "# "+paper["id"]+"\n"+response.choices[0].message.content + "\nhttps://arxiv.org/pdf/"+paper["id"]
-                            with open('./summary.md', 'a', encoding='utf-8') as f:
-                                f.write(f"{content}\n") 
+                            try:
+                                response = client.chat.completions.create(
+                                    model="deepseek-chat",
+                                    messages=[
+                                        {"role": "system", "content": "You are a helpful assistant"},
+                                        {"role": "user", "content": task},
+                                    ],
+                                    stream=False
+                                )
+                                #print(response.choices[0].message.content)
+                                content = "# "+paper["id"]+"\n"+response.choices[0].message.content + "\nhttps://arxiv.org/pdf/"+paper["id"]
+                                with open('./summary.md', 'a', encoding='utf-8') as f:
+                                    f.write(f"{content}\n") 
+                            except Exception as e:
+                                print(f"处理数据时发生错误: {str(e)}")
+                                continue
                         break
 
                     if attempt < 10:
