@@ -1,0 +1,34 @@
+<?xml version="1.0" ?>
+<rss version="2.0">
+  <channel>
+    <title>ArxivAutoJob - AI/ML 论文更新</title>
+    <description>每周自动更新的AI和机器学习领域最新论文摘要</description>
+    <link>https://github.com/jchenibm/ArxivAutoJob</link>
+    <lastBuildDate>Sat, 09 Aug 2025 17:57:46 GMT</lastBuildDate>
+    <item>
+      <title>**Potential Impact on Production/Life**</title>
+      <description>- **Efficient LLM Fine-Tuning**: Reduces computational costs by leveraging causal structures instead of brute-force sampling.  
+- **Improved Reasoning Systems**: Enhances LLMs for applications like education (math tutoring), code generation, and decision support.  
+- **Broader AI Alignment**: Demonstrates how causal reasoning can refine human-AI interaction, e.g., in generating logically consistent outputs.  
+
+---
+</description>
+      <link>https://arxiv.org/abs/**Potential Impact on Production/Life**</link>
+      <guid>**Potential Impact on Production/Life**</guid>
+      <pubDate>Sat, 09 Aug 2025 17:57:46 GMT</pubDate>
+    </item>
+    <item>
+      <title>**How Conclusions Influence Production/Life**</title>
+      <description>By integrating causal reasoning into LLM training, GCPO could:  
+1. **Reduce Errors**: More reliable outputs in critical domains (e.g., medical or legal advice).  
+2. **Lower Resource Use**: Efficient training reduces energy consumption and hardware demands.  
+3. **Enable New Applications**: Improved reasoning supports complex tasks like automated theorem proving or multi-step planning.  
+
+---
+</description>
+      <link>https://arxiv.org/abs/**How Conclusions Influence Production/Life**</link>
+      <guid>**How Conclusions Influence Production/Life**</guid>
+      <pubDate>Sat, 09 Aug 2025 17:57:46 GMT</pubDate>
+    </item>
+  </channel>
+</rss>
