@@ -3,8 +3,11 @@ import asyncio
 from arxiv_mcp_server.tools import handle_search
 from datetime import datetime, timedelta
 from openai import OpenAI
-from download import handle_download,get_paper_path
+from download import handle_download, get_paper_path
 import os
+
+# Import RSS generator
+from rss_generator import ArxivRSSGenerator
 
 # 获取环境变量（字符串类型）
 prompt = """
@@ -113,6 +116,15 @@ async def main():
             print(f"处理数据时发生错误: {str(e)}")
             continue
 
+    # Generate RSS feed after processing all papers
+    print("\n开始生成RSS订阅...")
+    try:
+        rss_generator = ArxivRSSGenerator()
+        await rss_generator.generate_feed()
+        print("RSS订阅生成完成！")
+    except Exception as e:
+        print(f"生成RSS订阅时发生错误: {str(e)}")
 
 
-asyncio.run(main())
+if __name__ == "__main__":
+    asyncio.run(main())
