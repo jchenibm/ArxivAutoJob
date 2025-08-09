@@ -45,6 +45,14 @@ jobs:
         # 显示收集结果
         ls -l collected_files/
 
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./collected_files
+        publish_branch: gh-pages  # GitHub Pages分支
+        commit_message: "Update RSS feed and other files"
+
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:

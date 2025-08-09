@@ -20,7 +20,7 @@ As leaving it at (comprehensive-analysis)[https://github.com/blazickjp/arxiv-mcp
 To subscribe to paper updates, add the following URL to your RSS reader:
 
 ```
-https://your-github-username.github.io/ArxivAutoJob/rss.xml
+https://jchenibm.github.io/ArxivAutoJob/rss.xml
 ```
 
 Recommended RSS readers:

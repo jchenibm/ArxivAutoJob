@@ -13,11 +13,11 @@ from download import get_paper_path
 class ArxivRSSGenerator:
     """Generate RSS feed for arXiv papers."""
     
-    def __init__(self, output_file: str = "arxiv_feed.xml"):
+    def __init__(self, output_file: str = "rss.xml"):
         self.output_file = output_file
         self.feed_title = "ArxivAutoJob - AI/ML 论文更新"
         self.feed_description = "每周自动更新的AI和机器学习领域最新论文摘要"
-        self.feed_link = "https://github.com/jchenibm/tools/ArxivAutoJob"
+        self.feed_link = "https://github.com/jchenibm/ArxivAutoJob"
         
     def parse_summary_file(self, summary_file: str = "summary.md") -> List[Dict[str, Any]]:
         """Parse the summary.md file and extract paper information."""
