@@ -1,31 +1,29 @@
 {
   "title": "Test-Time Reinforcement Learning for GUI Grounding via Region Consistency",
-  "detailed_summary": "这篇论文提出了一种名为GUI-RC（Region Consistency）的测试时缩放方法，用于提高图形用户界面（GUI）基础任务的准确性，该任务旨在将自然语言指令映射到屏幕坐标。该方法通过从多个采样预测中构建空间投票网格来识别共识区域，无需任何训练即可提高准确性。此外，论文还提出了GUI-RCPO（Region Consistency Policy Optimization），它将这些一致性模式转化为奖励，用于测试时强化学习。通过计算每个预测与集体共识的对齐程度，GUI-RCPO使模型能够在推理过程中迭代地细化其在未标记数据上的输出。实验结果表明，GUI-RCPO通过自监督优化进一步提高了性能，展示了测试时缩放和测试时强化学习在GUI基础任务中的潜力。",
-  "background": "GUI基础任务是GUI代理的关键能力，它能够准确地将自然语言指令映射到用户界面元素上的像素坐标。现有的方法主要依赖于大规模监督训练或强化学习，但这些方法面临两个主要限制：一是过度依赖训练时优化，而忽视了测试时计算的潜力；二是需要大量的像素级标注数据，这限制了其在新的领域和应用中的扩展性。因此，本文旨在探索如何在不依赖额外标注数据的情况下，利用测试时计算来增强GUI基础任务的性能。",
+  "detailed_summary": "这篇论文提出了一种名为GUI-RC (GUI Region Consistency) 的测试时缩放方法，用于提高图形用户界面（GUI）grounding的准确性。GUI grounding 是将自然语言指令映射到屏幕上的精确坐标的关键任务，对于自主GUI代理至关重要。论文观察到，当模型对同一GUI元素生成多个预测时，空间重叠模式揭示了隐含的置信度信号。GUI-RC通过从多个采样预测中构建空间投票网格，识别模型高度一致的共识区域，从而利用这些信号。论文还提出了GUI-RCPO (GUI Region Consistency Policy Optimization)，将一致性模式转化为测试时强化学习的奖励，使模型能够在推理过程中迭代地优化其在未标记数据上的输出。实验表明，GUI-RC和GUI-RCPO在ScreenSpot基准测试上显著提高了各种架构的准确性，无需任何训练或额外标注数据，为更强大和数据高效的GUI代理开辟了道路。",
+  "background": "GUI grounding是自主GUI代理的核心能力，它将自然语言指令映射到UI元素上的精确像素坐标。现有的方法通过大规模的监督训练或精心设计的奖励函数的强化学习来取得显著的成果。然而，这些方法依赖于代价高昂的像素级标注数据，并且测试时计算资源未被充分利用，限制了性能提升和在新领域的扩展。",
   "contributions": [
-    "提出了GUI-RC，一种测试时缩放方法，通过聚合多个预测的空间信息来提高定位精度，无需额外的训练或标注数据。",
-    "介绍了GUI-RCPO，一种测试时强化学习方法，使用区域一致性作为自监督奖励信号，使模型能够通过在未标注的GUI屏幕截图上进行策略优化来提高基础能力。",
-    "在多个基准测试和模型架构上展示了一致的改进。GUI-RC平均提高2-3%的准确率，而GUI-RCPO通过无标签优化平均实现4-5%的额外收益。",
-    "揭示了在GUI-RCPO之后进一步应用GUI-RC可以带来额外的性能提升，表明该方法支持渐进式的自引导改进，无需外部监督，并为GUI自动化提供了一种补充性的训练时优化替代方案。"
+    "提出了GUI-RC，一种测试时缩放方法，通过在多个预测中利用空间投票来提高GUI grounding的定位精度，无需额外的训练或标注数据。",
+    "引入了GUI-RCPO，一种测试时强化学习方法，使用区域一致性作为自监督奖励信号，使模型能够通过在未标记的GUI屏幕截图上进行策略优化来提高grounding能力。",
+    "在多个基准测试和模型架构上展示了一致的改进。GUI-RC平均提高准确率2-3%，而GUI-RCPO通过无标签优化平均获得4-5%的进一步提升。",
+    "揭示了在GUI-RCPO之后进一步应用GUI-RC可以产生额外的性能提升，表明我们的方法支持渐进式的自举式改进，无需外部监督，并为GUI自动化提供了一种与训练时优化互补的替代方案。"
   ],
-  "problem": "GUI基础任务面临的主要问题是在连续高分辨率坐标空间中进行操作，即使是微小的像素偏差也可能导致错误的元素选择。现代用户界面视觉复杂，元素重叠、布局动态变化且分辨率各异，进一步增加了预测的不确定性。此外，现有方法依赖于大量的标注数据，成本高昂。",
+  "problem": "现有GUI grounding方法依赖于大量的标注数据和训练时优化，缺乏对测试时计算资源的利用。GUI grounding任务的连续坐标预测特性以及复杂的用户界面设计导致模型预测存在不确定性。因此，如何在不依赖额外标注数据的情况下，利用测试时计算来提高GUI grounding的性能是一个关键问题。",
   "methods": [
-    "**GUI-RC：**",
-    "  - **多样本生成：** 使用基于温度的采样从模型中采样K个预测结果。",
-    "  - **空间投票机制：** 构建一个空间投票网格，每个采样预测对该网格贡献投票。",
-    "  - **共识提取：** 通过选择最大投票计数的区域来提取共识区域。",
-    "**GUI-RCPO：**",
-    "  - **区域一致性作为奖励：** 基于预测区域内的平均投票密度计算奖励。",
-    "  - **策略优化：** 使用GRPO（Group Relative Policy Optimization）优化预期区域一致性奖励。"
+    "**Multi-Sample Generation (多样本生成):** 使用基于温度的采样从模型中生成K个预测。",
+    "**Spatial Voting Mechanism (空间投票机制):** 构建一个与屏幕截图分辨率匹配的空间投票网格，每个采样预测都为该网格贡献选票，用于量化一致性。",
+    "**Consensus Extraction (共识提取):** 通过识别整个网格中的最大投票数来提取共识区域，该最大投票数代表预测之间最高级别的同意，并选择具有最大面积的区域作为最终的预测结果。",
+    "**Region Consistency as Reward (区域一致性奖励):**  基于每个预测区域内的平均投票密度，计算区域一致性奖励。",
+    "**Policy Optimization (策略优化):**  将GUI grounding 任务形式化为强化学习问题，使用GRPO（Group Relative Policy Optimization）算法优化预期区域一致性奖励。"
   ],
-  "experimental_design": "在三个GUI基础测试基准（ScreenSpot、ScreenSpot-v2和ScreenSpot-Pro）上评估该方法。使用多种视觉语言模型（VLMs），包括Qwen2.5-VL-3B-Instruct、Qwen2.5-VL-7B-Instruct、InternVL3-2B-Instruct、InternVL3-8B-Instruct、UGround-V1-7B、OS-Atlas-Base-7B和UI-TARS-1.5-7B。采用基础准确性作为主要指标。GUI-RC采样64个输出，温度为0.5，top p为0.95。GUI-RCPO使用VLM-R1框架，在Screenspot-v2基准上进行TTRL训练，不使用真实数据。",
-  "results": "GUI-RC始终如一地提高端到端的基础性能。例如，OS-Atlas-Base-7B实现了2.75%的整体改进，在移动场景中的图标定位方面显著提高了6.28%。GUI-RCPO也带来了一致的改进，甚至优于GUI-RC。例如，GUI-RC为ScreenSpot上的Qwen2.5-VL-3B-Instruct带来了1.49%的改进，而经过GUI-RCPO训练后，实现了5.5%的显著提升。",
-  "result_analysis": "GUI-RC通过空间聚合将个体预测中的不确定性转化为鲁棒的共识。GUI-RCPO将区域一致性转化为自监督奖励信号，促进了更有效的GUI基础策略的学习，而不仅仅是拟合共识区域。消融研究表明，温度、采样数量和超参数α都会影响GUI-RC的性能。GUI-RCPO训练过程中，模型在所有三个GUI基础测试基准上的准确性稳定提高，并在大约80步后收敛。在GUI-RCPO训练后应用GUI-RC仍然可以带来额外的性能提升，表明可以采用自举方式逐步提高模型性能，而无需任何外部监督。",
-  "conclusions": "该论文提出了GUI-RC和GUI-RCPO，分别是一种测试时缩放方法和一种测试时强化学习方法，用于提高GUI基础任务的性能。实验结果表明，这些方法可以有效地提高GUI基础性能，并能很好地推广到分布外场景。这些发现揭示了GUI代理测试时训练的潜力，并为更强大和数据高效的GUI自动化系统指明了方向。",
-  "limitations": "GUI-RC对点式基础模型的性能提升有限。GUI-RC主要解决基础任务中误导性和偏差性幻觉，但很难解决混淆性幻觉。换句话说，GUI-RC假设模型具有一定的识别目标元素的能力。它能容忍模型的预测不精确或有偏差，但不能完全随机或不相关。因此，GUI-RC要求模型熟悉GUI环境，但不需要模型专门针对GUI任务进行训练。",
-  "future_work": "未来的研究可以集中在解决GUI-RC在点式基础模型中的局限性，并探索解决混淆性幻觉的方法。此外，还可以探索将这些方法应用于更复杂的GUI任务，例如多步骤交互和任务规划。",
-  "applications": "这项研究对GUI自动化和人机交互领域具有重要意义。它可以应用于开发更强大、更数据高效的GUI代理，这些代理可以理解自然语言指令并准确地与用户界面交互。这可以简化各种应用程序的用户体验，包括移动设备、网络应用程序和桌面软件。",
-  "related_work": "论文中提到了与GUI基础任务相关的研究，包括Seeclick、UGround、OS-Atlas和UI-TARS。还提到了测试时缩放的相关工作，包括自一致性投票和测试时强化学习。",
+  "experimental_design": "该论文在三个GUI grounding基准测试上评估了所提出的方法：ScreenSpot, ScreenSpot-v2, 和 ScreenSpot-Pro。使用了多个视觉语言模型(VLMs)，包括Qwen2.5-VL-3B-Instruct, Qwen2.5-VL-7B-Instruct, InternVL3-2B-Instruct, InternVL3-8B-Instruct, UGround-V1-7B, OS-Atlas-Base-7B, 和 UI-TARS-1.5-7B。主要的评估指标是grounding准确率。",
+  "results": "GUI-RC在不同的模型上一致地提高了grounding性能，例如，OS-Atlas-Base-7B总体提高了2.75%。GUI-RCPO进一步提高了性能，甚至优于GUI-RC，例如，GUI-RC为Qwen2.5-VL-3B-Instruct在ScreenSpot上带来了1.49%的提升，而GUI-RCPO训练后，获得了5.5%的显著提升。GUI-RCPO在out-of-distribution场景中表现出良好的泛化能力。",
+  "result_analysis": "消融研究表明，GUI-RC的性能随着温度的升高先增加后减少，随着采样数量的增加先增加后趋于平稳。参数α的影响也呈现先增加后减少的趋势。GUI-RCPO训练期间，模型的准确率稳定提高，并在80步左右收敛。在GUI-RCPO训练后应用GUI-RC仍然可以获得额外的性能提升。",
+  "conclusions": "这篇论文提出了GUI-RC和GUI-RCPO，分别作为测试时缩放和测试时强化学习方法，用于GUI grounding任务。通过利用区域一致性来提高模型性能，且无需额外的训练数据，该方法在多个模型和基准测试中表现出良好的一致性和泛化性，为更强大和数据高效的GUI自动化系统提供了一个有希望的方向。",
+  "limitations": "GUI-RC对于point-style输出的模型带来的改进相对有限。GUI-RC主要解决了误导性和偏差性的hallucination问题，但难以解决混淆性的hallucination问题。GUI-RC依赖于模型识别目标元素的能力，可以容忍模型预测不精确或有偏差，但不能完全随机或不相关。",
+  "future_work": "未来的研究可以探索如何进一步提高GUI-RC在point-style grounding中的性能。可以研究如何将GUI-RC与现有的GUI grounding方法相结合，以获得更好的性能。还可以探索GUI-RC在其他视觉语言任务中的应用。",
+  "applications": "这项研究可以应用于各种GUI自动化系统，例如自动化测试、RPA（机器人流程自动化）和虚拟助手。它可以提高这些系统的鲁棒性和数据效率，并降低开发成本。例如，该方法可以用于开发能够自动执行复杂GUI任务的智能代理，如在线购物、预订机票和管理社交媒体账户。",
+  "related_work": "论文中提到了与GUI grounding相关的研究，包括Seeclick, UGround, OS-Atlas, UI-TARS等，以及与测试时缩放相关的研究，包括self-consistency voting和test-time reinforcement learning等。",
   "github_links": [
     "https://github.com/zju-real/gui-rcpo"
   ],

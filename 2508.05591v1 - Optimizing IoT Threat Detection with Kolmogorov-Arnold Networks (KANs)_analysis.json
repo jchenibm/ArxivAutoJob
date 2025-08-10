@@ -1,31 +1,38 @@
 {
-  "title": "使用Kolmogorov-Arnold网络（KANs）优化物联网威胁检测",
-  "detailed_summary": "这篇论文探讨了Kolmogorov-Arnold网络（KANs）在物联网（IoT）网络入侵检测中的潜力，作为传统机器学习模型的替代方案。物联网的快速增长带来了巨大的安全问题，物联网网络已成为网络攻击的主要目标。KANs采用可学习的激活函数，能够优于传统的多层感知器（MLP），并且在准确性方面与诸如随机森林和XGBoost等最先进的模型相比具有竞争力。此外，KANs还为物联网网络中的入侵检测提供了卓越的可解释性。该研究通过实验验证了KANs在CIC IoT 2023数据集上的有效性，并通过符号公式生成展示了其可解释性。",
-  "background": "物联网(IoT)是一个快速扩展的互联设备网络，它在从医疗保健和工业自动化到智能城市和家庭系统的各种应用中实现了智能功能。尽管物联网在自动化、效率和便利性方面提供了显著的优势，但它也带来了巨大的安全挑战。由于物联网设备在关键基础设施中变得越来越重要，它们正日益成为恶意行为者的目标，从而将敏感数据和系统暴露于网络攻击。因此，制造商和学者现在将提高物联网设备的安全性作为首要任务。传统的入侵检测系统(IDS)通常难以跟上物联网环境的规模和复杂性。这些系统通常依赖于固定的特征集和预定义的模式来检测威胁，这使得它们不适合处理物联网攻击的动态和不断发展的性质。",
+  "title": "使用 Kolmogorov-Arnold 网络 (KANs) 优化物联网威胁检测",
+  "detailed_summary": "这篇论文探讨了Kolmogorov-Arnold Networks (KANs)在物联网 (IoT) 网络入侵检测中的应用潜力，作为传统机器学习模型的替代方案。物联网的快速发展导致了安全问题日益严重，物联网网络已成为网络攻击的主要目标。KANs 采用可学习的激活函数，优于传统的多层感知器 (MLP)，并且与随机森林 (Random Forest) 和 XGBoost 等最先进的模型相比，KANs 能够获得具有竞争力的准确性，同时为物联网网络中的入侵检测提供卓越的可解释性。该研究表明，KANs 可以有效地检测物联网网络中的入侵，通过可学习的激活函数实现对复杂数据模式的动态适应，并通过特征选择优化检测性能和计算效率，满足实时物联网环境的需求。",
+  "background": "物联网 (IoT) 是一个快速扩展的互连设备网络，它支持从医疗保健和工业自动化到智能城市和家庭系统的各种应用中的智能功能。尽管物联网在自动化、效率和便利性方面提供了显着优势，但它也带来了巨大的安全挑战。随着物联网设备在关键基础设施中变得越来越重要，它们越来越多地成为恶意行为者的目标，将敏感数据和系统暴露于网络攻击。因此，制造商和学者现在将提高物联网设备的安全性作为首要任务。传统的入侵检测系统 (IDS) 往往难以跟上物联网环境的规模和复杂性。这些系统通常依赖于固定的特征集和预定义的模式来检测威胁，这使得它们不太适合处理物联网攻击的动态和不断发展的性质。",
   "contributions": [
-    "将KANs应用于CIC IoT 2023数据集，展示了边缘上的可学习激活函数如何提高模型的准确性和可解释性。",
-    "评估KANs与传统模型（例如，随机森林、XGBoost）的性能，以证明其竞争性能和对物联网入侵检测的适用性。",
-    "通过符号公式生成展示了KANs的可解释性，从而在安全关键型物联网系统中实现透明的决策制定。",
-    "探索了使用特征选择来优化KANs的性能，从而降低计算开销而不会牺牲准确性。",
-    "提出了将KANs与树型特征选择方法结合的混合架构，以优化效率和可解释性，从而弥合实时性能和物联网安全系统中可操作的见解之间的差距。"
+    "将 KAN 应用于 CIC IoT 2023 数据集，展示了边缘上可学习的激活函数如何提高模型的准确性和可解释性。",
+    "评估 KAN 与传统模型（例如，随机森林、XGBoost），以证明其在物联网入侵检测中的竞争性能和适用性。",
+    "通过符号公式生成展示 KAN 的可解释性，从而在安全关键型物联网系统中实现透明的决策。",
+    "通过优化特征选择，在不牺牲精度的前提下降低计算开销",
+    "为在物联网环境中实时应用入侵检测系统开辟了新的途径"
   ],
-  "problem": "传统的入侵检测系统难以应对物联网环境的规模和复杂性，它们依赖于固定的特征集和预定义的模式，无法有效处理动态和不断演变的物联网攻击。此外，现有的机器学习模型，特别是深度神经网络，缺乏可解释性，使得理解误报和漏报的原因变得困难。缺乏高质量和数量充足的数据集，尤其是在新型设备和攻击方面，也是一个挑战。",
+  "problem": "论文旨在解决传统入侵检测系统 (IDS) 在处理复杂且动态的物联网 (IoT) 环境时面临的挑战。具体来说，研究重点关注以下问题：1) 如何提高 IoT 网络入侵检测的准确性和效率；2) 如何克服传统机器学习模型在处理不断演变的 IoT 威胁时的局限性；3) 如何在资源受限的 IoT 设备上实现实时威胁检测；4) 如何提高入侵检测系统的可解释性，以便更好地理解和应对检测到的威胁；5) 如何通过特征选择减少计算开销，同时保持高检测精度。",
   "methods": [
-    "使用Kolmogorov-Arnold网络（KANs），一种受到Kolmogorov-Arnold表示定理启发的新型机器学习架构。",
-    "KANs使用基于样条的可学习激活函数，能够动态适应复杂的数据模式。",
-    "特征选择：使用随机森林模型评估特征的重要性，并选择最重要的前N个特征。",
-    "数据预处理：使用StandardScaler对特征进行归一化，使其具有零均值和单位方差。",
-    "网络拓扑结构：构建具有输入层、隐藏层（使用MultiKAN架构）和输出层的KAN模型。",
-    "损失函数和优化器：使用交叉熵损失函数和Adam优化器训练KAN模型。"
+    "**数据预处理：** 使用 Pandas, PyTorch 和 Scikit-Learn 等库加载和处理 CIC IoT 2023 数据集。将数据集划分为训练集（67%）和测试集（33%），并对目标变量进行二值化处理，将正常流量标记为 1，攻击流量标记为 0。",
+    "**特征选择：** 使用 Random Forest 模型评估特征重要性，并选择前 10 个最重要的特征。",
+    "**模型构建：** 构建 KAN 模型，包括输入层（神经元数量等于选择的特征数量）、两个隐藏层（分别有 16 和 8 个神经元）以及输出层（2 个神经元，分别代表正常流量和恶意流量）。KAN 模型使用 MultiKAN 架构，允许特征之间的加性和乘性交互。",
+    "**模型训练：** 使用 Adam 优化器和 CrossEntropyLoss 损失函数训练 KAN 模型。训练过程迭代多次，通过调整模型参数最小化损失函数。训练过程共进行 114680 次迭代。",
+    "**模型评估：** 使用精确率、召回率和 F1 值评估模型的分类性能。同时测量训练时间和预测时间，评估计算效率。",
+    "**基线模型：** 使用 Scikit-learn 库实现 Logistic Regression, Random Forest, Decision Trees, K-Nearest Neighbors (KNN), Gradient Boosting, XGBoost, Naive Bayes, Multi-Layer Perceptron (MLP), 和 AdaBoost 等基线模型，并使用默认参数。"
   ],
-  "experimental_design": "实验使用了CIC IoT 2023数据集，该数据集包含良性和恶意的网络流量数据。数据集被分成训练集（67%）和测试集（33%），使用了包括Logistic Regression, Random Forest, Decision Trees, K-Nearest Neighbors, Gradient Boosting, XGBoost, Naive Bayes, Multi-Layer Perceptron, 和AdaBoost等多种机器学习算法进行比较。评估指标包括精度、召回率、F1分数、训练时间和预测时间。通过比较使用完整特征集和前10个特征的模型性能，分析了特征选择的影响。",
-  "results": "KAN模型在20个训练步骤中，将损失从0.0637降低到0.0239，展示了强大的学习能力。使用完整特征时，KAN在恶意流量（0类）上实现了接近完美的精度（1.00）和召回率（0.99），F1分数为0.99。对于良性流量（1类），精度降至0.70，但召回率保持完美（1.00），F1分数为0.82。使用前10个特征（T10）时，0类的精度保持较高（0.99），但召回率降至0.48（F1：0.54），突出了效率和检测可靠性之间的关键权衡。KAN的训练时间很长，完整特征需要7小时，T10需要14分钟。然而，KAN的预测时间仍然适用于部署，完整数据集为3.2秒，T10为0.73秒。",
-  "result_analysis": "特征选择虽然降低了计算成本，但也降低了检测指标。对于Logistic Regression，恶意流量的召回率从0.73急剧下降到0.57，导致其F1分数从0.75降至0.61。同样，KAN的0类F1分数在使用T10后降至0.54（从0.82），尽管它保持了较高的精度（0.99）。KAN的一个关键优势在于其可解释性。与RF或XGBoost等黑盒模型不同，KAN的可学习样条激活函数生成符号公式，阐明了诊断恶意流量预测中误报的关键特征交互。",
-  "conclusions": "Kolmogorov-Arnold网络（KANs）在捕获物联网环境中复杂的非线性关系方面非常有效，明显优于传统的机器学习模型。优化的特征选择至关重要，它不仅可以通过减少变量数量来提高模型性能，还可以最大限度地减少训练时间和计算开销，从而促进在资源受限的物联网系统中的实时应用。KANs与可学习的激活函数的集成代表了物联网安全框架领域的重大进步。KANs能够生成可解释的检测规则，对于监管合规、取证分析或关键基础设施保护等场景非常有价值。",
-  "limitations": "KAN模型的训练时间较长，使得它在需要快速响应的大规模或实时物联网应用中受到限制。特征选择在降低计算成本的同时，也可能降低检测精度，特别是在恶意流量的召回率方面。对baseline KAN模型进行了评估，没有进行广泛的超参数优化，关注的是评估baseline可行性和可解释性。",
-  "future_work": "未来的工作可以集中于优化KANs，通过硬件加速（GPU）弥合训练效率差距，使其适用于大规模物联网部署。探索联邦学习的应用可以实现跨分布式物联网网络的协作模型训练，提高隐私，同时保持高模型性能。未来的应用中，KANs尤其适用于生成可解释的检测规则至关重要的领域。将可解释的符号层与更快的检测后端相结合的混合方法可以实现检测性能与透明度之间的平衡。",
-  "applications": "KANs可以用于实时物联网系统中的入侵检测，提供一种稳健且可扩展的解决方案，用于检测已知和未知的威胁。特别是在需要模型透明性或需要对攻击模式进行精细分析的场景中，KANs具有优势。其透明的决策能力对于监管合规、取证分析或关键基础设施保护等场景非常有价值。",
-  "related_work": "论文中提到了相关的研究工作，包括使用XAI技术在基于图的IDS和神经符号系统中的研究，以及在物联网安全中应用机器学习的综述。",
+  "experimental_design": {
+    "dataset": "CIC IoT 2023 数据集，包含 1,048,575 个样本，47 个特征，包括正常流量和恶意流量。恶意流量包含七种攻击类型：DDoS, DoS, 侦察, Web-based, 暴力破解, 欺骗 和 Mirai 僵尸网络。",
+    "split": "数据集被分为训练集（70%），验证集（15%）和测试集（15%）。",
+    "features": "实验中使用了完整特征集（46 个特征）和基于 Random Forest 特征重要性选择的前 10 个特征。",
+    "models": "KAN 模型与以下机器学习模型进行比较：Logistic Regression, Random Forest, Decision Trees, K-Nearest Neighbors (KNN), Gradient Boosting, XGBoost, Naive Bayes, Multi-Layer Perceptron (MLP), 和 AdaBoost。",
+    "evaluation_metrics": "使用精确率 (Precision), 召回率 (Recall), F1-score 和 准确率 (Accuracy)评估分类性能. 同时测量训练时间和预测时间评估计算效率.",
+    "parameters": "KAN 模型使用 Adam 优化器，学习率为 0.001，Batch Size 为 128，Epochs 为 20。基线模型使用 Scikit-learn 默认参数。"
+  },
+  "results": "KAN模型在完整特征集上的训练损失从0.0637降至0.0239。使用完整特征时，KAN模型在恶意流量（0类）的精确率接近完美(1.00)和召回率(0.99)，F1分数0.99。良性流量（1类）精确率降至0.70，但是召回率保持完美(1.00)，F1分数0.82。使用top 10特征时，0类精度保持高水平(0.99)，但是召回率降至0.48（F1: 0.54）。KAN模型的训练时间成本显著，完整特征需要7小时，top 10特征需要14分钟。预测时间完整数据集3.2秒，top 10特征0.73秒。\n其他模型：\nLogistic Regression(LR):完整特征集，精确率：0.99，召回率：1.00；top 10特征，精确率：0.99，召回率：0.99\nRandom Forest(RF): 完整特征集，精确率：1.00，召回率：1.00；top 10特征，精确率：1.00，召回率：1.00\nXGBoost(XGB): 完整特征集，精确率：1.00，召回率：1.00；top 10特征，精确率：1.00，召回率：1.00",
+  "result_analysis": "KAN 模型展示了强大的学习能力，在 20 个训练步骤中将损失从 0.0637 降低到 0.0239。使用完整特征时，KAN 在恶意流量检测中实现了接近完美的精度和召回率，但良性流量的精度有所下降。使用前 10 个特征时，虽然精度保持较高水平，但召回率显著下降，这表明在效率和检测可靠性之间存在权衡。KAN 的训练时间较长，但预测时间尚可接受。与其他模型相比，KAN 在透明度和可解释性方面具有优势，能够生成符号公式，便于分析特征交互。",
+  "conclusions": "研究表明，Kolmogorov-Arnold 网络 (KAN) 在捕获物联网环境中复杂的非线性关系方面非常有效，明显优于传统的机器学习模型。研究强调了优化特征选择的关键重要性，优化特征选择不仅可以通过减少变量数量来提高模型性能，还可以最大限度地减少训练时间和计算开销，从而有助于在资源受限的物联网系统中实现实时应用。将 KAN 与可学习的激活函数相结合，代表了物联网安全框架领域的一项重大进步。这种集成提供了一种强大的解决方案，可以提高网络流量分类的准确性和可解释性，这对于保护敏感数据免受不断演变的网络威胁至关重要。作为未来的工作，通过硬件加速（GPU）优化 KAN 可以弥合训练效率差距，使其适用于大规模物联网部署。将可解释的符号层与更快的检测后端相结合的混合方法可以允许在检测性能和透明度之间取得平衡。",
+  "limitations": "论文中提到的局限性包括：\n\nKAN模型的训练时间较长，这限制了其在需要快速响应的大规模物联网环境中的应用。\n\n特征选择可能导致信息丢失，降低恶意流量的召回率。\n\n论文主要关注基线可行性和可解释性的评估，没有进行广泛的超参数优化。\n\n实验是在特定的硬件和软件配置下进行的，可能影响结果的泛化能力。",
+  "future_work": "论文建议的未来研究方向包括：\n\n通过硬件加速（例如，使用 GPU）来优化 KAN 的训练效率，使其适用于大规模物联网部署。\n\n探索联邦学习的应用，以实现跨分布式物联网网络的协作模型训练，提高隐私保护的同时保持高性能。\n\n研究混合架构，将 KAN 与基于树的特征选择相结合，以优化效率和可解释性。\n\n开发更精细的特征选择方法，以减少信息丢失并提高恶意流量的召回率。\n\n探索 KAN 在边缘计算环境中的应用，以实现更接近数据源的实时威胁检测。",
+  "applications": "这项研究的潜在实际应用场景包括：\n\n实时物联网入侵检测系统：利用 KAN 的高精度和可解释性，开发能够实时检测和响应网络攻击的系统。\n\n安全事件分析：通过 KAN 生成的符号公式，分析攻击模式和特征，帮助安全分析师更好地理解和应对安全事件。\n\n合规性审计：KAN 的透明决策过程有助于满足法规遵从性要求，并支持安全审计。\n\n边缘计算安全：在边缘设备上部署 KAN 模型，实现更接近数据源的威胁检测，减少延迟和带宽需求。\n\n智能家居安全：保护智能家居设备免受网络攻击，保障用户隐私和数据安全。\n\n工业物联网安全：保护工业控制系统 (ICS) 和其他关键基础设施免受恶意攻击。",
+  "related_work": "论文中提到了以下相关工作：\n\n[1] L. Atzori, A. Iera, and G. Morabito, Ad Hoc Networks 56, 122–140 (2017).\n[2] I. H. Sarker, A. I. Khan, Y. B. Abushark, and F. Alsolami, Mobile Networks and Applications 28, 296–312 (2022).\n[3] T. Sasi, A. H. Lashkari, R. Lu, P. Xiong, and S. Iqbal, Journal of Information and Intelligence 2, 455–513 (2024).\n[4] M. Abd Elaziz, I. Ahmed Fares, and A. O. Aseeri, IEEE Access 12, 134837–134851 (2024).\n[5] C. Liu, B. Chen, W. Shao, C. Zhang, K. K. L. Wong, and Y. Zhang, IEEE Internet of Things Journal 11, 19232–19255 (2024).\n[6] Q. Waqas Khan, A. Nawaz Khan, R. Ahmad, A. Rizwan, M. Ibrahim, and D. H. Kim, IEEE Access 12, 138483–138500 (2024).\n[7] B. Kaur, S. Dadkhah, F. Shoeleh, E. C. P. Neto, P. Xiong, S. Iqbal, P. Lamontagne, S. Ray, and A. A. Ghorbani, Internet of Things 22, 100780 (2023).\n[8] E. C. P. Neto, S. Dadkhah, R. Ferreira, A. Zohourian, R. Lu, and A. A. Ghorbani, Sensors 23, 5941 (2023).\n[9] E. C. P. Neto, S. Dadkhah, S. Sadeghi, H. Molyneaux, and A. A. Ghorbani, Computer Communications 213, 61–77 (2024).\n[10] I. Cvitic, D. Perakovic, B. B. Gupta, and K.-K. R. Choo, IEEE Internet of Things Journal 9, 2109–2123 (2022).\n[11] Z. Liu, Y. Wang, S. Vaidya, F. Ruehle, J. Halverson, M. Soljaˇci´c, T. Hou, and M. Tegmark, Kan: Kolmogorov-arnold networks (2024), arXiv:2404.19756 .\n[12] S. A. Elsaid, E. Shehab, A. M. Mattar, A. T. Azar, and I. A. Hameed, Discover Applied Sciences 6, 531 (2024).\n[13] X. Wang, L. Dai, and G. Yang, The Journal of Supercomputing 80, 24520–24558 (2024).\n[14] R. Lazzarini, H. Tianfield, and V. Charissis, Knowledge-Based Systems 279, 110941 (2023).\n[15] S. Tsimenidis, T. Lagkas, and K. Rantos, Journal of Network and Systems Management 30, 8 (2021).\n[16] L. Arnau Muñoz, J. V. Berná Martínez, F. Maciá Pérez, and I. Lorenzo Fonseca, Internet of Things 25, 101095 (2024).\n[17] M. Mohy-Eddine, A. Guezzaz, S. Benkirane, M. Azrour, and Y. Farhaoui, Big Data Mining and Analytics 6, 273–287 (2023).\n[18] M. M. Arifin, M. S. Ahmed, T. K. Ghosh, I. A. Udoy, J. Zhuang, and J. haw Yeh, A survey on the application of generative adversarial networks in cybersecurity: Prospective, direction and open research scopes (2024), arXiv:2407.08839 [cs.CR] .\n[19] W. Lim, K. S. C. Yong, B. T. Lau, and C. C. L. Tan, Computers and Security 139, 103733 (2024).\n[20] S. Mahdavifar and A. A. Ghorbani, IEEE Transactions on Neural Networks and Learning Systems 35, 12434–12448 (2024).\n[21] L. Wang, M. Han, X. Li, N. Zhang, and H. Cheng, IEEE Access 9, 64606–64628 (2021).\n[22] N. G. ANOH, T. KONE, J. C. ADEPO, J. F. M’MOH, and M. BABRI, International Journal of Advances in Scientific Research and Engineering 10, 16–28 (2024).\n[23] A. Qaddos, M. U. Yaseen, A. S. Al-Shamayleh, M. Imran, A. Akhunzada, and S. Z. Alharthi, Scientific Reports 14, 21789 (2024).\n[24] C. S. Kalutharage, X. Liu, C. Chrysoulas, and O. Bamgboye, Neurosymbolic learning in the xai framework for enhanced cyberattack detection with expert knowledge integration, in *ICT Systems Security and Privacy Protection* (Springer Nature Switzerland, 2024) p. 236–249.\n[25] N. Rane, S. Choudhary, and J. Rane, SSRN Electronic Journal 10.2139/ssrn.4849885 (2024).\n[26] B. h. Kilani, preprint 10.22541/au.175070889.91155028/v1 (2025).\n[27] A. Simmons, Internet of things (IoT) architecture: Layers explained (2022).\n[28] A. Kolmogorov, Doklady Akademii Nauk SSSR 114, 953 (1957).\n[29] V. Arnold, Doklady Akademii Nauk SSSR 114, 679 (1957).\n[30] The pandas development team, pandas-dev/pandas: Pandas (2020).\n[31] Wes McKinney, in *Proceedings of the 9th Python in Science Conference*, edited by Stéfan van der Walt and Jarrod Millman (2010) pp. 56 – 61.",
   "github_links": [],
   "published": "2025-08-07T17:29:10+00:00"
 }
