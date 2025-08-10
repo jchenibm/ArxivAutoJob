@@ -2,8 +2,8 @@ name: Run ArxivAutoJob Pipeline
 
 on:
   schedule:
-    
-    - cron: '0 12 * * 5' # Runs every Friday at 8:00 PM Beijing Time (12:00 UTC)
+    # Runs every Friday at 8:00 PM Beijing Time (12:00 UTC)
+    - cron: '0 12 * * 5' 
   workflow_dispatch: # Allows manual triggering from GitHub UI
 
 jobs:
