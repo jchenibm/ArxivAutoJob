@@ -1,33 +1,34 @@
 {
   "title": "Test-Time Reinforcement Learning for GUI Grounding via Region Consistency",
-  "detailed_summary": "该论文提出了一种名为GUI-RC（区域一致性）的测试时缩放方法，以及GUI-RCPO（区域一致性策略优化）的测试时强化学习方法，用于改进图形用户界面（GUI）基础任务，即把自然语言指令映射到屏幕上的精确坐标。论文观察到，当模型对同一GUI元素生成多个预测时，空间重叠模式揭示了隐含的置信度信号，可以引导更准确的定位。GUI-RC通过构建来自多个采样预测的空间投票网格来识别模型显示最高一致性的共识区域，无需任何训练即可提高ScreenSpot基准测试的准确性。GUI-RCPO将这些一致性模式转化为奖励，用于测试时强化学习。通过计算每个预测与集体共识的对齐程度，GUI-RCPO使模型能够在推理期间迭代地细化未标记数据上的输出。实验结果表明，该方法具有通用性，GUI-RC将Qwen2.5-VL-3B-Instruct在ScreenSpotv2上的准确率从80.11%提高到83.57%，而GUI-RCPO通过自监督优化进一步将其提高到85.14%。",
-  "background": "GUI基础是自主GUI代理的基础，它能够准确地将自然语言指令映射到UI元素上的精确像素坐标。现有的GUI基础方法通过广泛的监督训练或使用带标签奖励的强化学习实现了强大的性能，但这些方法仍然受到像素级注释的成本和可用性的限制。大型语言模型在测试时缩放方面的突破表明，可以将测试时缩放应用于像GUI基础这样的视觉语言任务，但是在GUI基础中应用测试时缩放提出了一些独特的挑战，例如：GUI基础在连续、高分辨率的坐标空间中运行，细微的像素偏差可能导致不正确的元素选择。",
+  "detailed_summary": "This paper addresses the challenge of GUI grounding, which is mapping natural language instructions to precise screen coordinates. Existing methods rely heavily on supervised training or reinforcement learning with labeled rewards, which are limited by the cost and availability of pixel-level annotations. The authors observe that spatial overlap patterns in multiple predictions for the same GUI element reveal implicit confidence signals. They propose GUI-RC (Region Consistency), a test-time scaling method that constructs spatial voting grids from multiple sampled predictions to identify consensus regions. GUI-RC improves accuracy without any training. They also introduce GUI-RCPO (Region Consistency Policy Optimization), which transforms these consistency patterns into rewards for test-time reinforcement learning, enabling models to iteratively refine their outputs on unlabeled data during inference. Experiments demonstrate that GUI-RC and GUI-RCPO improve performance on ScreenSpot benchmarks, highlighting the potential of test-time methods for data-efficient GUI agents.",
+  "background": "GUI grounding is critical for autonomous GUI agents to understand and execute user commands. Current approaches rely on extensive train-time optimization through supervised fine-tuning with large-scale annotated datasets or reinforcement learning with carefully designed reward functions. These methods suffer from two main limitations: dependence on labeled data, which is costly to obtain, and underutilization of test-time computation for inference-time optimization. This paper aims to leverage test-time computation to enhance GUI grounding performance without additional labeled data, drawing inspiration from the success of test-time scaling methods in large language models.",
   "contributions": [
-    "提出了GUI-RC，一种用于GUI基础的测试时缩放方法，它利用多个预测之间的空间投票来提高定位精度，而无需额外的训练或标记数据。",
-    "介绍了GUI-RCPO，一种测试时强化学习方法，它使用区域一致性作为自监督奖励信号，使模型能够通过在未标记的GUI屏幕截图上进行策略优化来提高基础能力。",
-    "证明了在多个基准和模型架构上的一致改进。GUI-RC平均提高了2-3%的准确率，而GUI-RCPO通过无标签优化平均实现了4-5%的进一步提升。",
-    "揭示了在GUI-RCPO之后进一步应用GUI-RC可以产生额外的性能提升，表明该方法支持渐进式的、自举的改进，而无需外部监督，并为GUI自动化提供了训练时优化的补充替代方案。"
+    "Propose GUI-RC, a test-time scaling method for GUI grounding that leverages spatial voting across multiple predictions to improve localization accuracy without additional training or labeled data.",
+    "Introduce GUI-RCPO, a test-time reinforcement learning method that uses region consistency as a self-supervised reward signal, enabling models to improve grounding capabilities through policy optimization on unlabeled GUI screenshots.",
+    "Demonstrate consistent improvements across multiple benchmarks and model architectures. GUI-RC improves accuracy by 2-3% on average, while GUI-RCPO achieves further gains of 4-5% on average through label-free optimization.",
+    "Reveal that further applying GUI-RC after GUI-RCPO yields additional performance gains, demonstrating that our methods support progressive, self-bootstrapping improvement without external supervision, and provide a complementary alternative to train-time optimization for GUI automation."
   ],
-  "problem": "如何利用测试时计算来增强GUI基础性能，而无需依赖任何额外的标记数据。现有方法依赖于训练时优化，缺乏在推理时利用计算资源进行优化的能力。此外，它们需要大量的带标签数据，这限制了它们扩展到新的领域和应用程序。",
+  "problem": "The paper addresses the problem of improving GUI grounding accuracy without relying on expensive pixel-level annotations or extensive training. The challenge lies in the continuous, high-resolution coordinate space of GUI elements, where minor pixel deviations can lead to incorrect element selection. Visual complexity, overlapping elements, and dynamic layouts further increase prediction uncertainty.",
   "methods": [
-    "**GUI-RC：**",
-    "   - **多样本生成：** 使用基于温度的采样从模型中采样K个预测。",
-    "   - **空间投票机制：** 构建一个与屏幕截图分辨率匹配的空间投票网格v。每个采样预测都向该网格贡献投票。",
-    "   - **共识提取：** 通过一个原则性的选择过程提取共识区域，该过程首先识别整个网格中的最大投票数，然后找到每个像素都具有此最大投票数的所有连续区域。",
-    "**GUI-RCPO：**",
-    "   - **区域一致性作为奖励：** 对于rollout中的每个采样预测rk，计算其区域一致性奖励。该奖励衡量预测区域内的平均投票密度，通过区域大小和最大可能投票数进行标准化。",
-    "   - **策略优化：** 将GUI基础构建为一个强化学习问题，其中VLM充当策略θ。使用Group Relative Policy Optimization (GRPO)优化预期的区域一致性奖励。"
+    "**GUI-RC (GUI Region Consistency):**",
+    "  - **Multi-Sample Generation:** Sample K predictions from the model using temperature-based sampling.",
+    "  - **Spatial Voting Mechanism:** Construct a spatial voting grid where each sampled prediction contributes votes to the grid.",
+    "  - **Consensus Extraction:** Identify the maximum vote count and extract the largest contiguous region with the maximum vote count as the consensus region.",
+    "**GUI-RCPO (GUI Region Consistency Policy Optimization):**",
+    "  - **Region Consistency as Reward:** Compute a reward for each sampled prediction based on the average vote density within the predicted region, normalized by the region size and maximum possible votes.",
+    "  - **Policy Optimization:** Formulate GUI grounding as a reinforcement learning problem and optimize the expected region consistency reward using Group Relative Policy Optimization (GRPO)."
   ],
-  "experimental_design": "使用了ScreenSpot、ScreenSpot-v2和ScreenSpot-Pro三个GUI基础基准测试评估了该方法。采用了基础精度作为主要指标：如果预测点或预测边界框的中心落在ground-truth边界框内，则认为预测正确。使用了各种VLM，包括Qwen2.5-VL-3B-Instruct、Qwen2.5-VL-7B-Instruct、InternVL3-2B-Instruct、InternVL3-8B-Instruct、UGround-V1-7B、OS-Atlas-Base-7B和UI-TARS-1.5-7B。",
-  "results": "GUI-RC持续提高了端到端的基础性能。在应用GUI-RC之前和之后，比较了基础模型在三个基准测试上的性能。GUI-RCPO也带来了持续的改进，甚至优于GUI-RC。即使对于专门在GUI任务上训练过的模型，GUI-RCPO也进一步带来了性能提升，表明了引入区域一致性奖励的有效性。",
-  "result_analysis": "消融研究表明，GUI-RC的性能通常表现出随着温度升高先增加后降低的趋势。随着采样预测数量的增加，GUI-RC的性能最初提高，然后逐渐趋于稳定。随着α的增长，GUI-RC的性能遵循先增加后降低的趋势。",
-  "conclusions": "该论文介绍了GUI-RC，一种用于GUI基础的测试时缩放方法，它利用多个预测之间的区域一致性来增强模型性能，而无需额外的训练。在此基础上，进一步提出了GUI-RCPO，一种测试时强化学习方法，它将区域一致性转化为自监督奖励信号，使模型能够在推理期间自我改进，而无需标记数据。",
-  "limitations": "对于点式基础的模型，GUI-RC带来的改进相对有限。GUI-RC主要解决基础中的误导性和有偏见的幻觉，但很难解决混淆幻觉（即，预测区域无法匹配任何有效的UI元素）。",
-  "future_work": "未来的研究可以集中在改进点式基础模型的性能，并探索解决混淆幻觉的方法。",
-  "applications": "该研究可用于开发更强大和数据高效的GUI自动化系统。它可以提高GUI代理在各种应用程序中控制复杂界面的能力。",
-  "related_work": "GUI基础方法分为两类：监督微调和强化学习。测试时缩放策略，如自一致性投票和测试时强化学习，已经证明了在语言领域的潜力。现有的GUI基础测试时策略严重依赖于基于缩放的细化。",
+  "experimental_design": "The methods were evaluated on three GUI grounding benchmarks: ScreenSpot, ScreenSpot-v2, and ScreenSpot-Pro. Several VLMs were tested, including Qwen2.5-VL-3B-Instruct, Qwen2.5-VL-7B-Instruct, InternVL3-2B-Instruct, InternVL3-8B-Instruct, UGround-V1-7B, OS-Atlas-Base-7B, and UI-TARS-1.5-7B. Grounding accuracy was used as the primary evaluation metric. For GUI-RC, 64 outputs were sampled with a temperature of 0.5 and top p of 0.95. For GUI-RCPO, TTRL training was conducted on Screenspot-v2 without ground truth data, using 16 samples with a temperature of 0.7 and top p of 0.95, trained for 2 epochs with a global batch size of 64, learning rate of 1e-6, and KL penalty β = 0.04.",
+  "results": "GUI-RC consistently improved grounding performance across different models. For example, OS-Atlas-Base-7B achieved an overall improvement of 2.75% on ScreenSpot-v2. GUI-RCPO also consistently improved performance and even outperformed GUI-RC. For instance, GUI-RCPO improved Qwen2.5-VL-3B-Instruct by 5.5% on ScreenSpot, while GUI-RC improved it by 1.49%. Applying GUI-RC after GUI-RCPO led to further performance gains.",
+  "result_analysis": "GUI-RC improves performance by mitigating misleading and biased hallucinations. Misleading hallucinations are addressed by obtaining a consensus region through voting, leading to more confident and spatially precise answers. Biased hallucinations, stemming from the granularity mismatch between pixel-level coordinate predictions and patch-level visual encoder processing, are resolved by extracting the area the model most attends to, reducing grounding biases. Ablation studies show that GUI-RC's performance is affected by temperature, sampling number, and the expansion size hyperparameter α. GUI-RCPO demonstrated robust generalization across different screen resolutions and interface layouts.",
+  "conclusions": "The paper concludes that GUI-RC and GUI-RCPO are effective test-time methods for improving GUI grounding performance. GUI-RC leverages region consistency to enhance model performance without additional training, while GUI-RCPO transforms region consistency into a self-supervised reward signal for test-time reinforcement learning. These methods consistently improve GUI grounding performance and generalize well to out-of-distribution scenarios, showing promise for more robust and data-efficient GUI automation systems.",
+  "limitations": "GUI-RC brings relatively limited improvements for models with point-style outputs. Additionally, GUI-RC primarily addresses misleading and biased hallucinations, but it struggles to resolve confusion hallucinations (i.e., predicted region fails to match any valid UI element), meaning it relies on the model having a base level of understanding of the GUI elements. The method assumes the model has a certain ability to recognize the target element, but it does not require the model to be specifically trained on GUI tasks.",
+  "future_work": "The paper does not explicitly state future work, but implied future work could include improvements to GUI-RC so that it works better on models with point-style outputs, and exploring methods to resolve confusion hallucinations. Also, since region-level supervision has advantages, strengthening GUI-RC's effects on the same could be an area of focus for further studies.",
+  "applications": "This research has potential applications in developing more robust and data-efficient GUI automation systems. It can improve the accuracy and reliability of GUI agents, enabling them to better understand and execute user commands in various applications, such as mobile apps, web interfaces, and desktop software. By reducing the dependence on labeled data, the proposed methods can facilitate the scaling of GUI agents to new domains and applications.",
+  "related_work": "The paper discusses related work in GUI grounding and test-time scaling. It mentions Seeclick, UGround, OS-Atlas, and UI-TARS as representative works in GUI grounding. It also discusses self-consistency voting and test-time reinforcement learning as key strategies in test-time scaling for LLMs.",
   "github_links": [
-    "https://github.com/zju-real/gui-rcpo"
+    "https://github.com/zju-real/gui-rcpo",
+    "https://zju-real.github.io/gui-rcpo"
   ],
   "published": "2025-08-07T17:54:27+00:00"
 }
