@@ -1,0 +1,34 @@
+{
+  "title": "Conformal Sets in Multiple-Choice Question Answering under Black-Box Settings with Provable Coverage Guarantees",
+  "detailed_summary": "这篇论文提出了一种基于频率的黑盒设置下的不确定性量化方法，用于解决大型语言模型(LLMs)在多项选择题回答(MCQA)中存在的不可靠性问题，如幻觉和过度自信。该方法利用conformal prediction (CP) 来确保可证明的覆盖保证。研究通过对每个输入的模型输出分布进行多次独立采样，并将最频繁的样本作为参考来计算预测熵(PE)。实验结果表明，在MedMCQA、MedQA、MMLU和MMLU-Pro四个数据集以及六个LLMs上，基于频率的PE在区分正确和错误预测方面优于基于logit的PE（通过AUROC指标衡量）。此外，该方法有效地控制了用户指定的风险水平下的经验误覆盖率。这项工作为MCQA中可靠的不确定性量化提供了一个与分布无关且模型无关的框架，提高了LLMs在实际应用中的可信度。",
+  "background": "大型语言模型（LLMs）在多项选择题回答（MCQA）任务中取得了显著进展，但在医疗和金融等高风险领域，LLMs固有的不可靠性（例如，幻觉、过度自信）限制了它们的应用。现有的不确定性量化方法通常依赖于对数据分布的严格假设，而这些假设在现实场景中往往不成立。Conformal prediction (CP) 是一种基于假设检验和可交换数据理论的经典统计框架，旨在为机器学习预测提供可靠的置信区间和不确定性量化。然而，当 LLMs 以黑盒形式通过 API 服务提供时，如何量化输出的不确定性是一个挑战。",
+  "contributions": [
+    "提出了一种基于频率的预测熵（PE）方法，用于量化黑盒LLMs在MCQA任务中的不确定性。",
+    "该方法通过多次独立采样模型输出分布，并将最频繁的样本作为参考，无需访问内部logits。",
+    "实验证明，基于频率的PE在区分正确和错误预测方面优于基于logit的PE（通过AUROC指标衡量）。",
+    "该方法结合Conformal Prediction（CP）框架，构造具有可证明覆盖保证的预测集合。",
+    "验证了在黑盒LLM场景中，采样频率可以作为logit概率的可行替代方案。"
+  ],
+  "problem": "论文旨在解决以下问题：在黑盒环境中，如何有效地量化大型语言模型在多项选择题回答任务中的不确定性，并提供可证明的覆盖保证，以提高LLMs在实际应用中的可靠性。",
+  "methods": [
+    "**频率-based 预测熵 (PE):**  对每个输入进行M次独立采样，从答案空间中得到M个候选答案的样本集。然后，计算每个候选答案的频率Pˆ(a)，选择频率最高的候选答案。",
+    "**频率-based 预测熵的计算:** 基于M次采样的经验频率分布，将频率-based 预测熵定义为该经验分布的预测熵。公式为：PE_freq = -∑(Pˆ_i(a) * log_b(Pˆ_i(a)))",
+    "**Conformal Prediction (CP):** 使用CP框架来构建预测集合，并确保该集合包含真实值的概率不低于预先设定的置信水平1-α。对于测试集X中的每个样本x，定义其non-conformity score（不一致性得分）为：s_i = 1 - F(x_i)_y*_i，其中F(x_i)_y*_i是模型对于真实标签y*_i的输出得分。",
+    "**风险控制:** 通过CP框架控制风险，构建预测集合C(x_{n+1}) = {y | s_{n+1}(x_{n+1}, y) ≤ qˆ}，确保覆盖率P(Y ∈ C(X)) ≥ 1 − α。"
+  ],
+  "experimental_design": {
+    "dataset": "MedMCQA, MedQA, MMLU, MMLU-Pro",
+    "models": "Vicuna-7B-v1.5, Vicuna-13B-v1.5, Qwen2.5-3B-Instruct, Qwen2.5-7B-Instruct, Llama3.1-8B-Instruct, Llama-3.2-1B",
+    "metrics": "AUROC, Empirical Miscoverage Rate (EMR), Average Prediction Set Size (APSS)",
+    "hyperparameters": "生成最大长度根据数据集特性设置。每个prompt随机采样20个候选生成结果用于不确定性量化。采样温度设置为1.0以确保输出多样性。校准集与测试集的比例默认设置为0.5。"
+  },
+  "results": "实验结果表明：\n\n*   基于频率的方法在AUROC指标上与基于logit的方法基本相当。\n*   在MMLU数据集上，基于频率的方法在六个模型上的平均AUROC比基于logit的方法高1.2%。在MEDMCQA上平均高0.7%。\n*   在各种用户指定的风险水平下，频率-based 方法可以有效地控制误覆盖率。",
+  "result_analysis": "实验结果表明，使用采样频率作为logit的替代品，可以在黑盒LLM中实现有效的不确定性量化。频率-based PE能够区分正确和错误的预测，并且在不同数据集和模型上都表现出竞争力。EMR结果验证了CP框架在实际应用中对误覆盖率的有效控制。APSS结果显示，随着覆盖保证要求的增加，预测集合的大小也随之增加，这符合直觉。",
+  "conclusions": "本研究提出了一种基于频率的预测熵方法，用于解决黑盒设置下LLMs在MCQA任务中的不确定性量化问题。实验结果表明，该方法在不确定性量化性能上优于基于logit的方法，并能有效控制经验误覆盖率。证实了采样频率可以作为黑盒LLMs中logit概率的可行替代方案。",
+  "limitations": "论文中没有明确提及局限性，但可以推断可能的局限性包括：\n\n*   采样次数的选择可能会影响性能。\n*   该方法可能对某些类型的问题效果不佳。\n*   实验是在特定的数据集和模型上进行的，泛化能力可能有限。",
+  "future_work": "论文中没有明确提及未来工作，但可以推断未来的研究方向包括：\n\n*   探索更有效的采样策略。\n*   将该方法应用于其他类型的任务和模型。\n*   研究如何进一步提高预测集合的效率。",
+  "applications": "这项研究可能的实际应用场景包括：\n\n*   在高风险领域（如医疗、金融）中提高LLMs的可靠性。\n*   为LLMs的预测提供置信区间和不确定性量化。\n*   帮助用户更好地理解和信任LLMs的输出。",
+  "related_work": "论文中提到了与本研究相关的工作，包括：Conformal Prediction (CP) 的背景、CP 在 MCQA 中的应用。",
+  "github_links": [],
+  "published": "2025-08-07T16:22:49+00:00"
+}

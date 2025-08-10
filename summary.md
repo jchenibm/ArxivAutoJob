@@ -1,407 +1,768 @@
-# 2508.05622v1
-### 论文总结
-这篇论文提出了一个基于大型语言模型（LLM）的多智能体框架LearnerAgent，用于模拟真实教学环境中的人类学习动态。通过构建具有不同心理特征的学习者（如深度学习者、浅层学习者和懒惰学习者），论文研究了学习者在知识获取、认知发展和同伴互动中的行为模式。实验结果表明，深度学习者在长期认知发展中表现最佳，而基础LLM默认表现出“勤奋但脆弱的浅层学习者”行为。
+# Arxiv Paper Summary - 2025-08-10
 
-### 主要贡献
-1. 提出了LearnerAgent框架，模拟真实教学环境中的学习动态。
-2. 通过心理特征构建多样化的学习者，研究其知识获取和认知发展。
-3. 揭示了基础LLM默认的“勤奋但脆弱的浅层学习者”行为模式。
+## [Towards Generalizable Safety in Crowd Navigation via Conformal Uncertainty Handling](https://arxiv.org/pdf/2508.05634v1)
 
-### 解决的主要问题
-论文解决了传统方法难以动态跟踪和解释学习行为的问题，通过LLM赋能的智能体模拟了学习者的长期认知发展和行为模式。
+**ID**: `2508.05634v1`
 
-### 主要方法
-1. 使用多智能体框架模拟教学环境，包括教师和学习者角色。
-2. 构建具有不同心理特征的学习者（如深度、浅层、懒惰学习者）。
-3. 通过周期性知识获取、策略选择、测试和同伴互动跟踪学习动态。
+### 摘要 (Detailed Summary)
+这篇论文提出了一种在人群导航中提高机器人安全性和泛化能力的方法。该方法通过准确量化行人轨迹预测的不确定性，并将其融入到强化学习的决策过程中，来减轻因环境分布变化导致的性能下降问题。具体来说，论文使用自适应共形推断（ACI）来估计行人轨迹预测的不确定性，并利用约束强化学习（CRL）来引导机器人的行为，使其能够适应分布变化。该系统通过将预测不确定性估计整合到智能体的观察中，并通过约束强化学习来指导智能体的行为，从而调节智能体的动作并使其能够适应分布的变化。实验结果表明，该方法在分布内和分布外场景中均优于现有的方法，并且在真实机器人上的部署也取得了成功，展示了在稀疏和密集人群中安全导航的能力。该方法通过考虑预测误差，提高了策略的泛化能力，具有重要的实际应用价值。
 
-### 主要结果
-1. 深度学习者在长期认知发展中表现最佳，而浅层学习者表现出脆弱的知识掌握。
-2. 学习者的行为和认知模式与其心理特征高度一致。
-3. 基础LLM默认表现出“勤奋但脆弱的浅层学习者”行为。
+### 主要贡献 (Contributions)
+- 提出了一种基于强化学习的人群导航框架，该框架集成了共形不确定性估计和约束强化学习，以减轻分布外性能下降。
+- 使用自适应共形推断（ACI）动态量化行人轨迹预测的不确定性，并生成包含真实未来位置的预测集。
+- 利用约束强化学习（CRL），通过引入行为层面的指导，有效地利用不确定性估计来引导机器人的行为，并解决稀疏约束反馈的问题。
+- 在各种分布外场景中进行了广泛的仿真实验，证明了该方法的鲁棒性和稳定性，包括速度变化、策略变化以及个体到群体动态的过渡。
+- 在真实机器人上部署了该方法，并在稀疏和密集人群中验证了其有效性和安全性。
 
-### 主要结论
-LearnerAgent成功模拟了多样化学习者的行为，揭示了深度学习和浅层学习的关键差异。基础LLM的默认行为表明其缺乏真正的深度理解能力。
+### 技术方法 (Methods)
+- **轨迹预测:** 使用基于规则的恒定速度（CV）模型和基于学习的Gumbel Social Transformer（GST）预测器，以适应不同的预测模型，并减轻不正确预测对后续决策过程的不利影响。
+- **不确定性量化:** 采用动态调整的自适应共形推断（DtACI）算法量化预测不确定性，DtACI 可以有效地适应分布变化，因此非常适合社交导航中的在线不确定性估计。
+- **策略网络:** 利用带有组合注意力机制的策略网络处理这些不确定性以及其他特征。该网络包含用于人与人之间交互的人际注意力（H-H 注意力）和用于人和自我机器人之间交互的人机注意力（H-R 注意力）。
+- **约束强化学习:** 采用约束强化学习（CRL）来增强可控性，并根据预定义的成本限制调整其分布。使用PPO Lagrangian进行优化，并设置两个评论家来计算奖励的状态值和成本的状态值。
+- **成本函数设计:** 将行人的安全关键区域设计为围绕人类位置的圆形区域和围绕 *K* *[′]* ( *K* *[′]* *≤* *K* ) 步预测的不确定性区域的组合。
 
-### 对生产生活的影响
-1. 为教育领域提供动态学习行为分析工具，帮助优化教学方法。
-2. 为AI研究者提供识别和缓解浅层学习行为的框架，提升模型性能。
+### 主要结论 (Conclusions)
+论文提出了一种基于强化学习的轨迹规划框架，该框架将共形不确定性融入到约束强化学习方案中，以减轻分布外性能下降。与传统的强化学习规划器不同，该方法动态地利用不确定性估计来适应速度变化、策略变化以及个体到群体动态的转变。大量的模拟实验证明了在各种分布外场景中的鲁棒稳定性，而真实世界的试验证实了该方法的实际有效性。
 
-### 影响方式
-通过模拟学习动态，帮助教育者和AI开发者更好地理解学习行为，从而设计更有效的教学和训练策略。
-
-### GitHub链接
-文中未提及GitHub链接。
-https://arxiv.org/pdf/2508.05622v1
-# 2508.05615v1
-### 2-3句总结论文  
-该论文提出了GUI-RC和GUI-RCPO两种方法，通过测试时增强和强化学习提升图形用户界面（GUI）定位任务的准确性，无需额外标注数据。实验表明，这些方法能显著提高多种模型在GUI定位基准上的性能。
-
-### 主要贡献  
-1. **GUI-RC**：一种基于空间投票的测试时增强方法，通过多预测一致性提升定位精度。  
-2. **GUI-RCPO**：将一致性信号转化为自监督奖励，通过测试时强化学习优化模型。  
-3. 在多个基准和模型上验证了方法的有效性，GUI-RC平均提升2-3%，GUI-RCPO进一步提升4-5%。
-
-### 解决的主要问题  
-如何在不依赖额外标注数据的情况下，利用测试时计算（如多预测一致性）提升GUI定位任务的准确性和鲁棒性。
-
-### 主要方法  
-1. **GUI-RC**：对同一输入生成多个预测，通过空间投票网格提取共识区域作为最终输出。  
-2. **GUI-RCPO**：将共识区域与预测的对齐度作为奖励信号，通过强化学习（如GRPO）在线优化模型参数。
-
-### 主要结果  
-- GUI-RC将Qwen2.5-VL-3B-Instruct在ScreenSpot-v2上的准确率从80.11%提升至83.57%。  
-- GUI-RCPO进一步将准确率提升至85.14%，且在跨领域数据（如ScreenSpot-Pro）上表现鲁棒。
-
-### 主要结论  
-测试时增强和强化学习能有效利用模型自身的预测不确定性，显著提升GUI定位性能，为数据高效的GUI自动化提供了新方向。
-
-### 对生产生活的影响  
-1. **应用场景**：提升智能助手、自动化测试工具在复杂界面中的操作精度，如电商、专业软件等。  
-2. **效益**：减少对标注数据的依赖，降低开发成本；通过自优化适应动态界面，提高泛化能力。
-
-### GitHub链接  
-1. 代码仓库: [https://github.com/zju-real/gui-rcpo](https://github.com/zju-real/gui-rcpo)  
-2. 项目主页: [https://zju-real.github.io/gui-rcpo](https://zju-real.github.io/gui-rcpo)
-https://arxiv.org/pdf/2508.05615v1
-# 2508.05581v1
-### **2-3句话总结论文**  
-本文研究了利用大语言模型（LLM）生成可计算表型（CP）的潜力，提出了一种基于“合成-执行-调试-指导”（SEDI）的迭代学习策略，通过数据驱动的反馈逐步优化生成的CP。实验表明，LLM生成的CP在准确性和简洁性上接近传统可解释机器学习方法（如符号回归），同时显著减少了对标注数据的需求。该方法为高血压及其复杂亚型的自动化表型识别提供了高效、可解释的解决方案。
+### GitHub链接 (GitHub Links)
+- https://gen-safe-nav.github.io/
 
 ---
 
-### **主要贡献**  
-1. **提出SEDI策略**：通过迭代反馈优化LLM生成的CP，减少对专家标注数据的依赖。  
-2. **验证LLM生成CP的可行性**：在高血压及相关亚型（如难治性高血压）任务中，LLM生成的CP性能接近传统ML方法（如FEAT）。  
-3. **平衡性能与可解释性**：生成的CP以简洁的Python代码形式呈现，兼具临床可解释性和可执行性。  
+## [KuaiLive: A Real-time Interactive Dataset for Live Streaming Recommendation](https://arxiv.org/pdf/2508.05633v1)
+
+**ID**: `2508.05633v1`
+
+### 摘要 (Detailed Summary)
+该论文介绍了KuaiLive，这是一个从快手平台收集的实时交互式直播推荐数据集。由于缺乏反映直播环境动态性的公开数据集，学术界在直播推荐领域的研究进展受到阻碍。KuaiLive数据集包含23,772名用户和452,621名主播在21天内的互动日志，提供了精确的直播间开始和结束时间戳、多种类型的实时用户互动（点击、评论、点赞、送礼）以及丰富的用户和主播辅助信息特征。这使得能够更真实地模拟动态候选项目，并更好地建模用户和主播的行为。论文对KuaiLive进行了多角度的全面分析，并在其上评估了几种具有代表性的推荐方法，为未来的研究建立了强大的基准。KuaiLive可以支持直播领域的各种任务，如Top-K推荐、点击率预测、观看时长预测和礼物价格预测。此外，其细粒度的行为数据还可以用于研究多行为建模、多任务学习和公平感知推荐。
+
+### 主要贡献 (Contributions)
+- 提出了KuaiLive数据集，这是一个大规模的真实世界直播推荐数据集，包含来自快手平台的23,772名用户和452,621名主播的互动日志。
+- KuaiLive提供了精确的直播间开始和结束时间戳，允许研究人员模拟真实的直播推荐场景，其中候选项目受到时间限制且动态变化。
+- KuaiLive记录了多种用户行为（例如，点击、评论、点赞、送礼），可用于研究多任务学习和多行为建模。
+- KuaiLive保留了每次互动的时间顺序，支持对用户行为轨迹进行细粒度分析。
+- KuaiLive不仅包含用户和项目ID，还包含丰富的辅助信息特征，如人口统计数据和属性，从而促进了特征感知的建模。
+- KuaiLive数据集包含正反馈和负反馈，适用于点击率(CTR)预测
+
+### 技术方法 (Methods)
+- 数据收集：从快手平台收集用户行为数据，包括点击、评论、点赞和送礼等互动行为，以及用户观看时长和礼物价格等辅助信号，同时包括负反馈数据。
+- 数据清洗：过滤掉具有不规则或异常互动模式的用户，以保持数据集的质量。
+- 特征工程：收集用户、主播和直播间的辅助信息特征，包括人口统计数据、内容特征和行为总结等。
+- 匿名化：对用户ID、主播ID和直播间ID进行随机哈希，对时间戳信息进行偏移和舍入处理，对文本数据进行向量编码和降维，以保护用户隐私并符合数据发布政策。
+- 基线模型评估：在KuaiLive数据集上评估了多种具有代表性的推荐和CTR预测方法，包括协同过滤、序列推荐和时间感知推荐等，建立了可复现的基准。
+
+### 主要结论 (Conclusions)
+KuaiLive是一个有价值的直播推荐研究资源，它记录了直播间的开始和结束时间戳，捕捉了直播间内的各种用户行为，并包括用户和主播的丰富特征。论文通过对数据集进行分析和基准测试，揭示了直播场景的独特特征，并为设计更有效的推荐模型提供了见解。该数据集可以支持多种研究方向，包括Top-K推荐、XTR预测、观看时长预测、礼物价格预测、多行为建模、可控学习和推荐、冷启动推荐和公平感知推荐。
+
+### GitHub链接 (GitHub Links)
+- https://imgkkk574.github.io/KuaiLive
+- https://github.com/THUwangcy/ReChorus
 
 ---
 
-### **解决的主要问题**  
-如何利用LLM自动化生成**准确、可解释且可执行**的临床表型算法（CP），以替代传统依赖专家手工设计或大量标注数据的机器学习方法，特别是在高血压及其亚型的识别任务中。
+## [论 SFT 的泛化性：一种基于奖励修正的强化学习视角](https://arxiv.org/pdf/2508.05629v1)
+
+**ID**: `2508.05629v1`
+
+### 摘要 (Detailed Summary)
+该论文提出了一种简单但理论上合理的改进监督微调 (SFT) 的方法，用于大型语言模型 (LLM)，旨在解决其与强化学习 (RL) 相比有限的泛化能力。通过数学分析，作者揭示了标准 SFT 梯度隐式地编码了一种有问题的奖励结构，这可能会严重限制模型的泛化能力。为了纠正这一点，论文提出了动态微调 (DFT)，通过使用token的概率动态地重新缩放目标函数，从而稳定每个token的梯度更新。这种修改显著优于多种具有挑战性的基准和基础模型上的标准 SFT，展示了大大提高的泛化能力。此外，该方法在离线 RL 设置中也显示出有竞争力的结果，提供了一种有效但更简单的替代方案。这项工作将理论洞察力和实际解决方案联系起来，大大提高了 SFT 的性能。
+
+### 主要贡献 (Contributions)
+- 从理论上数学地将 LLM SFT 确立为策略梯度空间中的一种特殊 RL，并找出了 SFT 泛化能力有限的根本原因，并推导出了一种改进它的方法。
+- 提出了动态微调 (DFT) 方法，通过token概率动态地重新缩放 SFT 损失，有效中和了导致意外奖励结构和无界方差的逆概率加权。
+- 实验结果表明，DFT 方法只需一行代码的修改，就可以显著增强 LLM SFT 在各种任务和模型上的性能和泛化能力。
+- DFT 在离线 RL 设置中也表现出色，优于其他离线 RL 方法，甚至在某些情况下优于在线 RL 方法，提供了一种更高效和可扩展的替代方案。
+- 分析了 DFT 对模型概率分布的影响，发现 DFT 在提高部分token概率的同时，会主动抑制另一些token的概率，这有助于模型更好地关注关键语义内容。
+
+### 技术方法 (Methods)
+- **数学分析：** 将 SFT 梯度重写为策略梯度，通过重要性采样，揭示 SFT 可以被看作是一种带有隐式奖励的 on-policy-gradient 方法，但存在一个由重要性权重 1/πθ 引起的偏差。
+- **动态重加权（Dynamic Reweighting）：** 为了解决 SFT 中奖励偏差问题，通过将奖励乘以一个由策略概率给出的校正逆比率，动态地对奖励进行重加权。这通过token概率动态地重新缩放 SFT 损失来实现。
+- **动态微调（DFT）：** 通过对每个token概率进行动态调整，实现奖励修正和梯度稳定，从而提高模型的泛化能力。
+- **Token级别的重要性采样：** 为了避免在整个轨迹上计算重要性权重时可能出现的数值不稳定问题，采用了token级别的重要性采样，如 PPO 中所采用的。
+
+### 主要结论 (Conclusions)
+该论文通过理论分析和实验验证表明，SFT梯度等价于一种带有隐式奖励的策略梯度更新，该隐式奖励与模型的置信度成反比。基于此，论文提出DFT方法，通过动态重加权SFT损失，稳定学习过程并促进更好的泛化。DFT在各种模型和具有挑战性的数学推理基准测试中持续且显著地优于标准SFT。
+
+### GitHub链接 (GitHub Links)
+- https://github.com/yongliang-wu/DFT
 
 ---
 
-### **主要方法**  
-1. **零样本生成**：直接通过自然语言提示要求LLM生成CP的Python代码。  
-2. **SEDI迭代优化**：通过循环反馈（错误分类样本、性能指标）指导LLM调整CP逻辑。  
-3. **对比实验**：评估不同LLM（GPT-3.5、GPT-4o）、提示细节（简单/详细）、特征集（全量/专家筛选）的影响，并与传统ML方法（决策树、逻辑回归、符号回归FEAT）对比。  
+## [H-N ET ++: Hierarchical Dynamic Chunking for Tokenizer-Free Language Modelling in Morphologically-Rich Languages](https://arxiv.org/pdf/2508.05628v1)
+
+**ID**: `2508.05628v1`
+
+### 摘要 (Detailed Summary)
+这篇论文提出了 H-NET++ 模型，用于解决形态丰富的语言（MRLs）中无分词器语言建模的挑战。现有的字节级语言模型虽然避免了传统分词器的脆弱性，但在处理 MRLs 时面临计算效率问题，因为 MRLs 的单词通常跨越多个字节。H-NET++ 采用分层动态分块的方法，通过端到端训练学习符合语言学规律的分段。该模型包括一个轻量级的 Transformer 上下文混合器，用于跨块注意力；一个两级潜在超先验，用于捕捉文档级别的连贯性；专门处理波斯语零宽非连接符 (ZWNJ) 等正字法伪影；以及使用分阶段序列长度的课程学习训练方法。在 14 亿 token 的波斯语语料库上，H-NET++ 取得了最先进的结果，在 BPB、下游任务 ParsGLUE 和 ZWNJ 鲁棒性上均有显著提升。论文证明，该模型学习到的 chunk 与波斯语的形态对齐，无需显式监督，证明了分层动态分块是一种有效的 MRLs 无分词器解决方案，同时保持了计算效率。
+
+### 主要贡献 (Contributions)
+- 提出了 H-NET++：一种带有潜在超先验的 Transformer 增强分层路由器，专为形态丰富的语言设计。
+- 提出了课程优化方法：一种分阶段的 AdamW 训练方案，用于稳定长序列字节级训练。
+- 建立了一个鲁棒性评估套件：包括字符级噪声鲁棒性基准和一个新的波斯语黄金分割数据集。
+- 实现了最先进的性能：在 BPB、下游任务准确率和鲁棒性方面取得了领先成果。
+- 模型学习到的 chunk 与波斯语的形态对齐，无需显式监督，证明了分层动态分块是一种有效的 MRLs 无分词器解决方案，同时保持了计算效率。
+
+### 技术方法 (Methods)
+- **分层路由器 (Hierarchical Router):** 使用 L 层的双向 GRU 和边界预测器动态地将字节分组成块。每一层都根据输入内容逐步合并字节，形成层次化的表示。
+- **Transformer 上下文混合器 (Transformer Context-Mixer):**  使用一个轻量级的 Transformer 自注意力模块，使块之间能够相互关注，从而捕捉长距离依赖关系，增强了模型对形态一致性模式的理解。
+- **两级潜在超先验 (Two-Level Latent Hyper-Prior):**  通过变分推断引入全局潜在向量，捕捉文档级别的形态一致性。这有助于模型学习作者特定的 ZWNJ 使用模式，并保持文体连贯性。
+- **ZWNJ 感知字节嵌入 (ZWNJ-Aware Byte Embedding):** 专门处理波斯语的零宽非连接符（ZWNJ），通过为 ZWNJ 引入单独的嵌入路径，模型能够学习 ZWNJ 特定的模式，而不会将其与其他可见字符混淆。
+- **课程学习 (Curriculum Learning):**  采用三阶段课程学习策略，逐渐增加序列长度，以稳定训练过程。这种方法有助于模型逐步适应长序列的字节级建模。
+- **损失函数 (Loss Function):**  总损失函数结合了语言建模损失、KL 散度正则化和形态对齐损失。形态对齐损失鼓励路由器门与波斯语语素边界对齐。
+
+### 主要结论 (Conclusions)
+论文的核心结论是：
+
+1.  H-NET++ 是一种有效的无分词器语言建模方法，可以成功地消除形态丰富语言的分词瓶颈，同时保持计算效率。
+2.  通过在波斯语上的系统评估，证明了学习到的分割可以超越精心设计的 tokenizer，在多个维度上表现更好：困惑度、下游任务性能、鲁棒性和形态有效性。
+3.  研究结果挑战了关于固定词汇表是实用语言建模所必需的普遍假设。H-NET++ 在没有任何显式形态监督的情况下，实现了比基于 BPE 的模型更高的压缩率，并且学习到的分割与语言语素对齐。
+4.  架构创新（特别是轻量级 Transformer 混合器和文档级超先验）对于捕捉形态一致性系统的长距离依赖关系至关重要。
+5.  课程学习的成功表明，即使对于长文档，仔细的优化策略也可以使字节级建模变得实用。
 
 ---
 
-### **主要结果**  
-1. **性能接近传统方法**：最佳LLM（GPT-4o+SEDI）在难治性高血压（aTRH）任务中，AUPRC达0.85（优化后），与FEAT（0.80）相当。  
-2. **数据效率高**：仅需少量标注样本（≤200例）即可迭代优化CP，远少于监督学习需求。  
-3. **模型简洁性**：生成的CP平均代码量显著小于随机森林等复杂模型（如59 vs. 5539节点）。  
+## [How Do LLMs Persuade? Linear Probes Can Uncover Persuasion Dynamics in Multi-Turn Conversations](https://arxiv.org/pdf/2508.05625v1)
+
+**ID**: `2508.05625v1`
+
+### 摘要 (Detailed Summary)
+这篇论文研究了大型语言模型（LLMs）在多轮对话中如何进行说服。由于LLM的说服能力日益增强，理解这种动态过程变得非常重要。研究人员借鉴认知科学的理论，使用线性探针来分析LLM中的说服动态，具体针对说服成功与否、被说服者的性格以及说服策略这三个方面进行探究。线性探针是一种轻量级的分析工具，可以有效捕捉LLM在对话中的说服行为。研究发现，这些探针能够识别对话中被说服的关键节点，以及在整个数据集中说服行为发生的大致位置。此外，与计算成本高昂的基于prompt的方法相比，探针在某些情况下表现更好，尤其是在揭示说服策略时。这表明线性探针可以作为一种有效的研究工具，用于分析LLM中的复杂行为，例如欺骗和操纵，尤其适用于多轮对话和大规模数据集分析。
+
+### 主要贡献 (Contributions)
+- 提出了一个框架，用于使用线性探针分析LLM驱动的对话中的说服动态。该框架设计了轻量级、高效的探针，用于捕捉说服的关键方面，从而能够进行细粒度的turn-level分析。
+- 证明了线性探针可以准确识别说服成功或失败发生的位置，检测说服者使用的修辞策略，并估计对话中被说服者的性格。
+- 揭示了在合成数据集中，说服线索集中在对话的最后几个turn，而在人类对话数据集中，说服线索则集中在中间的turn，揭示了自然数据和合成数据之间说服展开方式的系统性差异。
+- 通过关联探针的输出，发现外向性等特质会影响不同修辞策略的有效性（例如，可信度或情感诉求），从而细致地描绘了LLM如何调整说服策略。
+- 证明了探针不仅能与基于prompt的方法相媲美，甚至在计算效率方面大大优于prompt方法，使其成为大规模说服分析的实用工具。
+
+### 技术方法 (Methods)
+- **线性探针（Linear Probes）：** 使用多类logistic回归，通过在冻结的LLM激活上进行经验风险最小化训练，来检测LLM中的说服行为。
+- **多类logistic回归：**  探针通过softmax函数计算不同类别的概率，其中可训练的权重和偏差是优化的目标。
+- **交叉熵损失函数：** 使用交叉熵损失函数来优化探针的权重和偏差。
+- **梯度下降：** 使用梯度下降法来最小化交叉熵损失函数，从而训练探针。
+- **模拟对话：** 使用GPT-4o生成合成的多轮对话数据，用于训练探针，模拟说服者和被说服者之间的互动。
+- **Jensen–Shannon距离：** 使用Jensen–Shannon距离来量化探针或prompt导出的策略分布与GPT-4参考模型之间的差异。
+
+### 主要结论 (Conclusions)
+该研究表明，线性探针是一种有效的工具，可以用于理解LLM在多轮对话中的说服行为。探针能够揭示说服的关键特征，包括说服信号的位置、性格特质以及修辞策略。研究结果表明，探针可以作为一种高效的替代方法，用于进行大规模数据集分析，并为理解LLM中的其他抽象行为（如欺骗和操纵）提供有价值的见解。
+
+### GitHub链接 (GitHub Links)
+- https://github.com/meta-llama/llama-models/blob/main/models/llama3_2/LICENSE
+- https://github.com/meta-llama/llama-models/blob/main/models/llama3_2/USE_POLICY.md
 
 ---
 
-### **主要结论**  
-1. LLM（尤其是GPT-4o）能够生成临床有意义且可解释的CP，其性能可通过SEDI策略进一步提升。  
-2. **详细提示和专家特征集**能显著提高生成质量，但简单提示结合迭代优化也能达到较好效果。  
-3. LLM生成CP的潜力在于**减少人工干预**，适应不同临床场景的快速部署需求。  
+## [Simulating Human-Like Learning Dynamics with LLM-Empowered Agents](https://arxiv.org/pdf/2508.05622v1)
+
+**ID**: `2508.05622v1`
+
+### 摘要 (Detailed Summary)
+该论文提出了一种名为LearnerAgent的新型多智能体框架，旨在利用大型语言模型（LLMs）模拟真实的教学环境，并捕捉类似人类的学习行为。该框架通过构建具有不同心理学特征（如深度学习者、表面学习者、懒惰学习者以及无特定人物设定的通用学习者）的学习者，模拟为期一年的知识获取过程。在此期间，学习者每周学习知识，每月进行策略选择（知识巩固与认知反思），定期参加测试，并进行同伴互动。研究旨在追踪个体学习者的动态学习进展，并深入了解LLMs在学习过程中的行为模式。研究发现，只有深度学习者能够实现持续的认知增长，表面学习者容易陷入浅层知识的陷阱，而通用学习者则表现出“勤奋但脆弱的表面学习者”的特征，即模仿优秀学生的行为，但缺乏真正的、可泛化的理解。LearnerAgent框架能够有效模拟真实场景，为研究LLMs的行为提供了新的视角。
+
+### 主要贡献 (Contributions)
+- 提出了LearnerAgent框架，这是一个基于LLM的多智能体系统，用于模拟真实的教学环境和人类学习行为。
+- 构建了具有不同心理学特征（深度、表面、懒惰）以及通用学习者的学习者，以探索不同的学习风格和行为模式。
+- 设计了全面的学习周期，包括每周知识获取、每月策略选择、定期测试和同伴互动，以追踪学习者的动态学习进展。
+- 通过实验揭示了不同学习者在学习策略、推理和认知努力方面的行为模式，并与他们的心理学特征相符。
+- 发现通用学习者（基座LLM）默认表现出“勤奋但脆弱的表面学习者”的特征，表明LLM依赖于浅层模式匹配，缺乏真正的理解。
+
+### 技术方法 (Methods)
+- **LearnerAgent框架:** 构建一个包含教师智能体和多个学习者智能体的多智能体系统，模拟真实的教学环境。
+- **角色设定:** 定义了四种类型的学习者：深度学习者、表面学习者、懒惰学习者和通用学习者，每个学习者都具有不同的学习动机、自我概念和发展策略。
+- **学习周期设计:** 设计了一个为期一年的学习周期，包括每周学习和战略选择、每月回顾和评估、同伴互动和辩论。
+- **记忆机制:** 采用短期记忆和长期记忆机制，以实现有效的知识获取、评估和反思。利用上下文相关的检索策略，动态地为智能体提供最相关的记忆片段。
+- **能力评估:** 采用全面的评估策略，包括学术表现评估（通过各种考试和陷阱问题）和心理评估（通过自我概念评分）。
+
+### 主要结论 (Conclusions)
+该论文的主要结论是：
+1. 基于人格的智能体可以有效地复制细致的人类学习行为，并具有很高的保真度。
+2. 在长期泛化中表现出相似的短期表现，但在暴露出更深层次的漏洞的“陷阱”中，智能体之间存在明显的学习缺陷。
+3. 具有角色扮演能力的LLM框架，可以有效分析不同学习者的学习过程,基座LLM的默认行为是一种“勤奋但脆弱的表面学习者”，它掌握了表面能力，但缺乏强大的，可泛化的理解。膨胀的自我概念导致过度自信，最终阻碍了成长。
 
 ---
 
-### **对生产生活的可能影响**  
-1. **临床决策支持**：自动化生成CP可加速患者筛查（如难治性高血压），提高诊疗效率。  
-2. **降低开发成本**：减少对专家标注数据和手工规则的依赖，尤其适用于资源有限的医疗机构。  
-3. **可解释性优势**：生成的透明算法更易通过医疗监管审查（如FDA），促进AI在临床的落地。  
+## [The Missing Reward: Active Inference in the Era of Experience](https://arxiv.org/pdf/2508.05619v1)
+
+**ID**: `2508.05619v1`
+
+### 摘要 (Detailed Summary)
+这篇论文论证了主动推理（AIF）为开发能够从经验中学习而无需持续人为奖励工程的自主AI智能体提供了关键基础。随着AI系统开始耗尽高质量的训练数据并依赖越来越庞大的人力进行奖励设计，当前的范式面临着重大的可扩展性挑战，这可能会阻碍真正自主智能的发展。论文提出了一种“经验时代”的设想，即智能体从自我生成的数据中学习，这是一个有希望的进步。然而，这种设想仍然依赖于对奖励函数的广泛人为工程，有效地将瓶颈从数据管理转移到奖励管理。这突显了论文所提出的**grounded-agency gap**（基础代理差距）：当代AI系统无法自主制定、适应和追求目标以应对不断变化的环境。论文提出AIF可以通过用最小化自由能的内在驱动来取代外部奖励信号来弥合这一差距，从而使智能体能够通过统一的贝叶斯目标自然地平衡探索和利用。通过将大型语言模型作为生成世界模型与AIF的原则性决策框架相结合，可以创建能够从经验中有效学习同时保持与人类价值观一致的智能体。这种综合提供了一条通向能够在计算和物理约束下自主开发的AI系统的引人注目的道路。
+
+### 主要贡献 (Contributions)
+- 指出了当代AI中存在的“基础代理差距”（grounded-agency gap），即AI系统在没有持续人工干预的情况下，自主形成、评估和调整目标的能力不足。
+- 论证了主动推理（Active Inference，AIF）能够通过其内在的自由能最小化机制，为“经验时代”（Era of Experience）提供坚实的理论基础，从而消除对持续奖励工程的需求。
+- 提出了一个新颖的集成方案，将大型语言模型（LLMs）作为学习到的生成世界模型嵌入到主动推理决策框架中，结合了现代深度学习的可扩展性和自由能原则的理论严谨性。
+- 强调了自由能最小化的能量效率不仅具有计算优势，而且对于可持续的AI发展可能是一种热力学上的必然性。
+- 详细阐述了LLM-AIF结合的具体架构，并通过一个实验案例展示了该架构如何在实际应用中运作。
+
+### 技术方法 (Methods)
+- **主动推理（Active Inference, AIF）：** AIF是一种认知神经科学框架，它将智能视为一个统一的贝叶斯推理过程，通过最小化变分自由能（Variational Free Energy, VFE）来整合感知和行动。这使得智能体能够通过内在动机驱动自身行为，而无需外部奖励。
+- **变分自由能最小化：** AIF的核心思想是智能体通过最小化VFE来减少自身对环境的“惊讶”（surprise）。VFE由模型复杂度和预测准确性两部分组成，智能体通过更新自身的信念和选择行动来降低VFE。
+- **大型语言模型（LLMs）：** 利用LLMs作为生成世界模型，LLMs通过海量文本数据学习到的知识和推理能力，可以用于生成和管理AIF智能体的生成模型。
+- **LLM-AIF混合架构：** 该架构将LLM的世界模型、AIF控制循环和在线优化三个关键组件整合在一起。LLM负责提供观察动态和转换概率的编码表示，AIF负责指导探索、学习和行动选择，在线优化则负责通过经验不断更新世界模型。
+- **贝叶斯推理** 通过对LLM的提示工程(prompt engineering)，促使LLM在上下文中实现贝叶斯推理，实现世界状态的推断
+
+### 主要结论 (Conclusions)
+该论文的核心结论是：主动推理（AIF）提供了一个关键的基础，用于开发能够从经验中学习而无需持续人为奖励工程的自主AI智能体。通过用内在的自由能最小化来取代外部奖励信号，AIF可以弥合当代AI系统在自主性方面的差距。结合大型语言模型（LLMs）作为生成世界模型，可以创建一个能够从经验中有效学习同时保持与人类价值观一致的AI系统。该框架不仅在计算上更有效率，而且在热力学上也是更可持续的。
 
 ---
 
-### **如何影响生产生活**  
-1. **医疗场景**：通过部署LLM生成的CP，医院可快速识别高危患者（如原发性醛固酮增多症），优化治疗方案。  
-2. **研究扩展**：该方法可推广至其他疾病（如糖尿病并发症）的表型开发，推动精准医学发展。  
-3. **技术普惠**：开源框架（GitHub）允许社区复用方法，促进跨机构协作和算法标准化。  
+## [TRAJEVO: Trajectory Prediction Heuristics Design via LLM-driven Evolution](https://arxiv.org/pdf/2508.05616v1)
+
+**ID**: `2508.05616v1`
+
+### 摘要 (Detailed Summary)
+本文提出了一种名为TRAJEVO的框架，该框架利用大型语言模型（LLMs）自动设计轨迹预测启发式方法。轨迹预测是建模人类行为的关键任务，尤其是在社交机器人和自动驾驶等安全攸关领域。传统的手工启发式方法缺乏准确性和泛化性，而深度学习方法虽然性能有所提高，但计算成本高、可解释性有限，且在分布外（OOD）场景中泛化能力差。TRAJEVO通过进化算法从过去的轨迹数据中生成和优化预测启发式方法。该框架引入了交叉生成精英抽样（Cross-Generation Elite Sampling）以鼓励种群多样性，以及统计反馈循环（Statistics Feedback Loop）使LLM能够分析和改进替代预测。实验结果表明，TRAJEVO在多个真实世界数据集中优于现有的启发式方法，并在泛化到未见过的OOD真实世界数据集时，显著超越了启发式和深度学习方法。TRAJEVO标志着在自动设计快速、可解释和可泛化的轨迹预测启发式方法方面迈出了有希望的一步，并已开源。
+
+### 主要贡献 (Contributions)
+- 提出了TRAJEVO框架，该框架集成了LLM和进化算法，用于自动发现和设计快速、可解释和鲁棒的轨迹预测启发式方法，适用于真实世界的应用。
+- 引入了交叉生成精英抽样（Cross-Generation Elite Sampling）策略，以保持种群多样性。
+- 引入了统计反馈循环（Statistics Feedback Loop），使LLM能够分析启发式性能，并根据过去的轨迹数据指导生成改进的候选方案。
+- 实验证明TRAJEVO生成的启发式方法在公开的真实世界数据集中显著优于先前的启发式方法，并且具有显著的泛化能力，在未见过的OOD数据集上实现了超过20%的性能提升，优于传统的启发式方法和深度学习方法，同时保持了计算速度和可解释性。
+
+### 技术方法 (Methods)
+- 进化框架：利用LLM作为核心遗传算子，通过迭代生成、评估和优化预测启发式方法。
+- 初始种群：使用任务规范和一个基本启发式方法（如恒定速度模型）来播种生成器LLM，然后生成N个不同的启发式方法。
+- 交叉选择：从当前种群中成功执行的启发式方法中选择父代进行交叉。选择过程平衡了探索和利用。
+- 反射：采用短期反射和长期反射。短期反射比较所选交叉父代的性能，提供即时反馈。长期反射积累跨世代的见解，识别有效的设计模式。
+- 交叉：通过组合来自两个父代启发式方法的代码来创建新的后代。LLM根据短期反射指导混合父代的有效“基因”。
+- 精英变异：变异算子变异精英（迄今为止发现的最好的）启发式方法。LLM根据通过长期反射收集的见解修改精英启发式方法。
+- 交叉生成精英抽样 (CGES): 维护一个历史档案，记录所有过去世代中表现出色的启发式方法，从而增强探索能力，避免陷入局部最优。
+- 统计反馈循环 (SFL): 分析启发式方法生成的不同预测策略的有效性，并根据统计结果指导LLM改进启发式方法的多预测生成逻辑。
+
+### 主要结论 (Conclusions)
+TRAJEVO框架利用大型语言模型和进化算法来自动化轨迹预测启发式方法的设计。生成的启发式方法不仅在标准基准测试中优于传统方法，而且在分布外泛化性能方面表现出色，显著超越了未见数据的深度学习模型，同时保持了快速和可解释性。TRAJEVO代表了朝着自动发现高效、可解释和可泛化轨迹预测启发式方法迈出的重要第一步，为传统的黑盒模型提供了一种实用而强大的替代方案。
+
+### GitHub链接 (GitHub Links)
+- https://github.com/ai4co/trajevo
 
 ---
 
-### **GitHub链接整理**  
-论文代码仓库：  
-1. [HTN Phenotyping with LLMs](https://github.com/cavalab/htn-phenotyping-with-llms)  
+## [Test-Time Reinforcement Learning for GUI Grounding via Region Consistency](https://arxiv.org/pdf/2508.05615v1)
 
---- 
+**ID**: `2508.05615v1`
 
-如需进一步分析某部分内容（如SEDI细节或公平性评估），可随时补充说明！
-https://arxiv.org/pdf/2508.05581v1
-# 2508.05547v1
-### 论文总结  
-这篇论文全面综述了视觉语言模型（VLMs）的无监督适应方法，重点探讨了在没有标注数据的情况下如何优化VLMs在下游任务中的性能。作者提出了一种基于未标记视觉数据可用性的分类法，将现有方法分为四种范式，并分析了每种范式的核心方法和应用场景。
+### 摘要 (Detailed Summary)
+这篇论文提出了一种名为GUI-RC（Region Consistency）的测试时缩放方法，用于提高图形用户界面（GUI）基础任务的准确性，该任务旨在将自然语言指令映射到屏幕坐标。该方法通过从多个采样预测中构建空间投票网格来识别共识区域，无需任何训练即可提高准确性。此外，论文还提出了GUI-RCPO（Region Consistency Policy Optimization），它将这些一致性模式转化为奖励，用于测试时强化学习。通过计算每个预测与集体共识的对齐程度，GUI-RCPO使模型能够在推理过程中迭代地细化其在未标记数据上的输出。实验结果表明，GUI-RCPO通过自监督优化进一步提高了性能，展示了测试时缩放和测试时强化学习在GUI基础任务中的潜力。
 
-### 主要贡献  
-1. 提出了一种基于未标记视觉数据可用性的分类法，将无监督VLM适应方法分为四种范式。  
-2. 系统分析了每种范式的核心方法、挑战和应用，填补了该领域缺乏统一综述的空白。  
-3. 总结了代表性基准测试和未来研究方向，为研究者和实践者提供了重要参考。  
+### 主要贡献 (Contributions)
+- 提出了GUI-RC，一种测试时缩放方法，通过聚合多个预测的空间信息来提高定位精度，无需额外的训练或标注数据。
+- 介绍了GUI-RCPO，一种测试时强化学习方法，使用区域一致性作为自监督奖励信号，使模型能够通过在未标注的GUI屏幕截图上进行策略优化来提高基础能力。
+- 在多个基准测试和模型架构上展示了一致的改进。GUI-RC平均提高2-3%的准确率，而GUI-RCPO通过无标签优化平均实现4-5%的额外收益。
+- 揭示了在GUI-RCPO之后进一步应用GUI-RC可以带来额外的性能提升，表明该方法支持渐进式的自引导改进，无需外部监督，并为GUI自动化提供了一种补充性的训练时优化替代方案。
 
-### 解决的主要问题  
-论文解决了如何在没有标注数据的情况下，通过无监督方法优化VLMs在下游任务中的性能问题，特别是在数据分布变化或领域差异显著时的适应性问题。
+### 技术方法 (Methods)
+- **GUI-RC：**
+-   - **多样本生成：** 使用基于温度的采样从模型中采样K个预测结果。
+-   - **空间投票机制：** 构建一个空间投票网格，每个采样预测对该网格贡献投票。
+-   - **共识提取：** 通过选择最大投票计数的区域来提取共识区域。
+- **GUI-RCPO：**
+-   - **区域一致性作为奖励：** 基于预测区域内的平均投票密度计算奖励。
+-   - **策略优化：** 使用GRPO（Group Relative Policy Optimization）优化预期区域一致性奖励。
 
-### 主要方法  
-1. **数据自由迁移（Data-Free Transfer）**：仅使用类别名称进行适应，不依赖任何视觉数据。  
-2. **无监督领域迁移（Unsupervised Domain Transfer）**：利用大量未标记数据进行离线适应。  
-3. **片段式测试时适应（Episodic Test-Time Adaptation）**：在测试时使用单批次数据调整模型。  
-4. **在线测试时适应（Online Test-Time Adaptation）**：在流式数据中持续调整模型。  
+### 主要结论 (Conclusions)
+该论文提出了GUI-RC和GUI-RCPO，分别是一种测试时缩放方法和一种测试时强化学习方法，用于提高GUI基础任务的性能。实验结果表明，这些方法可以有效地提高GUI基础性能，并能很好地推广到分布外场景。这些发现揭示了GUI代理测试时训练的潜力，并为更强大和数据高效的GUI自动化系统指明了方向。
 
-### 主要结果  
-论文总结了每种范式的代表性方法及其性能，例如通过文本增强、伪标签生成、熵优化等技术显著提升了VLMs在分类、分割等任务中的零样本和少样本性能。
-
-### 主要结论  
-无监督VLM适应方法在减少标注成本和提高模型泛化能力方面具有巨大潜力，但仍面临理论分析不足、开放场景适应性、对抗鲁棒性等挑战。
-
-### 对生产生活的潜在影响  
-1. **降低标注成本**：减少对大量标注数据的依赖，使VLMs更易于应用于医疗、自动驾驶等领域。  
-2. **提升模型鲁棒性**：在动态环境中（如实时视频分析）实现持续优化，提高实际应用的可靠性。  
-3. **促进多模态应用**：推动跨模态检索、生成模型等技术的发展，增强人机交互体验。  
-
-### GitHub链接  
-1. [Awesome-LabelFree-VLMs](https://github.com/tim-learn/Awesome-LabelFree-VLMs)
-https://arxiv.org/pdf/2508.05547v1
-# 2508.05537v1
-Here is a concise summary of the paper:
-
-### Summary
-The paper proposes a tractable sharpness-aware learning method for probabilistic circuits (PCs) to mitigate overfitting by guiding optimization toward flatter minima. The key idea is to use the trace of the Hessian of the log-likelihood as a regularizer, which can be computed efficiently for PCs unlike in deep neural networks.
-
-### Main Contributions
-1. Derives closed-form expressions for the exact Hessian of tree-structured PCs and shows its tractability.
-2. Proves that while the full Hessian may be intractable for general PCs, its trace remains efficiently computable.
-3. Introduces a Hessian trace-based regularizer that can be integrated into both gradient-based and EM training of PCs.
-4. Provides closed-form parameter updates for EM training with the regularizer.
-5. Demonstrates improved generalization and reduced overfitting, especially in low-data regimes.
-
-### Problem Solved
-The paper addresses the problem of overfitting in probabilistic circuits, particularly when trained on limited data. Overfitting in PCs is often caused by convergence to sharp minima that generalize poorly.
-
-### Main Methods
-1. **Hessian Computation**: For tree-structured PCs, derives closed-form expressions for the full Hessian. For general PCs, shows the trace can be computed efficiently using edge flows.
-2. **Regularization**: Uses the Hessian trace as a sharpness-aware regularizer during training.
-3. **Optimization**: For EM training, derives closed-form parameter updates that minimize the regularized objective.
-
-### Main Results
-1. The proposed method consistently guides PCs toward flatter minima, as evidenced by lower Hessian trace values.
-2. Improves generalization performance, especially in low-data settings (e.g., 49.5% average improvement in test NLL at 1% training data).
-3. Reduces overfitting (65.7% average reduction in degree of overfitting at 1% training data).
-
-### Main Conclusions
-1. The Hessian trace is an effective and tractable measure of sharpness for PCs.
-2. Minimizing sharpness via the proposed regularizer leads to better generalization.
-3. The method is broadly applicable across different PC architectures and training methods (gradient-based and EM).
-
-### Potential Impact
-1. **Production**: More robust PC models that generalize better, especially when training data is limited.
-2. **Daily Life**: Improved performance in applications like constrained generation, image inpainting, lossless compression, and neurosymbolic AI that rely on PCs.
-
-### GitHub Links
-The paper does not mention any GitHub links.
-https://arxiv.org/pdf/2508.05537v1
-# 2508.05525v1
-### 论文总结  
-这篇论文研究了大型语言模型（LLM）在实体推理任务中表现出的地理偏见。通过设计一个基于“20个问题”游戏的评估框架，作者发现LLM在推理来自全球北方和西方的实体时表现显著优于来自全球南方和东方的实体，且这种差异无法完全用实体在训练数据中的流行度或频率来解释。
-
-### 主要贡献  
-1. 提出了一个新颖的评估框架（Geo20Q+数据集），通过多轮互动任务揭示LLM的隐性地理偏见。  
-2. 首次系统性地量化了LLM在实体推理中的地理性能差异，发现模型对全球北方/西方实体的推理能力更强。  
-3. 证明了传统基于频率的解释（如维基百科浏览量）无法完全覆盖观察到的偏见，暗示模型知识表示存在更深层次的文化偏差。  
-
-### 解决的主要问题  
-论文旨在回答：**LLM在推理不同地理来源的实体时是否存在系统性偏见**，并探究这种偏见是否与训练数据覆盖度、语言或文化背景相关。  
-
-### 主要方法  
-1. **任务设计**：基于“20个问题”游戏，让同一LLM分别扮演提问者（猜实体）和裁判（回答是/否）。  
-2. **数据集**：构建Geo20Q+数据集，包含来自全球172个国家的地理标志性实体（如地标、名人），平衡地域分布。  
-3. **评估维度**：  
-   - 成功率与推理效率（所需提问轮次）。  
-   - 控制变量：实体流行度（维基百科浏览量）、预训练语料频率、游戏语言（7种语言）。  
-
-### 主要结果  
-1. **地理差异显著**：  
-   - 全球北方 vs. 南方：模型对北方实体的推理成功率平均高10-20%（如欧洲名人成功率43.8%，非洲21.3%）。  
-   - 全球西方 vs. 东方：西方实体成功率更高（如北美地标45.0%，亚洲26.5%）。  
-2. **语言影响有限**：游戏语言（如英语 vs. 印地语）对性能差距无显著调节作用。  
-3. **数据频率解释力弱**：实体在训练语料中的频率仅能解释不足10%的性能差异。  
-
-### 主要结论  
-LLM的推理过程隐含地理偏见，倾向于更熟悉全球北方/西方实体，且这种偏见独立于语言或表层数据覆盖度，反映了模型知识组织中的结构性偏差。  
-
-### 对生产生活的影响  
-1. **AI公平性**：需开发更包容的训练数据和方法，减少对弱势地区的代表性不足。  
-2. **应用场景**：在全球化服务（如推荐系统、教育工具）中，需警惕模型输出的地域不平衡可能加剧文化霸权。  
-3. **评估标准**：推动基于推理过程（而非仅输出）的偏见检测框架，更全面评估模型公平性。  
-
-### GitHub链接  
-论文中提到的代码和数据发布在：  
-[https://sites.google.com/view/llmbias20q/home](https://sites.google.com/view/llmbias20q/home)
-https://arxiv.org/pdf/2508.05525v1
-# 2508.05513v1
-### **论文总结**  
-该论文提出了LORI（LOR Insights），一种基于AI的工具，用于自动分析在线硕士项目申请者的推荐信（LORs）中的领导力技能。通过自然语言处理（NLP）和大语言模型（如RoBERTa和LLAMA），LORI能够高效识别团队合作、沟通和创新等领导力属性，显著提升了招生流程的效率和全面性。
-
-### **主要贡献**  
-1. 开发了LORI，首个基于AI的推荐信分析工具，用于自动化评估申请者的领导力技能。  
-2. 通过弱监督学习和RoBERTa模型，实现了高精度（F1分数91.6%）的领导力分类，解决了人工审核的耗时问题。  
-
-### **解决的主要问题**  
-传统推荐信审核依赖人工，效率低下且易受主观偏见影响。LORI通过自动化分析，解决了这一瓶颈，同时提供了标准化的领导力评估框架。  
-
-### **主要方法**  
-1. **数据收集与标注**：从10,000+申请者LORs中提取句子，结合专家标注和弱监督学习生成平衡数据集。  
-2. **模型开发**：采用RoBERTa进行领导力分类，结合LLAMA（基于ReAct框架）细化分析领导力子技能（如团队合作）。  
-3. **系统集成**：构建Streamlit交互式工具（LORI），支持PDF解析、文本高亮和可视化分析。  
-
-### **主要结果**  
-- RoBERTa模型在测试集上表现优异：精确率92.4%，召回率91.6%，F1分数91.6%。  
-- LORI工具可自动高亮领导力相关句子，生成申请者领导力摘要及技能分布图表。  
-
-### **主要结论**  
-LORI显著提升了招生流程的效率与客观性，为研究生教育中的领导力评估提供了可扩展的AI解决方案，未来可扩展至其他文本分析场景（如学生反馈、职场评估）。  
-
-### **对生产生活的影响**  
-1. **教育领域**：缩短招生审核时间，支持更公平的“整体评估”流程，帮助识别多样化的领导潜力。  
-2. **职场应用**：可适配员工晋升或招聘中的推荐信分析，减少人力资源成本。  
-
-### **影响实现方式**  
-- **自动化处理**：替代人工阅读，快速提取关键信息。  
-- **标准化输出**：通过可视化报告（如技能分布图）辅助决策，减少主观偏差。  
-
-### **GitHub链接**  
-文中未提及GitHub链接。
-https://arxiv.org/pdf/2508.05513v1
-# 2508.05445v1
-### 论文总结  
-本文提出了QuadrANN，一种基于图神经网络（GNN）的架构，用于学习非均匀点云上的数值积分规则，以解决现代无网格偏微分方程（PDE）求解器中的变分问题。QuadrANN通过结合局部几何特征和全局上下文信息，生成数据驱动的、排列不变的积分权重，显著降低了积分估计的方差，并在热方程和Fokker-Planck方程等应用中表现出优于传统方法的性能。
-
-### 主要贡献  
-1. 提出QuadrANN，一种基于GNN的架构，能够直接从点云的几何结构中学习最优积分权重。  
-2. 通过结合局部几何特征（如绝对/相对位置和密度）与全局上下文，实现了对非均匀点云的高效自适应积分。  
-3. 在多个测试案例中验证了方法的有效性，包括凸/非凸域积分和高维PDE求解，展示了方差减少和稳定性提升。  
-
-### 解决的主要问题  
-解决非均匀点云上的数值积分问题，特别是现代无网格PDE求解器中因点云动态分布导致的传统积分方法（如蒙特卡罗）性能不足的问题。
-
-### 主要方法  
-1. **几何感知编码层**：通过位置编码（PE）和显式密度特征捕捉局部几何信息。  
-2. **全局感知传播层**：引入全局上下文向量，增强对整体域形状的适应性。  
-3. **权重预测网络**：使用多层感知机（MLP）生成积分权重，并通过Softmax保证权重归一化。  
-
-### 主要结果  
-1. 在2D单位正方形、非凸L形域和4D超立方体上的积分测试中，QuadrANN相比Sobol-QMC方法显著降低了方差（如4D案例中方差减少17.4%）。  
-2. 在热方程和Fokker-Planck方程的求解中，QuadrANN的积分误差更小（如热方程误差降低约65%）。  
-
-### 主要结论  
-QuadrANN通过学习几何自适应的积分规则，为变分PDE求解器提供了更稳定的积分估计，优化了能量泛函的离散化过程，从而提升了求解精度和鲁棒性。
-
-### 对生产生活的影响  
-1. **科学计算**：为高维或复杂几何的PDE求解提供高效工具，加速物理、工程领域的模拟。  
-2. **工业优化**：在需要高精度积分的场景（如金融风险评估、机器学习训练）中减少计算成本。  
-
-### 影响方式  
-通过提供更稳定的积分权重，QuadrANN可优化基于变分原理的算法（如深度学习求解器），使其在医疗影像、气候建模等领域更可靠地逼近真实解。
-
-### GitHub链接  
-[QuadrANN代码仓库](https://github.com/kesmarag/QuadrANN)
-https://arxiv.org/pdf/2508.05445v1
-# 2508.05428v1
-### **Summary of the Paper (2-3 sentences)**  
-This paper introduces **Group Causal Policy Optimization (GCPO)**, a novel post-training method for large language models (LLMs) that leverages causal dependencies among candidate responses to improve reasoning performance. Unlike prior methods like GRPO, which treat responses as independent, GCPO models their structural interactions via a **Structural Causal Model (SCM)** and integrates causally informed reward adjustments and KL regularization. Experiments on math and code reasoning benchmarks show that GCPO consistently outperforms existing methods, demonstrating the benefits of causal reasoning in policy optimization.  
+### GitHub链接 (GitHub Links)
+- https://github.com/zju-real/gui-rcpo
 
 ---
 
-### **Main Contributions**  
-1. **Causal Insight**: Identifies that conditioning on a final integrated output induces a **collider structure** among candidate responses, revealing hidden dependencies.  
-2. **Methodology**: Proposes **GCPO**, which incorporates:  
-   - A **causally adjusted reward** mechanism.  
-   - A **KL-regularization term** aligned with a causally projected reference distribution.  
-3. **Empirical Validation**: Demonstrates consistent improvements over GRPO and other baselines across multiple reasoning tasks (math, code).  
+## [OMNI EAR: BENCHMARKING AGENT REASONING IN EMBODIED TASKS](https://arxiv.org/pdf/2508.05614v1)
+
+**ID**: `2508.05614v1`
+
+### 摘要 (Detailed Summary)
+该论文提出了一个名为**OmniEAR**的综合框架，用于评估大型语言模型在具身任务中进行推理的能力，尤其是在物理互动、工具使用和多智能体协作方面。与现有基准测试不同，OmniEAR要求智能体动态地获取能力，并根据任务需求自主地确定协作策略。该框架使用基于文本的环境表示，对家庭和工业领域跨越1500个场景的连续物理属性和复杂的空间关系进行建模。系统的评估揭示了模型在面对约束条件时的严重性能下降：虽然在明确的指令下成功率达到85-96%，但在工具推理方面的性能下降到56-85%，在隐式协作方面的性能下降到63-85%，而复合任务的失败率超过50%。令人惊讶的是，完整的环境信息反而降低了协作性能，这表明模型无法过滤与任务相关的约束。微调可以显著提高单智能体任务的性能（0.6%到76.3%），但对多智能体任务的提升却微乎其微（1.5%到5.5%），揭示了底层架构的局限性。这些发现表明，具身推理提出了与当前模型所能解决的根本不同的挑战，OmniEAR成为了评估和推进具身人工智能系统的严格基准。
+
+### 主要贡献 (Contributions)
+- 提出了OmniEAR框架，它通过需要智能体理解物理属性如何决定动作、能力和协调需求的场景来评估具身推理，解决了当前评估方法中的根本差距。
+- 开发了EAR-Bench，一个包含1500个场景的基准测试，具有连续的物理属性和动态能力，由EAR-Sim和一个自动生成流程支持。
+- 提供了经验证据，表明当前的语言模型缺乏核心的具身推理能力，当从显式指令转向具身推理时，性能下降超过60%，揭示了推进具身AI的关键要求。
+
+### 技术方法 (Methods)
+- **环境表示：** 使用有向图G来表示具身环境，图中包含空间节点（房间和区域）、对象节点（可交互项目）和智能体节点。每个节点维护一个属性字典A，存储连续的物理属性，如重量、温度、材料成分和几何尺寸。边集E编码空间关系，包括静态的包含关系和动态的邻近关系。
+- **任务形式化：** 每个评估任务定义为一个元组T，包括初始环境状态Sinit、自然语言指令I、通过逻辑谓词定义的目标状态Ggoal和参与的智能体集Atask。评估目标是评估智能体是否能生成一个动作序列Π，将环境从Sinit转换到满足Ggoal中所有谓词的最终状态Sfinal。
+- **分层任务分类：** 任务沿着两个正交维度组织：智能体配置（单智能体 vs. 多智能体）和认知复杂性（L1: 基础，L2: 中级，L3: 高级）。
+- **EAR-Sim环境模拟器：** 使用基于文本的环境建模来实现大规模的高效模拟。图结构G维护空间关系，避免了昂贵的碰撞检测。状态更新采用增量方法，动作只修改直接受影响的节点和边。
+- **动态能力管理：** 代理动作分为基本动作和工具相关动作。当代理获得一个工具时，系统动态地将相关能力绑定到代理的动作集合，从而能够对代理通过使用工具扩展其能力进行现实建模。
+- **涌现协作：** 当代理尝试对超出其能力的物体执行动作时，系统启用协作请求机制。
+- **自动基准生成：** 结合LLM与基于规则的验证生成场景，包括场景生成，任务生成，评估逻辑提取以及专家轨迹生成。
+
+### 主要结论 (Conclusions)
+该论文的主要结论是：
+
+*   当前的语言模型在从显式指令转向基于约束的推理时，性能会显著下降，在工具使用和协调任务中，性能从85%以上降至65%以下。
+*   维持多步计划需要关键的参数阈值。
+*   环境信息对协调产生矛盾的影响。
+*   微调无法解决多智能体推理的差距。
+*   具身推理需要与当前语言模型不同的计算机制。
+
+### GitHub链接 (GitHub Links)
+- https://github.com/ZJU-REAL/OmniEmbodied
 
 ---
 
-### **Problem Addressed**  
-The paper tackles the limitation of **Group Relative Policy Optimization (GRPO)**, which treats candidate responses for a query as independent, ignoring their **semantic interactions** (e.g., complementarity or contradiction). This oversight limits the model’s ability to exploit structural patterns in reasoning tasks.  
+## [COOPER: CO-OPTIMIZING POLICY AND REWARD MODELS IN REINFORCEMENT LEARNING FOR LARGE LANGUAGE MODELS](https://arxiv.org/pdf/2508.05613v1)
+
+**ID**: `2508.05613v1`
+
+### 摘要 (Detailed Summary)
+这篇论文提出了一个名为COOPER（Co-Optimizing Policy Model and Reward Model）的强化学习框架，用于提升大型语言模型（LLMs）的推理能力。当前，基于模型和基于规则的奖励存在局限性，前者易受奖励操纵（reward hacking）影响，后者缺乏鲁棒性。COOPER框架通过联合优化策略模型和奖励模型来解决这些问题。它利用基于规则的奖励在识别正确响应时的高精度，并动态构建和选择正负样本对，持续训练奖励模型，增强其鲁棒性并降低奖励操纵的风险。为了支持COOPER，论文还提出了一种混合标注策略，高效准确地生成奖励模型的训练数据，并提出了一种基于参考的奖励建模范式，其中奖励模型以参考答案作为输入。基于此设计，训练了一个名为VerifyRM的奖励模型，在VerifyBench上实现了比同等规模模型更高的准确率。实验结果表明，COOPER不仅缓解了奖励操纵问题，还提高了端到端强化学习的性能。
+
+### 主要贡献 (Contributions)
+- 提出了一个新的奖励建模数据集，该数据集使用混合标注策略进行标注，该策略结合了基于规则的验证和LLM-as-a-judge验证，从而实现了高效可靠的正确性监督。在该数据集上训练的奖励模型在VerifyBench上达到了89.42%的准确率，超过了现有相同规模的奖励模型。
+- 基于规则的奖励在识别正确答案时具有高精度，提出了一种名为COOPER的强化学习框架，该框架同时协同优化策略模型和奖励模型。该框架缓解了奖励模型RL中常见的奖励操纵问题，并提高了整体训练性能。
+- 该研究表明，在RL训练过程中动态调整奖励模型的参数可以有效地减轻奖励操纵现象，为研究界如何更好地在强化学习中利用奖励模型提供了有价值的见解。
+
+### 技术方法 (Methods)
+- **VerifyRM的训练：**
+-   - **数据准备：**收集包含推理问题、参考答案和模型生成的完成的数据集。使用了7个常用的数学推理数据集，并用11个主流LLM生成了完成。
+-   - **混合标注：**结合基于规则的验证器（Math-verify）和LLM-as-a-judge（Qwen3-4B）自动标注数据的正确性。只保留两种方法都认可的样本。
+-   - **奖励模型训练：**将奖励模型建模为文本分类器，输入包括问题、参考答案和模型完成。使用二元交叉熵损失函数训练模型。
+- **COOPER强化学习框架：**
+-   - **策略模型优化：**遵循GRPO范式，使用参考答案感知的奖励模型对响应进行抽样和评分，并根据组内归一化的优势和KL正则化执行策略更新。
+-   - **奖励模型优化：**通过对比学习不断优化奖励模型，使用高精度规则信号识别的正样本和由辅助LLM将正确响应转换为不正确响应生成的负样本。
+
+### 主要结论 (Conclusions)
+论文的核心结论是：COOPER，一种协同训练策略模型和奖励模型的强化学习框架，有效地缓解了在RL中使用静态奖励模型时经常出现的奖励操纵问题。通过结合基于规则的奖励的高精度和基于模型的奖励的鲁棒性，COOPER实现了比单独使用任何一种奖励类型都更好的性能。此外，论文提出的基于参考答案的奖励模型VerifyRM，通过利用不依赖于手动标注的混合标注方法，在VerifyBench基准测试中优于现有同等规模的模型。研究结果表明，在RL训练期间动态更新奖励模型可以有效对抗奖励操纵。
+
+### GitHub链接 (GitHub Links)
+- https://github.com/zju-real/cooper
+- https://github.com/huggingface/Math-Verify
 
 ---
 
-### **Key Methods**  
-1. **Structural Causal Model (SCM)**: Formalizes dependencies among responses via a collider structure (conditioning on the final output creates interdependencies).  
-2. **Causal Reward Adjustment**: Projects responses onto a **causally informed subspace** to improve prediction quality.  
-3. **KL Regularization**: Aligns the policy with a reference distribution derived from causal projections.  
+## [Shuffle-R1: Efficient RL framework for Multimodal Large Language Models via Data-centric Dynamic Shuffle](https://arxiv.org/pdf/2508.05612v1)
+
+**ID**: `2508.05612v1`
+
+### 摘要 (Detailed Summary)
+该论文提出了一种名为Shuffle-R1的强化学习（RL）框架，旨在提高多模态大型语言模型（MLLM）的训练效率。现有RL训练流程存在两个未充分研究的问题：优势坍塌（Advantage Collapsing），即批量中的大多数优势值集中在零附近，导致梯度更新不佳；以及Rollout沉默（Rollout Silencing），即随着时间的推移，贡献非零梯度的rollout比例减少，导致计算资源浪费。为了解决这些问题，Shuffle-R1通过动态重构轨迹采样和批量组成来改进RL微调效率。它引入了成对轨迹采样（Pairwise Trajectory Sampling），选择具有较大优势的高对比度轨迹来改善梯度信号质量；以及基于优势的批量Shuffle（Advantage-based Batch Shuffle），通过策略性批量重组来增加有价值rollout的曝光率。在多个推理基准测试上的实验表明，该框架始终优于强大的RL基线，且计算开销最小。这些结果突出了以数据为中心的自适应方法对于MLLM中更高效RL训练的重要性。
+
+### 主要贡献 (Contributions)
+- 揭示了两个关键但未被充分研究的限制，即优势坍塌和Rollout沉默，它们削弱了MLLM的RL微调训练效率。
+- 提出了Shuffle-R1，一种新颖且自适应的RL框架，可以动态选择高对比度轨迹并重塑训练批量，以强调信息量大的样本。
+- 通过跨模型规模和领域内外基准的广泛实验，证明了该框架的有效性和泛化性。
+- 提出了成对轨迹采样（Pairwise Trajectory Sampling），选择具有较大优势的高对比度轨迹来改善梯度信号质量。
+- 提出了基于优势的批量Shuffle（Advantage-based Batch Shuffle），通过策略性批量重组来增加有价值rollout的曝光率。
+
+### 技术方法 (Methods)
+- **成对轨迹采样 (Pairwise Trajectory Sampling, PTS):** 从扩展的 rollout 池中选择具有大幅度优势的高对比度轨迹对。不是孤立地评估轨迹，而是将候选 rollout 组织成结构化的对比对。这种配对机制共同捕获高优势和低优势信号，形成信息丰富的“正负”对。仅保留具有最大优势对比的对用于训练。
+- **基于优势的批量Shuffle (Advantage-based Batch Shuffle, ABS):** 动态地重塑训练批量以优先处理和加强高价值样本。不是依赖于静态数据流，ABS 自适应地重新分配每个训练批量中的轨迹，从而更频繁地更新具有高学习效用的轨迹。在 PTS 的基础上，它可以放大信息量大的样本的梯度暴露，从而重塑训练数据分布以实现更好的数据利用率和训练效率。
+
+### 主要结论 (Conclusions)
+该论文提出了Shuffle-R1，一个简单但有效的框架，可以提高多模态大型语言模型强化学习的训练效率。通过成对轨迹采样和基于优势的批量Shuffle，该框架在领域内和领域外任务中都明显优于代表性算法和模型，展示了以数据为中心的自适应设计的价值。希望我们的动机、方法和发现对进一步研究有所帮助。
+
+### GitHub链接 (GitHub Links)
+- https://github.com/XenoZLH/Shuffle-R1
 
 ---
 
-### **Main Results**  
-- GCPO outperforms GRPO and other baselines on **math reasoning** (AIME, AMC, MATH500) and **code generation** (HumanEval).  
-- Achieves **2.3–2.5% average accuracy gains** over base models and **>1% improvement on challenging benchmarks** like MinervaMATH.  
-- Shows **stable training dynamics** and robustness to input variations (verified via ablation studies).  
+## [Non-omniscient backdoor injection with a single poison sample: Proving the one-poison hypothesis for linear regression and linear classification](https://arxiv.org/pdf/2508.05600v1)
+
+**ID**: `2508.05600v1`
+
+### 摘要 (Detailed Summary)
+该论文研究了机器学习模型中的后门注入攻击，重点关注使用单个恶意样本注入后门的可能性。论文提出了“单毒药假设”，即攻击者仅需一个恶意样本和有限的背景知识，就能成功注入后门，实现零后门错误，且对良性学习任务的性能影响很小。论文针对线性回归和线性分类，从理论上证明了这一假设。研究表明，如果恶意样本利用了良性数据分布中未使用的方向，则生成的模型与排除该恶意样本训练的模型在功能上等效。此外，基于统计后门学习的现有工作，论文证明了在其他情况下，恶意样本对良性学习任务的影响仍然有限。最后，通过在真实benchmark数据集上的实验，验证了理论结果。
+
+### 主要贡献 (Contributions)
+- 从理论上证明了对于线性回归和线性分类模型，仅需少量关于训练数据的知识，单个恶意样本就足以成功注入后门，且攻击成功率接近100%。
+- 证明了如果良性数据分布的所有样本在某个方向上的投影为零，那么当攻击者选择该方向作为其恶意样本的方向时，干净模型和中毒模型在功能上是等效的。
+- 基于Wang et al. [16]的先前工作，针对分类任务，论文扩展了他们的工作到回归任务，证明了在其他情况下，恶意样本对良性学习任务的影响仍然有限。
+- 通过在真实benchmark数据集上的评估，验证了理论结果。
+- 研究明确了成功实施单样本后门攻击的充分条件，即攻击者需要知道良性数据在特定方向上的均值和方差。
+
+### 技术方法 (Methods)
+- 理论证明：使用数学方法证明了“单毒药假设”在线性回归和线性分类模型中的有效性，包括证明攻击成功率和对良性学习任务的影响界限。
+- 函数等价性分析：通过分析干净模型和中毒模型之间的函数关系，证明在特定条件下，两者在功能上是等价的。
+- 统计风险分析：基于统计学习理论，分析恶意样本对良性学习任务的统计风险的影响，并建立相应的界限。
+- 梯度分析：通过分析损失函数的梯度，确定恶意样本对模型参数的影响，并设计有效的攻击策略。
+- 实验验证：在真实的benchmark数据集上进行实验，验证理论结果的有效性，并评估攻击的性能。
+
+### 主要结论 (Conclusions)
+论文证明了在线性回归和线性分类中，单样本投毒假设是成立的。即只需对一个数据点进行投毒，并且只需要知道关于其他数据点的有限信息，就可以成功地攻击这些模型。论文通过严格的数学证明、实际的实例尺寸和实验验证支持了这一结论。
 
 ---
 
-### **Key Conclusions**  
-1. Modeling **causal dependencies** among candidate responses enhances reasoning performance.  
-2. GCPO’s **causal reward adjustment and regularization** mitigate biases from independent response assumptions.  
-3. The method is **scalable**, applicable to diverse tasks, and compatible with existing LLM frameworks.  
+## [使用Kolmogorov-Arnold网络（KANs）优化物联网威胁检测](https://arxiv.org/pdf/2508.05591v1)
+
+**ID**: `2508.05591v1`
+
+### 摘要 (Detailed Summary)
+这篇论文探讨了Kolmogorov-Arnold网络（KANs）在物联网（IoT）网络入侵检测中的潜力，作为传统机器学习模型的替代方案。物联网的快速增长带来了巨大的安全问题，物联网网络已成为网络攻击的主要目标。KANs采用可学习的激活函数，能够优于传统的多层感知器（MLP），并且在准确性方面与诸如随机森林和XGBoost等最先进的模型相比具有竞争力。此外，KANs还为物联网网络中的入侵检测提供了卓越的可解释性。该研究通过实验验证了KANs在CIC IoT 2023数据集上的有效性，并通过符号公式生成展示了其可解释性。
+
+### 主要贡献 (Contributions)
+- 将KANs应用于CIC IoT 2023数据集，展示了边缘上的可学习激活函数如何提高模型的准确性和可解释性。
+- 评估KANs与传统模型（例如，随机森林、XGBoost）的性能，以证明其竞争性能和对物联网入侵检测的适用性。
+- 通过符号公式生成展示了KANs的可解释性，从而在安全关键型物联网系统中实现透明的决策制定。
+- 探索了使用特征选择来优化KANs的性能，从而降低计算开销而不会牺牲准确性。
+- 提出了将KANs与树型特征选择方法结合的混合架构，以优化效率和可解释性，从而弥合实时性能和物联网安全系统中可操作的见解之间的差距。
+
+### 技术方法 (Methods)
+- 使用Kolmogorov-Arnold网络（KANs），一种受到Kolmogorov-Arnold表示定理启发的新型机器学习架构。
+- KANs使用基于样条的可学习激活函数，能够动态适应复杂的数据模式。
+- 特征选择：使用随机森林模型评估特征的重要性，并选择最重要的前N个特征。
+- 数据预处理：使用StandardScaler对特征进行归一化，使其具有零均值和单位方差。
+- 网络拓扑结构：构建具有输入层、隐藏层（使用MultiKAN架构）和输出层的KAN模型。
+- 损失函数和优化器：使用交叉熵损失函数和Adam优化器训练KAN模型。
+
+### 主要结论 (Conclusions)
+Kolmogorov-Arnold网络（KANs）在捕获物联网环境中复杂的非线性关系方面非常有效，明显优于传统的机器学习模型。优化的特征选择至关重要，它不仅可以通过减少变量数量来提高模型性能，还可以最大限度地减少训练时间和计算开销，从而促进在资源受限的物联网系统中的实时应用。KANs与可学习的激活函数的集成代表了物联网安全框架领域的重大进步。KANs能够生成可解释的检测规则，对于监管合规、取证分析或关键基础设施保护等场景非常有价值。
 
 ---
 
-### **Potential Impact on Production/Life**  
-- **Efficient LLM Fine-Tuning**: Reduces computational costs by leveraging causal structures instead of brute-force sampling.  
-- **Improved Reasoning Systems**: Enhances LLMs for applications like education (math tutoring), code generation, and decision support.  
-- **Broader AI Alignment**: Demonstrates how causal reasoning can refine human-AI interaction, e.g., in generating logically consistent outputs.  
+## [Enhancing PyKEEN with Multiple Negative Sampling Solutions for Knowledge Graph Embedding Models](https://arxiv.org/pdf/2508.05587v1)
+
+**ID**: `2508.05587v1`
+
+### 摘要 (Detailed Summary)
+这篇论文提出了一种针对知识图谱嵌入（KGE）模型的增强方法，专注于改进负采样策略。论文指出，现有的KGE模型训练依赖于正负样本，但负样本的生成往往采用简单的随机腐化方法，质量不高。为了解决这个问题，论文开发了一个PyKEEN框架的扩展，集成了多种高级负采样器，包括静态和动态腐化策略。该扩展采用模块化架构，与现有的PyKEEN工作流程兼容，方便研究者开发和定制嵌入方法。论文通过实验证明了该扩展在链接预测任务中的有效性，并提供了关于如何设计更有效负采样策略的见解。这项工作旨在提高KGE模型的性能，并为负采样技术的研究提供更便捷的平台。
+
+### 主要贡献 (Contributions)
+- 提出了一个PyKEEN框架的模块化扩展，集成了多种高级负采样技术，包括静态和动态腐化策略。
+- 该扩展采用一致的模块化架构，与现有的PyKEEN工作流程和管道兼容，方便用户开发和定制KGE模型。
+- 实现了五种静态负采样器（Corrupt, Typed, Relational）和两种动态负采样器（Nearest Neighbor, Adversarial）。
+- 提供了一个自定义数据加载器，可以加载外部语义元数据，如实体类型和关系域/范围信息，以支持高级负采样策略。
+- 对集成的负采样策略进行了全面的实验评估，分析了它们对不同KGE模型在链接预测任务中的影响，并提供了有用的设计见解。
+
+### 技术方法 (Methods)
+- **静态腐化（Static Corruption）**：通过定义一个选择候选实体的标准来创建负三元组，这些实体用于构建负样本池，从中抽样实体。实现了Random Sampling（随机抽样），Bernoulli Sampling（伯努利抽样），Corrupt Sampling（腐化抽样），Typed Sampling（类型抽样）和Relational Sampling（关系抽样）。
+- **动态腐化（Dynamic Corruption）**：利用预训练的辅助模型来指导信息量更大的负样本的选择。实现了Nearest Neighbor（最近邻）和Adversarial Sampling（对抗抽样）。
+- **SubsetNegativeSampler抽象类**：该类继承自PyKEEN的NegativeSampler抽象基类，用于处理特定三元组的ad hoc负样本池。
+- **自定义数据加载器**：扩展了PyKEEN核心数据集的功能，允许用户提供和加载外部语义元数据，如关系域和范围属性以及实体的类成员关系。
+
+### 主要结论 (Conclusions)
+论文的主要结论是：
+
+*   开发了一个PyKEEN框架的模块化扩展，集成了多种标准化的负采样器实现，填补了KGE方法中高级负采样器可用性的重要空白。
+*   通过实验证明了该扩展可以无缝集成到KGE的训练、评估和超参数优化管道中。
+*   分析了四种常用数据集的负样本池统计数据，强调了不同条件下各种采样策略的操作约束和行为。
+
+### GitHub链接 (GitHub Links)
+- https://github.com/ivandiliso/refactor-negative-sampler/
+- https://ivandiliso.github.io/refactor-negative-sampler
 
 ---
 
-### **How Conclusions Influence Production/Life**  
-By integrating causal reasoning into LLM training, GCPO could:  
-1. **Reduce Errors**: More reliable outputs in critical domains (e.g., medical or legal advice).  
-2. **Lower Resource Use**: Efficient training reduces energy consumption and hardware demands.  
-3. **Enable New Applications**: Improved reasoning supports complex tasks like automated theorem proving or multi-step planning.  
+## [利用大型语言模型迭代学习可计算表型以治疗难治性高血压](https://arxiv.org/pdf/2508.05581v1)
+
+**ID**: `2508.05581v1`
+
+### 摘要 (Detailed Summary)
+该论文探索了大型语言模型（LLMs）在生成可解释的可计算表型（CPs）方面的潜力，尤其是在治疗难治性高血压方面。研究提出了一种“综合、执行、调试、指导”（SEDI）的迭代学习策略，利用LLMs生成CPs，并通过数据驱动的反馈不断优化。研究评估了LLMs在零样本条件下的性能，以及应用SEDI策略后的改进。实验结果表明，结合迭代学习的LLMs能够生成可解释且相当准确的程序，其性能接近最先进的机器学习方法，同时所需的训练样本数量显著减少。该研究强调了LLMs在自动化CP生成和临床决策支持方面的潜力，并提出了一种利用少量专家标注样本进行模型优化的一般方法。
+
+### 主要贡献 (Contributions)
+- 提出了一种基于LLMs的自动化CP生成框架，用于高血压及其亚型的识别。
+- 提出了一种“综合、执行、调试、指导”（SEDI）的迭代学习策略，利用数据驱动的反馈来优化LLM生成的CPs。
+- 实验评估了不同LLMs在零样本和SEDI条件下的性能，并与传统的机器学习方法进行了比较。
+- 验证了LLM生成的CPs在准确性和可解释性方面具有潜力，尤其是在结合SEDI策略后，其性能接近甚至超过了最先进的机器学习方法，同时所需的数据量更少。
+- 提供了一个可公开访问的SEDI框架，用于开发其他疾病的可计算表型。
+
+### 技术方法 (Methods)
+- **LLM-Guided CP Generation:** 利用LLMs生成Python代码形式的CPs，基于文本描述的函数目的。采用了零样本提示和SEDI提示两种模式。
+- **Zero-shot prompts:** LLM在没有接收到反馈的情况下，根据可用特征生成一个Python函数，用于预测表型概率。
+- **SEDI prompts:** 采用综合-执行-调试-指导（SEDI）循环，LLM迭代接收关于CP在训练数据集上的性能反馈。如果CP无法执行，LLM会收到包含错误回溯的消息（Debug）。如果CP执行成功，LLM会收到性能指标，以及假阳性（FP）和假阴性（FN）示例，并被指示改进其表型定义以提高程序的性能（Instruct）。
+
+### 主要结论 (Conclusions)
+最先进的LLMs可以为高血压表型生成相当准确和简洁的CPs，即使在提供简单的提示时也是如此。当给出详细和集中的提示，并配备数据驱动的迭代反馈（即SEDI）时，LLM生成的CPs可以与使用监督ML训练的CPs竞争。传统的监督ML方法利用图表审查的例子仍然优于LLM衍生的CPs，但产生更大的模型，需要访问更大规模的专家标记数据。此外，已经确定了LLMs迭代学习表示为可理解的Python代码的CPs的潜力。
+
+### GitHub链接 (GitHub Links)
+- https://github.com/cavalab/htn-phenotyping-with-llms
+- https://GitHub.com/FacebookResearch/Nevergrad
 
 ---
 
-### **GitHub Links**  
-The paper does not explicitly mention a GitHub repository. If you find a link in the full text or references, please share it for further assistance!  
+## [Fairy ±i : the First 2-bit Complex LLM with All Parameters in {± 1, ±i}](https://arxiv.org/pdf/2508.05571v1)
 
---- 
+**ID**: `2508.05571v1`
 
-Let me know if you'd like a deeper dive into any section!
-https://arxiv.org/pdf/2508.05428v1
-# 2508.05398v1
-### 论文总结  
-这篇论文研究了离线推荐系统评估中采样策略的可靠性，探讨了不同采样方法在存在曝光偏差和采样偏差时的表现。通过使用完全观测的数据集作为基准，论文系统地模拟了多种曝光偏差，并评估了常见采样策略在四个维度上的可靠性：分辨率、保真度、鲁棒性和预测能力。
+### 摘要 (Detailed Summary)
+这篇论文提出了Fairy ±i，一种用于复数LLM的首个2-bit量化框架。当前量化感知训练（QAT）的研究主要集中在最小化全精度模型上的量化误差，而全精度模型的精度充当了上限。为了突破这个上限，论文提出了一种新范式：提高全精度模型本身的精度上限，然后有效地将其量化为2-bit。Fairy ±i利用复数域的表征优势来提高全精度模型的准确性。它将权重映射到单位的第四个根 {±1, ±i}，形成一个完全对称且信息论上最优的2-bit表示。每个量化的权重都有一个零实部或虚部，从而实现仅使用加法和元素交换的无乘法推断。实验结果表明，Fairy ±i 在PPL和下游任务方面都优于现有2-bit量化方法的上限，同时保持严格的存储和计算效率。这项工作为在极低比特约束下构建高度准确和实用的LLM开辟了一个新方向。
 
-### 主要贡献  
-1. 提出了四个评估采样策略可靠性的维度：分辨率、保真度、鲁棒性和预测能力。  
-2. 设计了一个基于完全观测数据集的评估框架，用于在控制条件下分析采样策略的表现。  
-3. 通过广泛的实验分析，揭示了不同采样策略在多种曝光偏差条件下的表现差异，并提供了实用的选择建议。  
+### 主要贡献 (Contributions)
+- 提出了低比特量化的一种新视角：通过提高全精度模型来提高量化模型的准确性。
+- 设计了一种复数LLM架构，该架构利用复数域的表征优势，而无需增加参数存储。
+- 设计了一种2-bit量化方案，该方案将复数权重映射到单位的第四个根 {±1, ±i}，充分利用比特容量，同时保留对称性和稀疏性等关键属性。
+- 实验结果表明，在PPL和下游理解任务方面，论文提出的量化模型优于现有2-bit量化方法的上限。
 
-### 解决的主要问题  
-论文解决了离线推荐系统评估中采样策略的可靠性问题，特别是在存在曝光偏差和采样偏差的情况下，如何选择能够准确反映真实用户偏好的采样方法。  
+### 技术方法 (Methods)
+- **复数Transformer架构:** 将标准的LLaMA风格的Transformer架构扩展到复数域，包括嵌入层、自注意力层、语言模型头和前馈网络等核心组件，使用ComplexLinear模块来处理复数值的参数和激活。
+- **Dual-channel Projection Embedding Layers:** 采用双通道投影策略，使用两个并行的嵌入层，一个生成实部，另一个生成虚部，从而形成最终的复数嵌入。
+- **Efficient Complex-Valued Self-Attention:** 使用Hermitian内积的实部作为注意力分数，以确保信息完整性，并兼容标准实数值softmax运算。为了提高效率，将复数计算重塑为更大的实数值矩阵乘法。
+- **Complex-Valued Feed-Forward Network:** 使用平方ReLU (ReLU²) 作为非线性激活函数，定义为 f(x) = ReLU²(x) = (max(0, x))²。
+- **PhaseQuant:** 一种确定性的量化方法，基于复数权重在复平面上的相位，将每个全精度复数权重映射到单位的第四个根 {±1, ±i}。
+- **Complex-Valued Activation Quantization:** 对激活的实部和虚部采用对称的per-token INT8量化方案，对每个组件，基于token的特征向量中的最大绝对值计算动态缩放因子。
 
-### 主要方法  
-1. 使用完全观测的数据集（KuaiRec）作为基准，模拟不同曝光偏差（均匀、流行度偏差、正反馈偏差）。  
-2. 评估多种采样策略（如随机采样、流行度采样、加权采样等）在不同样本量下的表现。  
-3. 通过四个维度（分辨率、保真度、鲁棒性、预测能力）量化采样策略的可靠性。  
+### 主要结论 (Conclusions)
+论文提出了Fairy ±i，这是第一个所有参数都在{±1, ±i}中的2-bit复数LLM。通过将复数表示集成到Transformer中，并通过提出的PhaseQuant将权重量化为单位的第四个根{±1, ±i}，Fairy ±i充分利用了2-bit空间，同时保留了对称性、效率和硬件兼容性。实验结果表明，在模型尺寸相当的情况下，Fairy ±i在困惑度和任务精度方面都优于所有现有量化方法的精度上限。
 
-### 主要结果  
-1. 采样策略的可靠性高度依赖于样本量和曝光偏差的类型。  
-2. 加权采样（WTD、WTDH）和Skew采样在大多数情况下表现最佳，尤其是在高稀疏性和偏差条件下。  
-3. 随机采样和暴露采样在某些情况下表现良好，但在高偏差条件下效果较差。  
+### GitHub链接 (GitHub Links)
+- https://github.com/PKULab1806/Fairy-plus-minus-i
 
-### 主要结论  
-1. 采样策略的选择对离线评估的可靠性至关重要，需要根据数据特性和评估目标权衡不同维度。  
-2. 加权采样和Skew采样能够较好地处理曝光偏差和稀疏性问题，适合在实际应用中使用。  
-3. 未来的研究应进一步探索自适应采样策略，以更好地适应不同的数据分布和评估需求。  
+---
 
-### 对生产生活的可能影响  
-1. 帮助推荐系统的开发者和研究者选择更可靠的评估方法，从而提升模型优化的准确性。  
-2. 通过减少评估偏差，可以更准确地衡量推荐系统的真实性能，最终提升用户体验和商业效益。  
+## [具有 Richardson-Romberg 外推的马尔可夫 LSA 的高阶误差界限](https://arxiv.org/pdf/2508.05570v1)
 
-### 对生产生活的具体影响方式  
-1. **提升模型评估准确性**：通过采用更可靠的采样策略，企业可以更准确地比较不同推荐算法的性能，从而选择最优模型。  
-2. **优化资源分配**：减少因评估偏差导致的错误决策，避免在无效模型上浪费计算资源和开发时间。  
-3. **改善用户体验**：更准确的评估有助于开发出更符合用户偏好的推荐系统，提升用户满意度和参与度。  
+**ID**: `2508.05570v1`
 
-### GitHub链接整理  
-1. 实验代码库：https://github.com/LatinUFMG/recommenders-sampling  
-2. 使用的推荐系统框架：https://github.com/recommenders-team/recommenders  
-3. 数据集链接：https://kuairec.com/
-https://arxiv.org/pdf/2508.05398v1
+### 摘要 (Detailed Summary)
+本文研究了马尔可夫噪声下具有 Polyak-Ruppert (PR) 平均的线性随机逼近 (LSA) 算法的偏差和高阶误差界限。论文重点关注具有常数步长 α 的算法版本，并提出了一种通过线性化技术分解偏差的新方法。分析了偏差的结构，表明主要项是 α 的线性函数，并且不能通过 PR 平均消除。为了解决这个问题，论文应用了 Richardson-Romberg (RR) 外推程序，有效地消除了主要偏差项。推导了 RR 迭代的高阶矩界限，并表明主要误差项与普通平均 LSA 迭代的渐近最优协方差矩阵对齐。
+
+### 主要贡献 (Contributions)
+- 提出了一种量化 θn(α) 渐近偏差的新技术。该方法考虑了联合马尔可夫链 {(θk(α), Zk+1)}k∈N 的极限分布 Πα，并分析了偏差 Πα(θ0) − θ⋆。然后，应用 Aguech, Moulines, and Priouret (2000) 的线性化方法。
+- 建立了 Richardson-Romberg 方法的高阶矩误差界限，其中主要项与渐近最优协方差 Σ∞ 对齐。分析了它对步数 n、步长 α 和混合时间 tmix 的依赖性。
+- 证明了 Richardson-Romberg 方法有效地减少了偏差，并得到了与渐近最优协方差矩阵对齐的高阶误差界限。
+- 提供了一个详细的偏差分解，将偏差表示为关于步长 α 的幂级数，精确识别了主导项的系数。
+- 通过实验验证了理论结果，证明了 RR 方法在 Markovian LSA 中的有效性，并验证了误差界限的准确性。
+
+### 技术方法 (Methods)
+- 线性化技术：通过线性化方法分解偏差，分析偏差的结构。
+- Richardson-Romberg (RR) 外推：应用 RR 外推程序消除主要偏差项。
+- 高阶矩分析：推导 RR 迭代的高阶矩界限。
+- Markov 链理论：使用 Markov 链理论研究算法的性质。
+- Wasserstein距离：使用Wasserstein距离分析Markov链的收敛性
+
+### 主要结论 (Conclusions)
+本文研究了 Markovian 线性随机逼近中 Richardson-Romberg 外推的高阶误差界限。通过应用一种新颖的偏差表征技术，能够获得与渐近最优协方差矩阵 Σ∞ 对齐的主要项。
+
+---
+
+## [X-VFL: A New Vertical Federated Learning Framework with Cross Completion and Decision Subspace Alignment](https://arxiv.org/pdf/2508.05568v1)
+
+**ID**: `2508.05568v1`
+
+### 摘要 (Detailed Summary)
+该论文提出了X-VFL，一个新的垂直联邦学习（VFL）框架，旨在解决传统VFL中的两个关键挑战：数据样本在客户端之间的完美对齐要求和联合协同推理/预测的要求。X-VFL通过引入交叉补全（XCom）和决策子空间对齐（DS-Align）两个模块来处理非对齐数据样本中（部分）缺失特征的问题，并支持每个客户端本地独立地推理新数据样本。XCom模块利用来自其他客户端的信息来补全缺失的特征，而DS-Align模块将本地特征与跨客户端的补全特征和全局特征在决策子空间中对齐，从而实现每个客户端的本地独立推理。该论文还为X-VFL训练中使用的不同算法提供了收敛性定理，并在真实数据集上进行了广泛的实验，证明X-VFL显著优于现有方法，例如在CIFAR-10图像数据集上实现了15%的准确率提升，在MIMIC-III医疗数据集上实现了43%的准确率提升，这验证了X-VFL在部分缺失特征和本地独立推理场景中的有效性和优越性。
+
+### 主要贡献 (Contributions)
+- 提出了X-VFL，一种新的VFL框架，旨在处理具有(部分)缺失特征的非对齐数据样本，并支持每个客户端对新数据样本进行本地独立推理。X-VFL引入了两个关键模块：交叉补全(XCom)和决策子空间对齐(DS-Align)，从而显著增强了VFL解决更复杂和实际场景的能力。
+- 首次在VFL中引入了一个具有*部分*缺失特征的实际设置，即客户端可能保留一些本地特征，而不是完全丢失非对齐数据样本的所有本地特征。
+- 为X-VFL训练中使用的算法提供了理论收敛性定理，表明SGD类型算法的收敛速度为O(1/√T)，PAGE类型算法的收敛速度为O(1/T)，其中T表示训练更新步骤的数量。
+- 在真实世界数据集上进行了大量的实验，证明X-VFL显著优于现有的VFL方法，例如在CIFAR-10上实现了15%的准确率提升，在医疗数据集MIMIC-III上实现了43%的准确率提升。
+- XCom模块可能有助于消除原始数据中的噪声并提高推理精度。
+
+### 技术方法 (Methods)
+- **交叉补全 (XCom)**: 通过建立不同客户端提供的分离局部特征之间的交叉互补依赖关系，来完成非对齐数据样本的缺失特征。
+- **决策子空间对齐 (DS-Align)**: 通过在决策子空间内对齐来自所有客户端的本地个体特征与补全的和联合特征，以支持每个客户端的本地独立推理。
+- **优化算法**: 使用SGD类型和PAGE类型算法进行模型训练，并提供了相应的收敛性分析。
+
+### 主要结论 (Conclusions)
+X-VFL通过有效处理具有部分缺失特征的数据集，并在每个客户端实现本地独立推理，解决了传统VFL的关键挑战。交叉补全(XCom)和决策子空间对齐(DS-Align)模块的设计是X-VFL成功的关键。理论收敛性定理和广泛的实验验证了X-VFL在实际应用中的有效性和优越性，特别是在涉及缺失特征、本地独立推理和数据不平衡等关键挑战方面。
+
+---
+
+## [L1正则化函数支持向量机](https://arxiv.org/pdf/2508.05567v1)
+
+**ID**: `2508.05567v1`
+
+### 摘要 (Detailed Summary)
+该论文研究了函数数据分析中多元函数协变量的二元分类问题，提出了一种L1正则化的函数支持向量机(L1-fSVM)。针对该分类器，开发了一种算法来拟合模型。通过施加L1惩罚，该算法能够识别与二元响应相关的函数协变量。数值结果表明，在模拟和实际应用中，所提出的分类器在预测和特征选择方面都表现良好。该方法通过回归样条估计每个轨迹的系数函数，并基于投影分数构建SVM分类器。L1正则化用于实现特征选择。
+
+### 主要贡献 (Contributions)
+- 提出了L1正则化的函数支持向量机(L1-fSVM)，用于处理具有多个函数协变量的二元分类问题。
+- 开发了一种迭代算法来拟合L1-fSVM模型，该算法交替更新系数函数和SVM向量。
+- 通过施加L1惩罚，实现了对相关函数协变量的自动选择。
+- 在模拟研究中，L1-fSVM在预测精度和特征选择方面略优于现有的函数分类器。
+- 将L1-fSVM应用于实际的脑电图(EEG)数据分析，成功预测了酒精依赖状态，并识别出与酒精依赖相关的脑电通道。
+
+### 技术方法 (Methods)
+- **L1正则化函数支持向量机(L1-fSVM):**  将L1正则化引入函数支持向量机，用于在处理多个函数协变量时进行特征选择。
+- **B-样条表示:**  使用B-样条基函数来近似表示系数函数，将无限维问题转化为有限维问题，便于计算和优化。
+- **坐标下降算法:**  开发了一种坐标下降算法，迭代地更新系数函数和SVM的参数，以拟合L1-fSVM模型。
+- **平方铰链损失函数:**  采用平方铰链损失函数来简化优化问题。
+
+### 主要结论 (Conclusions)
+该论文提出了一种有效的L1正则化函数支持向量机，用于函数数据分类。该方法能够处理多个函数协变量，并实现特征选择。实验结果表明，L1-fSVM在预测精度和特征选择方面具有良好的性能。
+
+---
+
+## [On the Design of Expressive and Trainable Pulse-based Quantum Machine Learning Models](https://arxiv.org/pdf/2508.05559v1)
+
+**ID**: `2508.05559v1`
+
+### 摘要 (Detailed Summary)
+该论文探讨了基于脉冲的量子机器学习(QML)模型的设计，旨在实现高表达能力和可训练性。研究背景是脉冲QML模型在硬件效率方面的优势，但现有模型在表达能力和避免贫瘠高原问题之间存在权衡。论文提出了一个关于系统初始状态、测量算符和潜在动态对称李代数的必要条件，并通过数值模拟验证。研究表明，适当选择初始状态和测量算符可以提高模型的表达能力，即使在存在动态对称性的情况下。该研究为设计实用的脉冲QML模型提供了一个框架，该框架平衡了表达能力和可训练性，对于在噪声中等规模量子(NISQ)设备上部署硬件高效模型至关重要。
+
+### 主要贡献 (Contributions)
+- 提出了脉冲QML模型在动态对称性下保持表达能力的一个必要条件，该条件涉及系统初始状态、测量算符和潜在的动态对称李代数。
+- 利用Dyson级数展开（或Fliess级数）分析了脉冲QML模型的表达能力，并基于此推导出一个Lie代数工具，用于设计具有动态对称性的表达性脉冲模型。
+- 通过数值模拟验证了所提出的必要条件，并展示了在存在动态对称性的情况下，脉冲QML模型如何通过适当的初始状态和测量算符选择来保持其表达能力。
+- 研究了模型表达能力和可训练性之间的平衡，并探索了不同动态对称性对模型性能的影响，结果表明，通过工程化的动态对称性可以将量子态演化限制在子流形中，从而有效地避免贫瘠高原。
+- 建立了一个综合框架，用于设计兼具表达性和可训练性的实用脉冲QML模型，该框架结合了Dyson多项式级数展开和现有的与量子系统中动态对称性相关的贫瘠高原现象的李代数理论。
+
+### 技术方法 (Methods)
+- **Dyson级数展开（或Fliess级数）：** 将脉冲QML模型的输出函数展开为输入变量的多项式级数，从而分析模型的非线性特性。
+- **Lie代数理论：** 利用Lie代数工具分析动态对称性对模型表达能力和可训练性的影响，包括推导损失函数的方差公式，并用于评估模型的贫瘠高原问题。
+- **动态对称性约束：** 通过引入非平凡的动态对称性，将量子态的演化限制在维度不随量子比特数指数增长的流形上，从而避免贫瘠高原。
+- **递归过程：** 引入一个递归过程来评估与多项式系数相关的算子集合，并用于验证所提出的必要条件。
+- **数值模拟：** 通过数值模拟验证所提出的必要条件，并评估不同动态对称性对模型表达能力和可训练性的影响。
+
+### 主要结论 (Conclusions)
+论文的主要结论是：
+
+1.  建立了一个综合框架，用于设计兼具表达性和可训练性的实用脉冲QML模型。
+2.  提出了一个脉冲QML模型在动态对称性下保持表达能力的必要条件，涉及系统初始状态、测量算符和潜在的动态对称李代数。
+3.  通过数值模拟验证了所提出的必要条件，并展示了在存在动态对称性的情况下，脉冲QML模型如何通过适当的初始状态和测量算符选择来保持其表达能力。
+4.  研究表明，通过工程化的动态对称性可以将量子态演化限制在子流形中，从而有效地避免贫瘠高原。
+5.  结果表明，利用动态对称性可以构建适用于NISQ设备且硬件高效的可训练脉冲模型。
+
+### GitHub链接 (GitHub Links)
+- https://dx.doi.org/10.1038/s41586-019-1666-5
+- https://dx.doi.org/10.1126/science.abe8770
+- https://dx.doi.org/https://doi.org/10.1016/j.scib.2021.10.017
+- https://dx.doi.org/https://doi.org/10.1126/science.abn7293
+- https://dx.doi.org/https://doi.org/10.7566/JPSJ.90.032001
+- https://dx.doi.org/https://doi.org/10.1103/PhysRevA.106.010101
+- http://arxiv.org/abs/1802.06002
+- https://dx.doi.org/https://doi.org/10.1038/s41467-018-07090-4
+- https://dx.doi.org/https://doi.org/10.1103/PhysRevApplied.14.064020
+- https://dx.doi.org/https://doi.org/10.1103/PRXQuantum.2.010101
+- https://dx.doi.org/https://doi.org/10.1103/PhysRevResearch.3.023092
+- https://dx.doi.org/https://doi.org/10.1038/s41534-021-00493-0
+- https://dx.doi.org/https://doi.org/10.3389/frqst.2023.1273581
+- https://dx.doi.org/10.1109/QCE53715.2022.00078
+- https://dx.doi.org/https://doi.org/10.22331/q-2023-01-26-908
+- https://dx.doi.org/10.1109/TCAD.2024.3355277
+- https://dx.doi.org/https://doi.org/10.1038/s41534-023-00685-w
+- https://dx.doi.org/https://doi.org/10.22331/q-2023-10-09-1130
+- https://dx.doi.org/10.1109/TQE.2022.3231124
+- https://dx.doi.org/https://doi.org/10.1103/PhysRevResearch.5.033159
+- http://arxiv.org/abs/2304.09253
+- http://arxiv.org/abs/2402.02880
+- https://dx.doi.org/https://doi.org/10.1038/s41586-019-0980-2
+- https://dx.doi.org/https://doi.org/10.1103/PhysRevLett.122.040504
+- http://arxiv.org/abs/2101.11020
+- https://dx.doi.org/https://doi.org/10.1038/s41467-023-36144-5
+- https://dx.doi.org/10.1103/PhysRevLett.75.346
+- https://dx.doi.org/https://doi.org/10.22331/q-2022-09-29-824
+- https://dx.doi.org/https://doi.org/10.1038/s42254-025-00813-9
+- https://dx.doi.org/10.1088/2058-9565/ac7d06
+- https://dx.doi.org/10.1088/2058-9565/ad6fca
+- https://dx.doi.org/https://doi.org/10.1103/PhysRevX.7.041015
+- https://dx.doi.org/https://doi.org/10.1038/s41467-021-21728-w
+- https://dx.doi.org/https://doi.org/10.1038/s41467-021-27045-6
+- https://dx.doi.org/https://doi.org/10.22331/q-2021-10-05-558
+- https://dx.doi.org/10.1088/2058-9565/abf51a
+- https://dx.doi.org/https://doi.org/10.1103/PhysRevLett.126.190501
+- https://dx.doi.org/https://doi.org/10.1103/PhysRevLett.128.180505
+- https://dx.doi.org/https://doi.org/10.1103/PRXQuantum.3.010313
+- https://dx.doi.org/https://doi.org/10.1038/s41598-023-37003-5
+- https://dx.doi.org/https://doi.org/10.1038/s41467-024-49909-3
+- https://dx.doi.org/https://doi.org/10.1038/s41467-024-49910-w
+- http://arxiv.org/abs/2310.11505
+- https://dx.doi.org/https://doi.org/10.3389/fphy.2020.00297
+- https://dx.doi.org/https://doi.org/10.1103/PhysRevLett.127.090506
+- https://dx.doi.org/https://doi.org/10.1103/PhysRevA.104.012405
+- https://dx.doi.org/https://doi.org/10.1103/PhysRevA.103.032430
+- https://proceedings.neurips.cc/paper_files/paper/2022/file/b250de41980b58d34d6aadc3f4aedd4c-Paper-Conference.pdf
+- https://dx.doi.org/10.1007/978-1-84628-615-5
+- http://arxiv.org/abs/1412.6980
+- https://dx.doi.org/https://doi.org/10.1038/s41534-024-00900-2
+- https://dx.doi.org/https://doi.org/10.1103/PhysRevA.83.062306
+
+---
+
+## [MV-Debate: Multi-view Agent Debate with Dynamic Reflection Gating for Multimodal Harmful Content Detection in Social Media](https://arxiv.org/pdf/2508.05557v1)
+
+**ID**: `2508.05557v1`
+
+### 摘要 (Detailed Summary)
+这篇论文提出了一个名为MV-Debate的多视角智能体辩论框架，用于在社交媒体中检测多模态有害内容，如讽刺、仇恨言论和虚假信息。该框架由四个互补的辩论智能体组成：表面分析师、深度推理者、模态对比者和社会语境主义者。这些智能体从不同的角度分析内容，并通过迭代辩论和反思，根据∆-gain准则改进其响应，从而确保准确性和效率。动态反射门控机制用于选择性地反思最有希望的反应，减少计算开销。在三个基准数据集上的实验结果表明，MV-Debate明显优于强大的单模型和现有的多智能体辩论基线，证明了多智能体辩论在推进在线环境中可靠的社交意图检测方面的潜力。
+
+### 主要贡献 (Contributions)
+- 提出了MV-Debate，一个多智能体辩论框架，引导智能体采用不同的推理视角来检测社交媒体中的多模态有害内容。
+- 设计了四个具有动态反射门控机制的特定视角的辩论智能体，以提高性能。
+- 在多个多模态有害内容基准上，通过实验验证了所提出方法的有效性。
+- 引入动态反射门控机制，优化计算效率，自适应地触发反思。
+- 框架能够生成透明的辩论记录，便于模型调试、审计和用户信任。
+
+### 技术方法 (Methods)
+- **多视角辩论智能体：** 设计了四个具有不同视角的智能体：表面分析师（SA）、深度推理者（DR）、模态对比者（MC）和社会语境主义者（SC），分别从不同的角度分析文本和图像。
+- **动态反射门控：** 引入反射智能体来检查其他智能体的推理过程，指出推理错误并提出修改建议。只选择评分最高的top-k智能体进行反思，并通过∆-gain准则判断是否接受新的响应，以提高反思质量和效率。
+- **迭代辩论循环：** 智能体通过多轮辩论，将上一轮得分最高的响应纳入历史记录，并从中提取有用的信息来完善自己的答案。这个迭代过程持续到达到最大轮数或智能体达成一致。
+- **控制智能体：** 包括裁判智能体（评估辩论智能体的论点）、反射智能体（生成结构化反馈）和总结智能体（汇总辩论历史并给出最终预测）。
+
+### 主要结论 (Conclusions)
+论文提出了MV-Debate，一个用于社交媒体多模态有害内容检测的多视角辩论框架。通过协调具有互补推理策略的四个特定视角的智能体和一个动态反射门控机制，MV-Debate有效地整合了跨模态证据和语境线索，以识别复杂的社交意图，如讽刺、仇恨言论和虚假信息。与强大的基线相比，多个基准上的广泛实验证实了其卓越的准确性、效率和可解释性。
+
+---
+
+## [Adapting Vision-Language Models Without Labels: A Comprehensive Survey](https://arxiv.org/pdf/2508.05547v1)
+
+**ID**: `2508.05547v1`
+
+### 摘要 (Detailed Summary)
+该论文全面综述了在没有标签的情况下调整视觉语言模型（VLMs）的研究。VLMs在广泛的任务中表现出卓越的泛化能力，但直接应用于特定下游场景时，性能往往欠佳。为了提高VLMs的效用，同时保持数据效率，最近的研究越来越关注不依赖于标记数据的无监督调整方法。论文提出了一个基于无标签视觉数据可用性和性质的分类体系，将现有方法分为四种关键范式：无数据迁移（没有数据）、无监督域迁移（大量数据）、情景测试时调整（批量数据）和在线测试时调整（流数据）。论文分析了与每种范式相关的核心方法和调整策略，并回顾了各种应用中的代表性基准，突出了开放的挑战和未来研究方向。论文的目标是为无监督VLM调整领域提供一个系统性的理解和指导。
+
+### 主要贡献 (Contributions)
+- 提出了一个基于无标签视觉数据可用性的VLM无监督自适应方法的分类体系，包括Data-Free Transfer, Unsupervised Domain Transfer, Episodic Test-Time Adaptation, 和Online Test-Time Adaptation四个范式。
+- 详细分析了每个范式下的核心方法和自适应策略，建立了对该领域的系统性理解。
+- 回顾了各种应用场景中使用的代表性基准，并讨论了它们的实际意义和现实世界的效用。
+- 总结了该领域的新兴趋势，并确定了可能激发未来工作的关键科学问题。
+- 提供了一个积极维护的相关文献仓库（https://github.com/tim-learn/Awesome-LabelFree-VLMs）。
+
+### 技术方法 (Methods)
+- **Data-Free Transfer:** 包括文本增强（利用LLM生成更丰富的描述）、图像利用（从外部数据集检索或生成图像）和网络修改（修改VLM架构以适应密集预测任务）。
+- **Unsupervised Domain Transfer:** 包括自训练（使用伪标签迭代训练模型）、熵优化（鼓励模型做出更自信的预测）和外部资源利用（利用外部图像、MLLM等）。
+- **Episodic Test-Time Adaptation:** 包括熵最小化（调整模型参数以降低预测熵）、反馈信号（利用扩散模型或CLIP-like模型的反馈）、分布对齐（对齐测试样本分布与源域特征）和自监督学习（使用对比学习等方法学习可迁移的表示）。
+- **Online Test-Time Adaptation:** 包括伪标签（为无标签数据分配标签并优化模型）、记忆机制（使用动态或静态记忆结构存储和检索特征表示）和分布建模（对视觉或多模态特征分布进行建模）。
+
+### 主要结论 (Conclusions)
+该论文全面地综述了无监督视觉语言模型自适应领域，并提出了一个基于无标签视觉数据可用性的分类体系，为该领域的研究人员和实践者提供了一个有价值的资源。论文还强调了该领域面临的挑战和未来研究方向，为未来的研究工作奠定了基础。
+
+### GitHub链接 (GitHub Links)
+- https://github.com/tim-learn/Awesome-LabelFree-VLMs
+
+---
+
+## [Conformal Sets in Multiple-Choice Question Answering under Black-Box Settings with Provable Coverage Guarantees](https://arxiv.org/pdf/2508.05544v1)
+
+**ID**: `2508.05544v1`
+
+### 摘要 (Detailed Summary)
+这篇论文提出了一种基于频率的黑盒设置下的不确定性量化方法，用于解决大型语言模型(LLMs)在多项选择题回答(MCQA)中存在的不可靠性问题，如幻觉和过度自信。该方法利用conformal prediction (CP) 来确保可证明的覆盖保证。研究通过对每个输入的模型输出分布进行多次独立采样，并将最频繁的样本作为参考来计算预测熵(PE)。实验结果表明，在MedMCQA、MedQA、MMLU和MMLU-Pro四个数据集以及六个LLMs上，基于频率的PE在区分正确和错误预测方面优于基于logit的PE（通过AUROC指标衡量）。此外，该方法有效地控制了用户指定的风险水平下的经验误覆盖率。这项工作为MCQA中可靠的不确定性量化提供了一个与分布无关且模型无关的框架，提高了LLMs在实际应用中的可信度。
+
+### 主要贡献 (Contributions)
+- 提出了一种基于频率的预测熵（PE）方法，用于量化黑盒LLMs在MCQA任务中的不确定性。
+- 该方法通过多次独立采样模型输出分布，并将最频繁的样本作为参考，无需访问内部logits。
+- 实验证明，基于频率的PE在区分正确和错误预测方面优于基于logit的PE（通过AUROC指标衡量）。
+- 该方法结合Conformal Prediction（CP）框架，构造具有可证明覆盖保证的预测集合。
+- 验证了在黑盒LLM场景中，采样频率可以作为logit概率的可行替代方案。
+
+### 技术方法 (Methods)
+- **频率-based 预测熵 (PE):**  对每个输入进行M次独立采样，从答案空间中得到M个候选答案的样本集。然后，计算每个候选答案的频率Pˆ(a)，选择频率最高的候选答案。
+- **频率-based 预测熵的计算:** 基于M次采样的经验频率分布，将频率-based 预测熵定义为该经验分布的预测熵。公式为：PE_freq = -∑(Pˆ_i(a) * log_b(Pˆ_i(a)))
+- **Conformal Prediction (CP):** 使用CP框架来构建预测集合，并确保该集合包含真实值的概率不低于预先设定的置信水平1-α。对于测试集X中的每个样本x，定义其non-conformity score（不一致性得分）为：s_i = 1 - F(x_i)_y*_i，其中F(x_i)_y*_i是模型对于真实标签y*_i的输出得分。
+- **风险控制:** 通过CP框架控制风险，构建预测集合C(x_{n+1}) = {y | s_{n+1}(x_{n+1}, y) ≤ qˆ}，确保覆盖率P(Y ∈ C(X)) ≥ 1 − α。
+
+### 主要结论 (Conclusions)
+本研究提出了一种基于频率的预测熵方法，用于解决黑盒设置下LLMs在MCQA任务中的不确定性量化问题。实验结果表明，该方法在不确定性量化性能上优于基于logit的方法，并能有效控制经验误覆盖率。证实了采样频率可以作为黑盒LLMs中logit概率的可行替代方案。
+
+---
+
+## [Tractable Sharpness-Aware Learning of Probabilistic Circuits](https://arxiv.org/pdf/2508.05537v1)
+
+**ID**: `2508.05537v1`
+
+### 摘要 (Detailed Summary)
+这篇论文探讨了概率电路（PCs）训练中遇到的过拟合问题，尤其是在数据有限的情况下。研究者们从对数似然景观的角度分析了PC的过拟合现象，指出其通常由收敛到泛化能力差的尖锐最优解所致。受神经网络中 sharpness aware minimization (SAM) 的启发，论文提出了一种基于 Hessian 矩阵的正则化方法来训练 PCs。关键贡献在于，研究表明对于 PCs，可以高效地计算对数似然 Hessian 矩阵的迹（通常在深度神经网络中难以计算）。通过最小化 Hessian 矩阵的迹，论文提出了一种梯度范数正则化方法，该方法可以为 EM 算法产生简单的闭式参数更新，并且可以与基于梯度的学习方法无缝集成。在合成和真实世界数据集上的实验表明，所提出的方法能够引导 PCs 收敛到更平坦的最小值，从而提高泛化性能。
+
+### 主要贡献 (Contributions)
+- 推导了树结构 PC 的对数似然精确完整 Hessian 矩阵的闭式表达式，并证明其可高效计算。
+- 对于一般的（DAG 结构）PC，研究表明虽然完整的 Hessian 矩阵难以计算，但其迹可以在参数数量和数据集大小的线性时间内精确计算，为大规模 PC 提供了第一个实用的曲率度量。
+- 提出了一种新颖的 sharpness aware 正则化方法，用于学习 PCs，该正则化方法源自 Hessian 矩阵的迹。
+- 研究表明，虽然通过 EM 直接最小化 Hessian 矩阵的迹会导致三次更新方程，但可以将此目标重新表述为等效的梯度范数最小化问题，从而产生具有闭式参数更新的二次方程。
+- 在多个合成和真实世界数据集上进行了详尽的实验，表明所提出的正则化方法强制收敛到更平坦的最优解，并有助于减少过拟合，尤其是在数据有限的情况下。
+
+### 技术方法 (Methods)
+- 推导树结构 PC 的对数似然完整 Hessian 矩阵的闭式表达式。
+- 证明一般 DAG 结构 PC 的 Hessian 矩阵的迹可以在线性时间内精确计算。
+- 提出基于 Hessian 矩阵的迹的 sharpness-aware 正则化项。
+- 将直接最小化 Hessian 矩阵的迹的目标重新表述为梯度范数最小化问题，得到二次更新方程。
+
+### 主要结论 (Conclusions)
+这项工作通过对数似然曲面几何的视角，为研究 PC 的训练引入了一个新方向。 推导了树结构 PC 中对数似然精确完整 Hessian 矩阵的闭式表达式，并证明了其可处理性。 对于一般的 DAG 结构 PC，证明了虽然完整的 Hessian 矩阵可能难以处理，但其迹仍然可以精确且高效地计算——为训练大型 PC 提供了第一个可扩展的曲率度量。 在此基础上，设计了一种新颖的正则化器，其等效梯度范数公式产生闭式二次更新，从而实现高效优化。 实验证实，该方法引导训练朝着更平坦的最小值方向发展，并减少了过拟合，尤其是在低数据状态下。 总的来说，这项工作为研究 PC 开辟了一个有希望的新方向。
+
+---
+
