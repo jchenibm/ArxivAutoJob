@@ -34,11 +34,25 @@ jobs:
     - name: Run ArxivAutoJob
       run: python main.py
 
+    - name: Upload all generated files as artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: papers
+        path: download/
+
+    - name: Prepare files for GitHub Pages
+      run: |
+        mkdir -p gh-pages-staging
+        cp download/rss.xml gh-pages-staging/
+        cp download/summary.md gh-pages-staging/
+        # Add a dummy hidden file to satisfy peaceiris/actions-gh-pages's internal cp command
+        touch gh-pages-staging/.nojekyll
+
     - name: Deploy RSS and Summary to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       if: github.ref == 'refs/heads/main' # Only deploy from main branch
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./download # Directory containing rss.xml and summary.md
+        publish_dir: ./gh-pages-staging # Publish the prepared directory
         keep_files: true # Keep existing files in gh-pages branch, only update changed ones
         commit_message: "Update ArxivAutoJob RSS and Summary [skip ci]"
