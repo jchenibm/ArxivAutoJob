@@ -1,29 +1,31 @@
 {
   "title": "Test-Time Reinforcement Learning for GUI Grounding via Region Consistency",
-  "detailed_summary": "这篇论文提出了一种名为GUI-RC (GUI Region Consistency) 的测试时缩放方法，用于提高图形用户界面（GUI）grounding的准确性。GUI grounding 是将自然语言指令映射到屏幕上的精确坐标的关键任务，对于自主GUI代理至关重要。论文观察到，当模型对同一GUI元素生成多个预测时，空间重叠模式揭示了隐含的置信度信号。GUI-RC通过从多个采样预测中构建空间投票网格，识别模型高度一致的共识区域，从而利用这些信号。论文还提出了GUI-RCPO (GUI Region Consistency Policy Optimization)，将一致性模式转化为测试时强化学习的奖励，使模型能够在推理过程中迭代地优化其在未标记数据上的输出。实验表明，GUI-RC和GUI-RCPO在ScreenSpot基准测试上显著提高了各种架构的准确性，无需任何训练或额外标注数据，为更强大和数据高效的GUI代理开辟了道路。",
-  "background": "GUI grounding是自主GUI代理的核心能力，它将自然语言指令映射到UI元素上的精确像素坐标。现有的方法通过大规模的监督训练或精心设计的奖励函数的强化学习来取得显著的成果。然而，这些方法依赖于代价高昂的像素级标注数据，并且测试时计算资源未被充分利用，限制了性能提升和在新领域的扩展。",
+  "detailed_summary": "该论文提出了一种名为GUI-RC（区域一致性）的测试时缩放方法，以及GUI-RCPO（区域一致性策略优化）的测试时强化学习方法，用于改进图形用户界面（GUI）基础任务，即把自然语言指令映射到屏幕上的精确坐标。论文观察到，当模型对同一GUI元素生成多个预测时，空间重叠模式揭示了隐含的置信度信号，可以引导更准确的定位。GUI-RC通过构建来自多个采样预测的空间投票网格来识别模型显示最高一致性的共识区域，无需任何训练即可提高ScreenSpot基准测试的准确性。GUI-RCPO将这些一致性模式转化为奖励，用于测试时强化学习。通过计算每个预测与集体共识的对齐程度，GUI-RCPO使模型能够在推理期间迭代地细化未标记数据上的输出。实验结果表明，该方法具有通用性，GUI-RC将Qwen2.5-VL-3B-Instruct在ScreenSpotv2上的准确率从80.11%提高到83.57%，而GUI-RCPO通过自监督优化进一步将其提高到85.14%。",
+  "background": "GUI基础是自主GUI代理的基础，它能够准确地将自然语言指令映射到UI元素上的精确像素坐标。现有的GUI基础方法通过广泛的监督训练或使用带标签奖励的强化学习实现了强大的性能，但这些方法仍然受到像素级注释的成本和可用性的限制。大型语言模型在测试时缩放方面的突破表明，可以将测试时缩放应用于像GUI基础这样的视觉语言任务，但是在GUI基础中应用测试时缩放提出了一些独特的挑战，例如：GUI基础在连续、高分辨率的坐标空间中运行，细微的像素偏差可能导致不正确的元素选择。",
   "contributions": [
-    "提出了GUI-RC，一种测试时缩放方法，通过在多个预测中利用空间投票来提高GUI grounding的定位精度，无需额外的训练或标注数据。",
-    "引入了GUI-RCPO，一种测试时强化学习方法，使用区域一致性作为自监督奖励信号，使模型能够通过在未标记的GUI屏幕截图上进行策略优化来提高grounding能力。",
-    "在多个基准测试和模型架构上展示了一致的改进。GUI-RC平均提高准确率2-3%，而GUI-RCPO通过无标签优化平均获得4-5%的进一步提升。",
-    "揭示了在GUI-RCPO之后进一步应用GUI-RC可以产生额外的性能提升，表明我们的方法支持渐进式的自举式改进，无需外部监督，并为GUI自动化提供了一种与训练时优化互补的替代方案。"
+    "提出了GUI-RC，一种用于GUI基础的测试时缩放方法，它利用多个预测之间的空间投票来提高定位精度，而无需额外的训练或标记数据。",
+    "介绍了GUI-RCPO，一种测试时强化学习方法，它使用区域一致性作为自监督奖励信号，使模型能够通过在未标记的GUI屏幕截图上进行策略优化来提高基础能力。",
+    "证明了在多个基准和模型架构上的一致改进。GUI-RC平均提高了2-3%的准确率，而GUI-RCPO通过无标签优化平均实现了4-5%的进一步提升。",
+    "揭示了在GUI-RCPO之后进一步应用GUI-RC可以产生额外的性能提升，表明该方法支持渐进式的、自举的改进，而无需外部监督，并为GUI自动化提供了训练时优化的补充替代方案。"
   ],
-  "problem": "现有GUI grounding方法依赖于大量的标注数据和训练时优化，缺乏对测试时计算资源的利用。GUI grounding任务的连续坐标预测特性以及复杂的用户界面设计导致模型预测存在不确定性。因此，如何在不依赖额外标注数据的情况下，利用测试时计算来提高GUI grounding的性能是一个关键问题。",
+  "problem": "如何利用测试时计算来增强GUI基础性能，而无需依赖任何额外的标记数据。现有方法依赖于训练时优化，缺乏在推理时利用计算资源进行优化的能力。此外，它们需要大量的带标签数据，这限制了它们扩展到新的领域和应用程序。",
   "methods": [
-    "**Multi-Sample Generation (多样本生成):** 使用基于温度的采样从模型中生成K个预测。",
-    "**Spatial Voting Mechanism (空间投票机制):** 构建一个与屏幕截图分辨率匹配的空间投票网格，每个采样预测都为该网格贡献选票，用于量化一致性。",
-    "**Consensus Extraction (共识提取):** 通过识别整个网格中的最大投票数来提取共识区域，该最大投票数代表预测之间最高级别的同意，并选择具有最大面积的区域作为最终的预测结果。",
-    "**Region Consistency as Reward (区域一致性奖励):**  基于每个预测区域内的平均投票密度，计算区域一致性奖励。",
-    "**Policy Optimization (策略优化):**  将GUI grounding 任务形式化为强化学习问题，使用GRPO（Group Relative Policy Optimization）算法优化预期区域一致性奖励。"
+    "**GUI-RC：**",
+    "   - **多样本生成：** 使用基于温度的采样从模型中采样K个预测。",
+    "   - **空间投票机制：** 构建一个与屏幕截图分辨率匹配的空间投票网格v。每个采样预测都向该网格贡献投票。",
+    "   - **共识提取：** 通过一个原则性的选择过程提取共识区域，该过程首先识别整个网格中的最大投票数，然后找到每个像素都具有此最大投票数的所有连续区域。",
+    "**GUI-RCPO：**",
+    "   - **区域一致性作为奖励：** 对于rollout中的每个采样预测rk，计算其区域一致性奖励。该奖励衡量预测区域内的平均投票密度，通过区域大小和最大可能投票数进行标准化。",
+    "   - **策略优化：** 将GUI基础构建为一个强化学习问题，其中VLM充当策略θ。使用Group Relative Policy Optimization (GRPO)优化预期的区域一致性奖励。"
   ],
-  "experimental_design": "该论文在三个GUI grounding基准测试上评估了所提出的方法：ScreenSpot, ScreenSpot-v2, 和 ScreenSpot-Pro。使用了多个视觉语言模型(VLMs)，包括Qwen2.5-VL-3B-Instruct, Qwen2.5-VL-7B-Instruct, InternVL3-2B-Instruct, InternVL3-8B-Instruct, UGround-V1-7B, OS-Atlas-Base-7B, 和 UI-TARS-1.5-7B。主要的评估指标是grounding准确率。",
-  "results": "GUI-RC在不同的模型上一致地提高了grounding性能，例如，OS-Atlas-Base-7B总体提高了2.75%。GUI-RCPO进一步提高了性能，甚至优于GUI-RC，例如，GUI-RC为Qwen2.5-VL-3B-Instruct在ScreenSpot上带来了1.49%的提升，而GUI-RCPO训练后，获得了5.5%的显著提升。GUI-RCPO在out-of-distribution场景中表现出良好的泛化能力。",
-  "result_analysis": "消融研究表明，GUI-RC的性能随着温度的升高先增加后减少，随着采样数量的增加先增加后趋于平稳。参数α的影响也呈现先增加后减少的趋势。GUI-RCPO训练期间，模型的准确率稳定提高，并在80步左右收敛。在GUI-RCPO训练后应用GUI-RC仍然可以获得额外的性能提升。",
-  "conclusions": "这篇论文提出了GUI-RC和GUI-RCPO，分别作为测试时缩放和测试时强化学习方法，用于GUI grounding任务。通过利用区域一致性来提高模型性能，且无需额外的训练数据，该方法在多个模型和基准测试中表现出良好的一致性和泛化性，为更强大和数据高效的GUI自动化系统提供了一个有希望的方向。",
-  "limitations": "GUI-RC对于point-style输出的模型带来的改进相对有限。GUI-RC主要解决了误导性和偏差性的hallucination问题，但难以解决混淆性的hallucination问题。GUI-RC依赖于模型识别目标元素的能力，可以容忍模型预测不精确或有偏差，但不能完全随机或不相关。",
-  "future_work": "未来的研究可以探索如何进一步提高GUI-RC在point-style grounding中的性能。可以研究如何将GUI-RC与现有的GUI grounding方法相结合，以获得更好的性能。还可以探索GUI-RC在其他视觉语言任务中的应用。",
-  "applications": "这项研究可以应用于各种GUI自动化系统，例如自动化测试、RPA（机器人流程自动化）和虚拟助手。它可以提高这些系统的鲁棒性和数据效率，并降低开发成本。例如，该方法可以用于开发能够自动执行复杂GUI任务的智能代理，如在线购物、预订机票和管理社交媒体账户。",
-  "related_work": "论文中提到了与GUI grounding相关的研究，包括Seeclick, UGround, OS-Atlas, UI-TARS等，以及与测试时缩放相关的研究，包括self-consistency voting和test-time reinforcement learning等。",
+  "experimental_design": "使用了ScreenSpot、ScreenSpot-v2和ScreenSpot-Pro三个GUI基础基准测试评估了该方法。采用了基础精度作为主要指标：如果预测点或预测边界框的中心落在ground-truth边界框内，则认为预测正确。使用了各种VLM，包括Qwen2.5-VL-3B-Instruct、Qwen2.5-VL-7B-Instruct、InternVL3-2B-Instruct、InternVL3-8B-Instruct、UGround-V1-7B、OS-Atlas-Base-7B和UI-TARS-1.5-7B。",
+  "results": "GUI-RC持续提高了端到端的基础性能。在应用GUI-RC之前和之后，比较了基础模型在三个基准测试上的性能。GUI-RCPO也带来了持续的改进，甚至优于GUI-RC。即使对于专门在GUI任务上训练过的模型，GUI-RCPO也进一步带来了性能提升，表明了引入区域一致性奖励的有效性。",
+  "result_analysis": "消融研究表明，GUI-RC的性能通常表现出随着温度升高先增加后降低的趋势。随着采样预测数量的增加，GUI-RC的性能最初提高，然后逐渐趋于稳定。随着α的增长，GUI-RC的性能遵循先增加后降低的趋势。",
+  "conclusions": "该论文介绍了GUI-RC，一种用于GUI基础的测试时缩放方法，它利用多个预测之间的区域一致性来增强模型性能，而无需额外的训练。在此基础上，进一步提出了GUI-RCPO，一种测试时强化学习方法，它将区域一致性转化为自监督奖励信号，使模型能够在推理期间自我改进，而无需标记数据。",
+  "limitations": "对于点式基础的模型，GUI-RC带来的改进相对有限。GUI-RC主要解决基础中的误导性和有偏见的幻觉，但很难解决混淆幻觉（即，预测区域无法匹配任何有效的UI元素）。",
+  "future_work": "未来的研究可以集中在改进点式基础模型的性能，并探索解决混淆幻觉的方法。",
+  "applications": "该研究可用于开发更强大和数据高效的GUI自动化系统。它可以提高GUI代理在各种应用程序中控制复杂界面的能力。",
+  "related_work": "GUI基础方法分为两类：监督微调和强化学习。测试时缩放策略，如自一致性投票和测试时强化学习，已经证明了在语言领域的潜力。现有的GUI基础测试时策略严重依赖于基于缩放的细化。",
   "github_links": [
     "https://github.com/zju-real/gui-rcpo"
   ],

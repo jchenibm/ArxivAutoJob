@@ -1,44 +1,30 @@
 {
   "title": "Towards Generalizable Safety in Crowd Navigation via Conformal Uncertainty Handling",
-  "detailed_summary": "This paper tackles the challenge of performance degradation in reinforcement learning-based crowd navigation robots when faced with out-of-distribution scenarios. The core idea is to improve the robot's ability to generalize by explicitly accounting for uncertainties in pedestrian behavior predictions. The proposed method leverages adaptive conformal inference (ACI) to quantify prediction uncertainty, generating prediction sets that contain the true future positions with a specified probability. These uncertainty estimates are then integrated into a constrained reinforcement learning (CRL) framework to guide the agent's behavior and ensure robustness to distribution shifts. Experiments demonstrate that the system achieves state-of-the-art performance in in-distribution settings and exhibits significantly improved robustness in out-of-distribution scenarios involving velocity variations, policy changes, and group dynamics. The method is also validated on a real robot, showcasing its effectiveness in safe and robust navigation among both sparse and dense crowds.",
-  "background": "Mobile robots are expected to safely navigate in crowded environments, which is crucial for robots working closely with humans. Reinforcement learning (RL) offers a promising approach, but RL-based navigation agents often suffer from performance degradation in out-of-distribution (OOD) scenarios, indicating overfitting and poor generalization. Existing methods that incorporate human trajectory predictions into robot observations can exacerbate this issue, as real-world human dynamics are complex and difficult to fully capture. Existing methods lack a systematic way to handle prediction errors to improve policy generalizability.",
+  "detailed_summary": "该论文提出了一种基于强化学习的 crowd navigation 方法，旨在提高机器人在人群中导航的安全性及泛化能力，特别是在面对分布外(out-of-distribution, OOD)场景时。该方法的核心思想是通过自适应共形推断(adaptive conformal inference, ACI)来量化行人轨迹预测的不确定性，并将这些不确定性估计融入到机器人的观察中。然后，利用约束强化学习(constrained reinforcement learning, CRL)来引导机器人的行为，使其能够适应各种分布偏移。实验结果表明，该方法在分布内(in-distribution)设置下取得了显著的成功率提升，并显著减少了碰撞和侵入行人轨迹的次数。在三种不同的OOD场景中，该方法也表现出更强的鲁棒性。最后，该方法部署在真实机器人上，验证了其在稀疏和密集人群中安全导航的有效性。",
+  "background": "在人群中安全导航是机器人与人类协同工作的基础。现有方法，如基于规则的方法、优化方法和强化学习方法，在分布内(in-distribution)场景下表现良好，但在分布外(out-of-distribution, OOD)环境下性能急剧下降，表明其泛化能力不足。虽然将行人轨迹预测融入机器人观察可以帮助决策，但预测的不准确性可能会误导机器人。因此，需要一种系统性的方法来处理预测误差，提高策略的泛化能力。",
   "contributions": [
-    "Proposes a novel learning-based framework that explicitly reasons about prediction uncertainty in RL-based crowd navigation to improve generalizability.",
-    "Applies adaptive conformal inference (ACI) to quantify the uncertainty of predicted human trajectories, providing a prediction set that contains the true future position with a user-defined coverage probability.",
-    "Employs constrained reinforcement learning (CRL) to introduce effective controllability into the decision-making system, using uncertainty estimates to guide both the learning process and the agent's behavior.",
-    "Achieves state-of-the-art performance in safety metrics and demonstrates much smaller performance drops in OOD settings compared to existing methods.",
-    "Demonstrates successful deployment of the learned policy on a real Mecanum-wheel robot, showcasing safe and robust navigation in both sparse and dense crowds."
+    "提出了一种基于强化学习的 crowd navigation 框架，通过量化人类轨迹预测的不确定性来缓解过拟合。",
+    "采用自适应共形推断(ACI)来量化预测的不确定性，生成包含真实未来位置的预测集，并能在线更新以适应 crowd dynamics 的变化。",
+    "使用约束强化学习(CRL)将不确定性估计融入到决策过程中，引导 agent 的学习和行为。",
+    "在分布内(in-distribution)和分布外(out-of-distribution, OOD)场景下都实现了 state-of-the-art (SOTA) 的安全性能，并显著提高了泛化能力。",
+    "成功将该方法部署到真实机器人上，验证了其在真实环境中的可行性。"
   ],
-  "problem": "The paper addresses the problem of poor generalization in RL-based crowd navigation robots when deployed in out-of-distribution scenarios. Specifically, it aims to mitigate the negative impact of inaccurate human trajectory predictions on robot decision-making, which often leads to collisions and unsafe navigation behaviors. This problem arises from the difficulty in capturing the full complexity of real-world human dynamics in simulation environments or datasets, causing RL agents to overfit to specific training conditions.",
+  "problem": "解决在人群导航中，基于强化学习的机器人策略在分布外(out-of-distribution, OOD)环境下性能下降的问题，特别是在面对速度变化、策略变化以及从个体到群体动态的转变时。现有方法缺乏对预测误差的系统性处理，导致泛化能力不足。",
   "methods": [
-    "**Adaptive Conformal Inference (ACI):** Used to quantify the uncertainty of predicted human trajectories. ACI dynamically adjusts its parameters to maintain coverage in an online and distribution-free manner, making it suitable for time-sequential applications.",
-    "**Constrained Reinforcement Learning (CRL):** Employed to guide the agent's behavior using uncertainty estimates. CRL incorporates constraints on the agent's actions to ensure safety, maximizing rewards while satisfying cost constraints.",
-    "**Policy Network with Attention Mechanism:** A policy network with a combined human-human (H-H) and human-robot (H-R) attention mechanism is used to process uncertainty information along with other features. This allows the RL agents to account for prediction uncertainty in their decision-making process.",
-    "**PPO Lagrangian:** The PPO Lagrangian method is used for optimization. Two critics are used to compute the state value for reward and the state value for cost."
+    "**轨迹预测:** 采用基于规则的 constant velocity (CV) 预测器和基于学习的 Gumbel social transformer (GST) 预测器，以验证算法对不同预测模型的适应性。",
+    "**不确定性量化:** 使用自适应共形推断(ACI)的动态调整版本(DtACI)来量化预测的不确定性。DtACI 通过运行多个预测误差估计器，并根据历史性能自适应地选择最佳输出，从而适应分布偏移。",
+    "**策略网络:** 设计包含 attention 机制的策略网络，将 uncertainty 量化结果与预测轨迹连接起来，使 RL agent 能够在决策过程中考虑 uncertainty。",
+    "**约束强化学习(CRL):** 采用 CRL 来增强可控性，并利用 uncertainty 估计来指导 agent 的行为。通过约束 cumulative intrusions of the robot into other agents’ uncertainty areas 来提供行为层面的指导。",
+    "**优化算法:** 使用 PPO Lagrangian 进行优化，设置两个 critic 来分别评估 reward 和 cost，并使用梯度下降来更新 Lagrangian 乘子。"
   ],
-  "experimental_design": {
-    "environment": "CrowdNav, a widely adopted simulation environment for crowd navigation. The environment consists of 20 humans and one robot in a 12 m × 12 m area, with randomized initial positions and goal locations.",
-    "baselines": "Optimal reciprocal collision avoidance (ORCA), social force (SF), model-predictive control (MPC), SafeCrowdNav, and CrowdNav++.",
-    "evaluation_metrics": "Success rate (SR), collision rate (CR), timeout rate (TR), navigation time (NT), path length (PL), intrusion time ratio (ITR), and social distance (SD).",
-    "OOD_scenarios": "Velocity shifts (20% of humans with max speed of 2.0 m/s), policy shifts (human behavior policy changed from ORCA to SF), and pedestrian grouping behavior."
-  },
-  "results": "In the in-distribution setting, the proposed approach achieves a 96.93% success rate, which is over 8.80% higher than the previous state-of-the-art baselines. It also results in over 3.72 times fewer collisions and 2.43 times fewer intrusions into ground-truth human future trajectories. In three out-of-distribution scenarios, the method demonstrates stronger robustness, maintaining a high success rate and low collision rate compared to competing approaches. Real-robot experiments show that the policy transfers directly from simulation and achieves safe navigation in both sparse and dense crowds.",
-  "result_analysis": "The results demonstrate the effectiveness of incorporating uncertainty estimates into RL-based crowd navigation. ACI effectively quantifies prediction uncertainty, allowing the robot to adapt to different crowd dynamics and avoid collisions. CRL provides a mechanism for guiding the agent's behavior, ensuring that safety constraints are met. The real-robot experiments validate the practical applicability of the proposed approach.",
-  "conclusions": "The paper presents an RL-based trajectory-planning framework that integrates conformal uncertainty into a CRL scheme to mitigate OOD performance degradation. By dynamically leveraging uncertainty estimates, the method adapts to velocity variations, policy changes, and transitions from individual to group dynamics. The method achieves robust stability across diverse OOD scenarios and practical effectiveness in real-world trials.",
-  "limitations": [
-    "The approach requires additional perception and mapping capabilities to naturally handle static obstacles of arbitrary shapes.",
-    "The perception errors (e.g., human miss-detections and the 2D LiDAR’s sensitivity to lighting) can affect the system's performance.",
-    "The strategy effectively *mitigates* OOD performance degradation but does not yet *eliminate* it.",
-    "The space of possible distributional shifts is vast and cannot be exhaustively tested."
-  ],
-  "future_work": [
-    "Integrate SLAM and feeding multi-modal observations into the policy network to handle static obstacles of arbitrary shape.",
-    "Augment the sensor suite with cameras, apply sensor-fusion techniques, and upgrade to a higher-frequency, more robust LiDAR to mitigate perception errors.",
-    "Adopting larger models (e.g., LLMs or VLMs) and advanced alignment methods to eliminate OOD performance degradation, although these may introduce increased computational demands.",
-    "Conduct larger-scale real-world experiments once static-obstacle handling is resolved and employ metrics such as the intervention rate."
-  ],
-  "applications": "This research has potential applications in various domains where robots need to navigate safely and efficiently in crowded human environments, such as:",
-  "related_work": "The paper discusses related work in crowd navigation, planning under uncertainty, and the use of RL in robotics. It mentions several important papers in these areas, including ORCA, Social Force, MPC, SafeCrowdNav, and CrowdNav++.",
+  "experimental_design": "在 CrowdNav 仿真环境中进行实验，包含20个行人和一个机器人，在一个 12m x 12m 的区域内。机器人的半径为 0.2m，行人的半径在 0.3m 到 0.5m 之间随机采样。评估指标包括成功率 (SR)、碰撞率 (CR)、超时率 (TR)、导航时间 (NT)、路径长度 (PL)、侵入时间比率 (ITR) 和社交距离 (SD)。基线方法包括 ORCA, SF, MPC, SafeCrowdNav 和 CrowdNav++。同时设计了 ablation 实验，包括 RL (w/o ACI) 和 RL (w/ ACI)。",
+  "results": "在分布内(in-distribution)测试中，Ours (w/ GST) 相比于 SOTA 的 RL 方法，成功率提高了 8.80%，碰撞次数减少了 3.72 倍，侵入行人轨迹的次数减少了 2.43 倍。在分布外(out-of-distribution, OOD)测试中，Ours (w/ GST) 在面对速度变化、策略变化和群体动态时，保持了较高的成功率和较低的碰撞率，而其他方法性能显著下降。",
+  "result_analysis": "实验结果表明，通过 DtACI 量化预测不确定性，并将其融入到 CRL 框架中，可以有效提高机器人在复杂环境中的安全性和泛化能力。Ours (w/ GST) 在 OOD 场景下的鲁棒性主要归功于 ACI 能够动态适应预测误差，并在策略学习过程中引导机器人采取更谨慎的行动。",
+  "conclusions": "该论文提出了一种基于强化学习的轨迹规划框架，通过将 conformal uncertainty 融入到 CRL 方案中，有效地缓解了 OOD 性能下降的问题。该方法能够动态利用 uncertainty 估计来适应速度变化、策略变化以及从个体到群体动态的转变。仿真和真实环境实验验证了该方法的有效性。",
+  "limitations": "该方法主要关注密集人群中的安全导航，对于任意形状的静态障碍物处理需要额外的感知和建图能力。感知误差（如行人漏检）和 LiDAR 对光照的敏感性也是局限性。虽然该策略有效减轻了 OOD 性能下降，但尚未完全消除。此外，虽然评估了三种代表性的 OOD 场景，但可能的分布偏移空间是巨大的，无法完全测试。未来需要更大规模的真实世界实验。",
+  "future_work": "未来的研究方向包括集成 SLAM 并将多模态观测输入到策略网络中，以处理任意形状的静态障碍物。通过增加摄像头和升级更高频率的 LiDAR 来增强传感器套件，从而缓解感知误差。采用更大的模型和先进的对齐方法，进一步提高 OOD 泛化能力。进行更大规模的真实世界实验，并采用干预率等指标来进一步比较该方法与标准 RL 基线方法。",
+  "applications": "该研究可以应用于各种需要机器人在人群中安全导航的场景，如服务机器人、自动驾驶汽车、无人机等。通过提高机器人在复杂环境中的安全性和泛化能力，可以促进机器人技术的广泛应用，改善人们的生产生活。",
+  "related_work": "论文中讨论了与人群导航、不确定性规划相关的研究工作。包括 rule-based 方法，optimization-based planners，强化学习(RL) approaches，以及 hybrid systems。 同时讨论了 incorporating predictions into observations 的相关工作。",
   "github_links": [
     "https://gen-safe-nav.github.io/"
   ],
